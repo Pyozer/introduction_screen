@@ -104,7 +104,8 @@ class _IntroScreenState extends State<IntroScreen> {
                     Expanded(
                         child: (!isLastPage && widget.showSkipButton)
                             ? IntroButton(
-                                text: widget.skipText, onPressed: _onSkip)
+                                text: widget.skipText.toUpperCase(),
+                                onPressed: _onSkip)
                             : Container(),
                         flex: 3),
                     DotsIndicator(
@@ -115,9 +116,10 @@ class _IntroScreenState extends State<IntroScreen> {
                     Expanded(
                         child: (!isLastPage)
                             ? IntroButton(
-                                text: widget.nextText, onPressed: _onNext)
+                                text: widget.nextText.toUpperCase(),
+                                onPressed: _onNext)
                             : IntroButton(
-                                text: widget.doneText,
+                                text: widget.doneText.toUpperCase(),
                                 onPressed: widget.onDone),
                         flex: 3)
                   ]))
