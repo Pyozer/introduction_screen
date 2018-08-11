@@ -93,7 +93,7 @@ new IntroScreen(
 
 ### Intro screen with custom button text
 
-![Custom button text](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/buttons.gif)
+![Custom button text](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/custom_buttons.gif)
 
 ```dart
 new IntroScreen(
