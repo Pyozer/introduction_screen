@@ -3,7 +3,7 @@
 Introduction screen allow you to have a screen at launcher for example, where you can explain your app.
 This Widget is customizable (more in the future) with a great design.
 
-Introduction_screen is use another package, [introduction_screen](https://github.com/Pyozer/introduction_screen), that I also created.
+Introduction_screen is use another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
 
 # Installation
 
@@ -19,11 +19,50 @@ dependencies:
 
 # Example
 
-In these example, `listPagesViewModel` is the lis of pages. A page is base on PageViewModel. See an example below.
+In these example, `listPagesViewModel` is the **list of pages**. A page is base on PageViewModel. See example of a PageViewModel below.
 
-**No example yet, WIP**
+## PageViewModel
 
-### A intro screen
+### Simple page
+
+This example only define title, body and an image (you can define any widget)
+```dart
+new PageViewModel(
+  "Title of first page",
+  "Here you can write the description of the page, to explain someting...",
+  Image.network("https://domaine.com/image.png", height: 175.0)
+)
+```
+
+### Page with custom colors
+
+This example show you how to define the color of the page (background but also the dot indicator color)
+```dart
+new PageViewModel(
+  "Title of first page",
+  "Here you can write the description of the page, to explain someting...",
+  Image.asset("res/images/logo.png", height: 175.0),
+  pageColor: Colors.blue,
+  progressColor: Colors.red
+)
+```
+
+### Page with custom text style
+
+This example show you how to define another TextStyle for the title and the body
+```dart
+new PageViewModel(
+  "Title of first page",
+  "Here you can write the description of the page, to explain someting...",
+  const Icon(Icons.android),
+  titleTextStyle: const TextStyle(color: Colors.orange),
+  bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0)
+)
+```
+
+## IntroScreen
+
+### Simple intro screen
 
 Simple intro screen
 
@@ -38,7 +77,7 @@ new IntroScreen(
     ); //Material App
 ```
 
-### With skip button
+### Intro screen with skip button
 
 ![With skip button](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/skip.gif)
 
@@ -52,7 +91,7 @@ new IntroScreen(
     ); 
 ```
 
-### Change button text
+### Intro screen with custom button text
 
 ![Custom button text](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/buttons.gif)
 
