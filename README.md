@@ -3,7 +3,7 @@
 Introduction screen allow you to have a screen at launcher for example, where you can explain your app.
 This Widget is customizable (more in the future) with a great design.
 
-Introduction_screen is use another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
+Introduction_screen is use another package, [introduction_screen](https://github.com/Pyozer/introduction_screen), that I also created.
 
 # Installation
 
@@ -13,13 +13,15 @@ This package is not upload to Pub yet.
 So you need to add it from Git repository:
 ```yaml
 dependencies:
-  dots_indicator:
+  introduction_screen:
     git: git://github.com/pyozer/introduction_screen
 ```
 
 # Example
 
-In these example, `pageLength` is the total of dots to display and `currentIndexPage` is the position to hightlight (the active dot).
+In these example, `listPagesViewModel` is the lis of pages. A page is base on PageViewModel. See an example below.
+
+**No example yet, WIP**
 
 ### A intro screen
 
