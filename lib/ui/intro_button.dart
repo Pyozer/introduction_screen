@@ -6,12 +6,14 @@ class IntroButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
 
-  const IntroButton({Key key, this.onPressed, this.text}) : super(key: key);
+  const IntroButton({Key key, this.onPressed, @required this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
         onPressed: onPressed,
-        child: Text(text, style: style, textAlign: TextAlign.center));
+        child: Text(text.toUpperCase(),
+            style: style, textAlign: TextAlign.center));
   }
 }

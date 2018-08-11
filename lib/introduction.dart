@@ -12,7 +12,7 @@ import 'package:introduction_screen/ui/intro_page.dart';
 class IntroScreen extends StatefulWidget {
   static const String kDefaultSkipText = "SKIP";
   static const String kDefaultNextText = "NEXT";
-  static const String kDefaultDoneText = "GOT IT";
+  static const String kDefaultDoneText = "DONE";
 
   final List<PageViewModel> pages;
   final bool showSkipButton;
@@ -29,7 +29,12 @@ class IntroScreen extends StatefulWidget {
       this.skipText = kDefaultSkipText,
       this.nextText = kDefaultNextText,
       this.doneText = kDefaultDoneText})
-      : super(key: key);
+      : assert(pages != null),
+        assert(onDone != null),
+        assert(skipText != null),
+        assert(nextText != null),
+        assert(doneText != null),
+        super(key: key);
 
   @override
   _IntroScreenState createState() => _IntroScreenState();
@@ -104,8 +109,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     Expanded(
                         child: (!isLastPage && widget.showSkipButton)
                             ? IntroButton(
-                                text: widget.skipText.toUpperCase(),
-                                onPressed: _onSkip)
+                                text: widget.skipText, onPressed: _onSkip)
                             : Container(),
                         flex: 3),
                     DotsIndicator(
@@ -116,10 +120,9 @@ class _IntroScreenState extends State<IntroScreen> {
                     Expanded(
                         child: (!isLastPage)
                             ? IntroButton(
-                                text: widget.nextText.toUpperCase(),
-                                onPressed: _onNext)
+                                text: widget.nextText, onPressed: _onNext)
                             : IntroButton(
-                                text: widget.doneText.toUpperCase(),
+                                text: widget.doneText,
                                 onPressed: widget.onDone),
                         flex: 3)
                   ]))
