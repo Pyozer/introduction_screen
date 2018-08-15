@@ -108,23 +108,24 @@ class _IntroScreenState extends State<IntroScreen> {
                   children: [
                     Expanded(
                         child: (!isLastPage && widget.showSkipButton)
-                            ? IntroButton(
-                                text: widget.skipText, onPressed: _onSkip)
-                            : Container(),
-                        flex: 3),
+                            ? Center(
+                                child: IntroButton(
+                                    text: widget.skipText, onPressed: _onSkip),
+                              )
+                            : Container()),
                     DotsIndicator(
-                      numberOfDot: widget.pages.length,
-                      position: currentPage,
-                      dotActiveColor: widget.pages[currentPage].progressColor,
-                    ),
+                        numberOfDot: widget.pages.length,
+                        position: currentPage,
+                        dotActiveColor:
+                            widget.pages[currentPage].progressColor),
                     Expanded(
-                        child: (!isLastPage)
-                            ? IntroButton(
-                                text: widget.nextText, onPressed: _onNext)
-                            : IntroButton(
-                                text: widget.doneText,
-                                onPressed: widget.onDone),
-                        flex: 3)
+                        child: Center(
+                      child: (!isLastPage)
+                          ? IntroButton(
+                              text: widget.nextText, onPressed: _onNext)
+                          : IntroButton(
+                              text: widget.doneText, onPressed: widget.onDone),
+                    ))
                   ]))
         ]));
   }
