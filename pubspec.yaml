@@ -1,6 +1,6 @@
 name: introduction_screen
 description: Introduction screen for apps
-version: 0.0.1
+version: 0.0.2
 author: Jean-Charles Moussé <jeancharles.msse@gmail.com>
 homepage: http://github.com/pyozer/introduction_screen
 
@@ -13,3 +13,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+environment:
+  sdk: '>=2.0.0-dev.58.0 <3.0.0'

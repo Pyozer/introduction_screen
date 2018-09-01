@@ -1,10 +1,15 @@
 .DS_Store
-.dart_tool/
-.idea/
+.atom/
+.idea
 .packages
+.dart_tool/
 .pub/
-pubspeck.lock
-build/
 ios/.generated/
 ios/Flutter/Generated.xcconfig
 ios/Runner/GeneratedPluginRegistrant.*
+packages
+pubspec.lock
+
+# Visual Studio Code related
+.vscode/
+.history/
