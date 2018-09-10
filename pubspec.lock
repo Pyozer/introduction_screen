@@ -67,11 +67,9 @@ packages:
   dots_indicator:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "75aa022f25454d2cf8d98505c30f7d49d7ddfe67"
-      url: "git://github.com/pyozer/dots_indicator"
-    source: git
+      name: dots_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.0.3"
   flutter:
     dependency: "direct main"
