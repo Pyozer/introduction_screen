@@ -48,14 +48,18 @@ class _IntroScreenState extends State<IntroScreen> {
     List<Widget> pages = [];
 
     for (final page in widget.pages) {
-      pages.add(IntroPage(
+      pages.add(
+        IntroPage(
           bgColor: page.pageColor,
           image: Center(child: page.image),
           content: IntroContent(
-              title: page.title,
-              body: page.body,
-              titleStyle: page.titleTextStyle,
-              bodyStyle: page.bodyTextStyle)));
+            title: page.title,
+            body: page.body,
+            titleStyle: page.titleTextStyle,
+            bodyStyle: page.bodyTextStyle,
+          ),
+        ),
+      );
     }
 
     return pages;
@@ -79,8 +83,11 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   Future<Null> animateScroll(int page) {
-    return pageController.animateToPage(page,
-        duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+    return pageController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+    );
   }
 
   @override
@@ -88,45 +95,61 @@ class _IntroScreenState extends State<IntroScreen> {
     final isLastPage = (currentPage == widget.pages.length - 1);
 
     return Scaffold(
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: [
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: [
           Expanded(
-              child: PageView(
-                  controller: pageController,
-                  children: _buildPages(),
-                  onPageChanged: (index) {
-                    setState(() {
-                      currentPage = index;
-                    });
-                  })),
+            child: PageView(
+              controller: pageController,
+              children: _buildPages(),
+              onPageChanged: (index) {
+                setState(
+                  () {
+                    currentPage = index;
+                  },
+                );
+              },
+            ),
+          ),
           Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                        child: (!isLastPage && widget.showSkipButton)
-                            ? Center(
-                                child: IntroButton(
-                                    text: widget.skipText, onPressed: _onSkip),
-                              )
-                            : Container()),
-                    DotsIndicator(
-                        numberOfDot: widget.pages.length,
-                        position: currentPage,
-                        dotActiveColor:
-                            widget.pages[currentPage].progressColor),
-                    Expanded(
-                        child: Center(
-                      child: (!isLastPage)
-                          ? IntroButton(
-                              text: widget.nextText, onPressed: _onNext)
-                          : IntroButton(
-                              text: widget.doneText, onPressed: widget.onDone),
-                    ))
-                  ]))
-        ]));
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: (!isLastPage && widget.showSkipButton)
+                      ? Center(
+                          child: IntroButton(
+                            text: widget.skipText,
+                            onPressed: _onSkip,
+                          ),
+                        )
+                      : Container(),
+                ),
+                DotsIndicator(
+                  numberOfDot: widget.pages.length,
+                  position: currentPage,
+                  dotActiveColor: widget.pages[currentPage].progressColor,
+                ),
+                Expanded(
+                  child: Center(
+                    child: (!isLastPage)
+                        ? IntroButton(
+                            text: widget.nextText,
+                            onPressed: _onNext,
+                          )
+                        : IntroButton(
+                            text: widget.doneText,
+                            onPressed: widget.onDone,
+                          ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

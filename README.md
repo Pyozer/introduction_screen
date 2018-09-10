@@ -13,8 +13,7 @@ This package is not upload to Pub yet.
 So you need to add it from Git repository:
 ```yaml
 dependencies:
-  introduction_screen:
-    git: git://github.com/pyozer/introduction_screen
+  introduction_screen: ^0.0.2
 ```
 
 # Example

@@ -7,8 +7,8 @@ homepage: http://github.com/pyozer/introduction_screen
 dependencies:
   flutter:
     sdk: flutter
-  dots_indicator:
-    git: git://github.com/pyozer/dots_indicator
+
+  dots_indicator: ^0.0.3
 
 dev_dependencies:
   flutter_test:
