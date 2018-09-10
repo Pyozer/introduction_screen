@@ -12,8 +12,12 @@ class IntroButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-        onPressed: onPressed,
-        child: Text(text.toUpperCase(),
-            style: style, textAlign: TextAlign.center));
+      onPressed: onPressed,
+      child: Text(
+        text.toUpperCase(),
+        style: style,
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 }

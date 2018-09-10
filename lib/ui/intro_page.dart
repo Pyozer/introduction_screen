@@ -11,16 +11,22 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: bgColor,
-        padding: const EdgeInsets.all(32.0),
-        child: OrientationBuilder(builder: (context, orientation) {
+      color: bgColor,
+      padding: const EdgeInsets.all(32.0),
+      child: OrientationBuilder(
+        builder: (context, orientation) {
           final isVertical = orientation == Orientation.portrait;
 
           return SafeArea(
-              child: Column(children: [
-            Expanded(child: image ?? Container(), flex: isVertical ? 5 : 4),
-            Expanded(child: content, flex: isVertical ? 5 : 6),
-          ]));
-        }));
+            child: Column(
+              children: [
+                Expanded(child: image ?? Container(), flex: isVertical ? 5 : 4),
+                Expanded(child: content, flex: isVertical ? 5 : 6),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

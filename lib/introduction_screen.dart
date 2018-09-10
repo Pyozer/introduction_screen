@@ -9,7 +9,7 @@ import 'package:introduction_screen/ui/intro_button.dart';
 import 'package:introduction_screen/ui/intro_content.dart';
 import 'package:introduction_screen/ui/intro_page.dart';
 
-class IntroScreen extends StatefulWidget {
+class IntroductionScreen extends StatefulWidget {
   static const String kDefaultSkipText = "SKIP";
   static const String kDefaultNextText = "NEXT";
   static const String kDefaultDoneText = "DONE";
@@ -21,15 +21,15 @@ class IntroScreen extends StatefulWidget {
   final String nextText;
   final String doneText;
 
-  const IntroScreen(
-      {Key key,
-      @required this.pages,
-      this.showSkipButton = false,
-      this.onDone,
-      this.skipText = kDefaultSkipText,
-      this.nextText = kDefaultNextText,
-      this.doneText = kDefaultDoneText})
-      : assert(pages != null),
+  const IntroductionScreen({
+    Key key,
+    @required this.pages,
+    this.showSkipButton = false,
+    this.onDone,
+    this.skipText = kDefaultSkipText,
+    this.nextText = kDefaultNextText,
+    this.doneText = kDefaultDoneText,
+  })  : assert(pages != null),
         assert(onDone != null),
         assert(skipText != null),
         assert(nextText != null),
@@ -37,10 +37,10 @@ class IntroScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _IntroScreenState createState() => _IntroScreenState();
+  _IntroductionScreenState createState() => _IntroductionScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen> {
+class _IntroductionScreenState extends State<IntroductionScreen> {
   PageController pageController = PageController();
   int currentPage = 0;
 
