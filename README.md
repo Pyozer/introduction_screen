@@ -9,8 +9,6 @@ Introduction_screen use another package, [dots_indicator](https://github.com/Pyo
 
 You just need to add `introduction_screen` as a [dependency in your pubspec.yaml file](https://flutter.io/using-packages/).
 
-This package is not upload to Pub yet.
-So you need to add it from Git repository:
 ```yaml
 dependencies:
   introduction_screen: ^0.0.2
