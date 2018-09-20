@@ -20,13 +20,9 @@ class IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(bottom: 50.0),
-        ),
+        const SizedBox(height: 24.0),
         Text(title, style: titleStyle, textAlign: TextAlign.center),
-        Container(
-          padding: const EdgeInsets.only(bottom: 24.0),
-        ),
+        const SizedBox(height: 24.0),
         Text(body, style: bodyStyle, textAlign: TextAlign.center)
       ],
     );

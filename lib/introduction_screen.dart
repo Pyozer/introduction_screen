@@ -41,8 +41,8 @@ class IntroductionScreen extends StatefulWidget {
 }
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
-  PageController pageController = PageController();
-  int currentPage = 0;
+  PageController _pageController = PageController();
+  int _currentPage = 0;
 
   List<Widget> _buildPages() {
     List<Widget> pages = [];
@@ -66,10 +66,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   void _onNext() {
-    final page = (currentPage + 1 < widget.pages.length) ? currentPage + 1 : 0;
+    final page =
+        (_currentPage + 1 < widget.pages.length) ? _currentPage + 1 : 0;
     animateScroll(page).then((value) {
       setState(() {
-        currentPage = page;
+        _currentPage = page;
       });
     });
   }
@@ -77,13 +78,13 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   void _onSkip() {
     animateScroll(widget.pages.length - 1).then((value) {
       setState(() {
-        currentPage = widget.pages.length - 1;
+        _currentPage = widget.pages.length - 1;
       });
     });
   }
 
   Future<Null> animateScroll(int page) {
-    return pageController.animateToPage(
+    return _pageController.animateToPage(
       page,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeIn,
@@ -92,29 +93,26 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (currentPage == widget.pages.length - 1);
+    final isLastPage = (_currentPage == widget.pages.length - 1);
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              children: _buildPages(),
-              onPageChanged: (index) {
-                setState(
-                  () {
-                    currentPage = index;
-                  },
-                );
-              },
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                children: _buildPages(),
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+              ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
@@ -127,11 +125,13 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                         )
                       : Container(),
                 ),
+                const SizedBox(width: 8.0),
                 DotsIndicator(
                   numberOfDot: widget.pages.length,
-                  position: currentPage,
-                  dotActiveColor: widget.pages[currentPage].progressColor,
+                  position: _currentPage,
+                  dotActiveColor: widget.pages[_currentPage].progressColor,
                 ),
+                const SizedBox(width: 8.0),
                 Expanded(
                   child: Center(
                     child: (!isLastPage)
@@ -146,9 +146,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   ),
                 )
               ],
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

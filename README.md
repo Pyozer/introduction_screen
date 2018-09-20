@@ -13,7 +13,7 @@ This package is not upload to Pub yet.
 So you need to add it from Git repository:
 ```yaml
 dependencies:
-  introduction_screen: ^0.0.2
+  introduction_screen: ^0.0.3
 ```
 
 # Example
