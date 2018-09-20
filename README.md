@@ -5,7 +5,7 @@ This Widget is customizable (more in the future) with a great design.
 
 Introduction_screen use another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
 
-# Installation
+## Installation
 
 You just need to add `introduction_screen` as a [dependency in your pubspec.yaml file](https://flutter.io/using-packages/).
 
@@ -14,7 +14,7 @@ dependencies:
   introduction_screen: ^0.0.3
 ```
 
-# Example
+## Example
 
 In these example, `listPagesViewModel` is the **list of pages**. A page is base on PageViewModel. See example of a PageViewModel below.
 
@@ -23,6 +23,7 @@ In these example, `listPagesViewModel` is the **list of pages**. A page is base 
 ### Simple page
 
 This example only define title, body and an image (you can define any widget)
+
 ```dart
 new PageViewModel(
   "Title of first page",
@@ -34,6 +35,7 @@ new PageViewModel(
 ### Page with custom colors
 
 This example show you how to define the color of the page (background but also the dot indicator color)
+
 ```dart
 new PageViewModel(
   "Title of first page",
@@ -47,6 +49,7 @@ new PageViewModel(
 ### Page with custom text style
 
 This example show you how to define another TextStyle for the title and the body
+
 ```dart
 new PageViewModel(
   "Title of first page",
@@ -85,7 +88,7 @@ new IntroScreen(
         // When done button is press
       },
       showSkipButton: true
-    ); 
+    );
 ```
 
 ### Intro screen with custom button text
@@ -102,5 +105,5 @@ new IntroScreen(
       skipText: "Go to last",
       nextText: "Next slide",
       doneText: "Done"
-    ); 
+    );
 ```
