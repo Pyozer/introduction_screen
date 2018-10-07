@@ -11,7 +11,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^0.0.3
+  introduction_screen: ^0.0.4
 ```
 
 ## Example
@@ -28,7 +28,7 @@ This example only define title, body and an image (you can define any widget)
 new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
-  Image.network("https://domaine.com/image.png", height: 175.0)
+  Image.network("https://domaine.com/image.png", height: 175.0),
 )
 ```
 
@@ -42,7 +42,7 @@ new PageViewModel(
   "Here you can write the description of the page, to explain someting...",
   Image.asset("res/images/logo.png", height: 175.0),
   pageColor: Colors.blue,
-  progressColor: Colors.red
+  progressColor: Colors.red,
 )
 ```
 
@@ -56,7 +56,7 @@ new PageViewModel(
   "Here you can write the description of the page, to explain someting...",
   const Icon(Icons.android),
   titleTextStyle: const TextStyle(color: Colors.orange),
-  bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0)
+  bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
 )
 ```
 
@@ -70,11 +70,11 @@ Simple intro screen
 
 ```dart
 new IntroScreen(
-      pages: listPagesViewModel,
-      onDone: () {
-        // When done button is press
-      }
-    ); //Material App
+  pages: listPagesViewModel,
+  onDone: () {
+    // When done button is press
+  }
+); //Material App
 ```
 
 ### Intro screen with skip button
@@ -83,12 +83,12 @@ new IntroScreen(
 
 ```dart
 new IntroScreen(
-      pages: listPagesViewModel,
-      onDone: () {
-        // When done button is press
-      },
-      showSkipButton: true
-    );
+  pages: listPagesViewModel,
+  onDone: () {
+    // When done button is press
+  },
+  showSkipButton: true,
+);
 ```
 
 ### Intro screen with custom button text
@@ -97,13 +97,12 @@ new IntroScreen(
 
 ```dart
 new IntroScreen(
-      pages: listPagesViewModel,
-      onDone: () {
-        // When done button is press
-      },
-      showSkipButton: true,
-      skipText: "Go to last",
-      nextText: "Next slide",
-      doneText: "Done"
-    );
+  pages: listPagesViewModel,
+  onDone: () {
+    // When done button is press
+  },
+  showSkipButton: true,
+  skip: const Icon(Icons.skip_next),
+  next: const Icon(Icons.next)
+);
 ```

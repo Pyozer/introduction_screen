@@ -1,6 +1,7 @@
 library introduction_screen;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -10,30 +11,32 @@ import 'package:introduction_screen/ui/intro_content.dart';
 import 'package:introduction_screen/ui/intro_page.dart';
 
 class IntroductionScreen extends StatefulWidget {
-  static const String kDefaultSkipText = "SKIP";
-  static const String kDefaultNextText = "NEXT";
-  static const String kDefaultDoneText = "DONE";
+  static const Size kProgressSize = const Size.fromRadius(5.0);
+  static const EdgeInsets kDotsSpacing = const EdgeInsets.all(4.0);
 
   final List<PageViewModel> pages;
   final bool showSkipButton;
   final VoidCallback onDone;
-  final String skipText;
-  final String nextText;
-  final String doneText;
+  final Size progressSizes;
+  final EdgeInsets dotsSpacing;
+  final bool isProgress;
+  final Widget next;
+  final Widget done;
+  final Widget skip;
 
   const IntroductionScreen({
     Key key,
     @required this.pages,
     this.showSkipButton = false,
     this.onDone,
-    this.skipText = kDefaultSkipText,
-    this.nextText = kDefaultNextText,
-    this.doneText = kDefaultDoneText,
+    this.progressSizes = kProgressSize,
+    this.dotsSpacing = kDotsSpacing,
+    this.isProgress = true,
+    this.next,
+    this.done,
+    this.skip,
   })  : assert(pages != null),
         assert(onDone != null),
-        assert(skipText != null),
-        assert(nextText != null),
-        assert(doneText != null),
         super(key: key);
 
   @override
@@ -43,6 +46,7 @@ class IntroductionScreen extends StatefulWidget {
 class _IntroductionScreenState extends State<IntroductionScreen> {
   PageController _pageController = PageController();
   int _currentPage = 0;
+  bool isSkipPressed = false;
 
   List<Widget> _buildPages() {
     List<Widget> pages = [];
@@ -66,8 +70,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   void _onNext() {
-    final page =
-        (_currentPage + 1 < widget.pages.length) ? _currentPage + 1 : 0;
+    final page = min(_currentPage + 1, widget.pages.length);
     animateScroll(page).then((value) {
       setState(() {
         _currentPage = page;
@@ -76,9 +79,13 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   void _onSkip() {
+    setState(() {
+      isSkipPressed = true;
+    });
     animateScroll(widget.pages.length - 1).then((value) {
       setState(() {
         _currentPage = widget.pages.length - 1;
+        isSkipPressed = false;
       });
     });
   }
@@ -91,13 +98,37 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
   }
 
+  Widget _defBtnTxt(String text) {
+    TextStyle style = const TextStyle(fontWeight: FontWeight.w700);
+    return Text(text, style: style, textAlign: TextAlign.center);
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLastPage = (_currentPage == widget.pages.length - 1);
+    bool isSkipBtn = (!isSkipPressed && !isLastPage && widget.showSkipButton);
+    final page = widget.pages[_currentPage];
+
+    final skipButton = Opacity(
+      opacity: isSkipBtn ? 1.0 : 0.0,
+      child: IntroButton(
+        child: widget.skip ?? _defBtnTxt("SKIP"),
+        onPressed: _onSkip,
+      ),
+    );
+
+    final nextButton = IntroButton(
+      child: widget.next ?? _defBtnTxt("NEXT"),
+      onPressed: _onNext,
+    );
+
+    final doneButton = IntroButton(
+      child: widget.done ?? _defBtnTxt("DONE"),
+      onPressed: widget.onDone,
+    );
 
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -112,41 +143,30 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: (!isLastPage && widget.showSkipButton)
-                      ? Center(
-                          child: IntroButton(
-                            text: widget.skipText,
-                            onPressed: _onSkip,
-                          ),
-                        )
-                      : Container(),
-                ),
-                const SizedBox(width: 8.0),
-                DotsIndicator(
-                  numberOfDot: widget.pages.length,
-                  position: _currentPage,
-                  dotActiveColor: widget.pages[_currentPage].progressColor,
-                ),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: Center(
-                    child: (!isLastPage)
-                        ? IntroButton(
-                            text: widget.nextText,
-                            onPressed: _onNext,
-                          )
-                        : IntroButton(
-                            text: widget.doneText,
-                            onPressed: widget.onDone,
-                          ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: Row(
+                children: [
+                  skipButton,
+                  Expanded(
+                    child: Center(
+                      child: (widget.isProgress)
+                          ? DotsIndicator(
+                              numberOfDot: widget.pages.length,
+                              position: _currentPage,
+                              dotSpacing: widget.dotsSpacing,
+                              dotActiveSize: page.progressSize,
+                              dotSize: widget.progressSizes,
+                              dotActiveColor: page.progressColor,
+                            )
+                          : const SizedBox(),
+                    ),
+                    flex: 36,
                   ),
-                )
-              ],
-            )
+                  (!isLastPage) ? nextButton : doneButton,
+                ],
+              ),
+            ),
           ],
         ),
       ),

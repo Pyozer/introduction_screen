@@ -24,6 +24,11 @@ class PageViewModel {
   /// @Default `Colors.blue`
   final Color progressColor;
 
+  /// Progress indicator size
+  ///
+  /// @Default `Size.fromRadius(5.0)`
+  final Size progressSize;
+
   /// TextStyle for title
   final TextStyle titleTextStyle;
 
@@ -36,6 +41,7 @@ class PageViewModel {
     this.image, {
     this.pageColor,
     this.progressColor = Colors.lightBlue,
+    this.progressSize = const Size.fromRadius(5.0),
     this.titleTextStyle =
         const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
     this.bodyTextStyle =
