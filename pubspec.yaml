@@ -1,6 +1,6 @@
 name: introduction_screen
-description: Introduction screen for apps
-version: 0.0.4
+description: Introduction/Onboarding package for flutter app with some customizations possibilities
+version: 0.0.5
 author: Jean-Charles Moussé <jeancharles.msse@gmail.com>
 homepage: https://github.com/pyozer/introduction_screen
 

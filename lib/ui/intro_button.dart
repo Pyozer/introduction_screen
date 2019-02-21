@@ -12,6 +12,7 @@ class IntroButton extends StatelessWidget {
     return FlatButton(
       onPressed: onPressed,
       child: child,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
     );
   }
 }

@@ -14,6 +14,9 @@ class PageViewModel {
   /// Image of page
   final Widget image;
 
+  /// Footer
+  final Widget footer;
+
   /// Background page color
   ///
   /// @Default `Colors.white`
@@ -39,12 +42,17 @@ class PageViewModel {
     this.title,
     this.body,
     this.image, {
+    this.footer,
     this.pageColor,
     this.progressColor = Colors.lightBlue,
     this.progressSize = const Size.fromRadius(5.0),
-    this.titleTextStyle =
-        const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-    this.bodyTextStyle =
-        const TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal),
+    this.titleTextStyle = const TextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.bold,
+    ),
+    this.bodyTextStyle = const TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.normal,
+    ),
   });
 }

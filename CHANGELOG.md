@@ -1,3 +1,14 @@
+## 0.0.5
+
+* __Breaking changes :__ `done` (Widget) parameter is now required
+* __Breaking changes :__ `skip` (Widget) parameter is now required if you set `showSkipButton: true`
+* Fix bug
+* Add onChange listener
+* Add possibility to add a footer (like a button)
+* Add animation duration
+* Add possibility to define the initial page
+* Add possibility to freeze the scroll
+
 ## 0.0.4
 
 * Improve customization

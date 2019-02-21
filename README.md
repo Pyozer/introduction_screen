@@ -11,7 +11,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^0.0.4
+  introduction_screen: ^0.0.5
 ```
 
 ## Example
@@ -60,7 +60,31 @@ new PageViewModel(
 )
 ```
 
-## IntroScreen
+### Page with a footer, like a button
+
+This example show you how to define a page with a footer, like a Button
+
+```dart
+new PageViewModel(
+  "Title of first page",
+  "Here you can write the description of the page, to explain someting...",
+  const Icon(Icons.android),
+  footer: RaisedButton(
+    onPressed: () {
+      // On button presed
+    },
+    child: const Text("Let's Go !"),
+  ),
+);
+```
+
+## IntroductionScreen
+
+**Note :**
+
+If you not provide `next` parameter, the Next button will be not displayed.
+If you want to display a skip button, you must add `skip` parameter and `showSkipButton: true`
+The `done` parameter is required.
 
 ### Simple intro screen
 
@@ -69,11 +93,12 @@ Simple intro screen
 ![Base intro](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/normal.gif)
 
 ```dart
-new IntroScreen(
+new IntroductionScreen(
   pages: listPagesViewModel,
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600))
   onDone: () {
     // When done button is press
-  }
+  },
 ); //Material App
 ```
 
@@ -82,12 +107,14 @@ new IntroScreen(
 ![With skip button](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/skip.gif)
 
 ```dart
-new IntroScreen(
+new IntroductionScreen(
   pages: listPagesViewModel,
   onDone: () {
     // When done button is press
   },
   showSkipButton: true,
+  skip: const Text("Skip"),
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
 );
 ```
 
@@ -96,13 +123,22 @@ new IntroScreen(
 ![Custom button text](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/custom_buttons.gif)
 
 ```dart
-new IntroScreen(
+new IntroductionScreen(
   pages: listPagesViewModel,
   onDone: () {
     // When done button is press
   },
   showSkipButton: true,
   skip: const Icon(Icons.skip_next),
-  next: const Icon(Icons.next)
+  next: const Icon(Icons.next),
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600))
 );
 ```
+
+### Others parameters
+
+There is other possibles parameters that you can add :
+
+- Freeze the scroll, by adding `freeze: true` parameter.
+- Duration of scrolling animation, by adding `animationDuration: 400` parameter.
+- Initial page, by adding `initialPage: 1` parameter.
