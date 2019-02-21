@@ -1,0 +1,14 @@
+name: introduction_screen
+description: Introduction/Onboarding package for flutter app with some customizations possibilities
+version: 0.0.5
+author: Jean-Charles Moussé <jeancharles.msse@gmail.com>
+homepage: https://github.com/pyozer/introduction_screen
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  dots_indicator: ^0.0.4
