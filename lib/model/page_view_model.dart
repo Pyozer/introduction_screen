@@ -40,8 +40,8 @@ class PageViewModel {
 
   PageViewModel(
     this.title,
-    this.body,
-    this.image, {
+    this.body, {
+    this.image,
     this.footer,
     this.pageColor,
     this.progressColor = Colors.lightBlue,

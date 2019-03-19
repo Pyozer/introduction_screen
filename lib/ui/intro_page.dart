@@ -15,7 +15,7 @@ class IntroPage extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Expanded(child: image ?? const SizedBox.shrink()),
+          image != null ? Expanded(child: image) : const SizedBox.shrink(),
           Expanded(child: content),
         ],
       ),

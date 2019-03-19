@@ -12,12 +12,12 @@ class App extends StatelessWidget {
     PageViewModel(
       "First title page",
       "Text of the first page",
-      Image.network(kImageDemo, height: 175.0),
+      image: Center(child: Image.network(kImageDemo, height: 175.0)),
     ),
     PageViewModel(
       "Second title page",
       "Text of the second page, with a button",
-      Image.network(kImageDemo, height: 175.0),
+      image: Center(child: Image.network(kImageDemo, height: 175.0)),
       footer: RaisedButton(
         onPressed: () {/* Nothing */},
         child: const Text('Button', style: TextStyle(color: Colors.white)),
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
     PageViewModel(
       "Third title page",
       "Text of the third page",
-      Image.network(kImageDemo, height: 175.0),
+      image: Center(child: Image.network(kImageDemo, height: 175.0)),
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
       bodyTextStyle: TextStyle(fontSize: 22.0),
       progressColor: Colors.red,

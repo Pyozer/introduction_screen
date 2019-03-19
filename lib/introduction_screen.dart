@@ -17,6 +17,7 @@ class IntroductionScreen extends StatefulWidget {
   final List<PageViewModel> pages;
   final bool showSkipButton;
   final VoidCallback onDone;
+  final VoidCallback onSkip;
   final ValueChanged<int> onChange;
   final Size progressSizes;
   final EdgeInsets dotsSpacing;
@@ -33,6 +34,7 @@ class IntroductionScreen extends StatefulWidget {
     @required this.pages,
     @required this.onDone,
     @required this.done,
+    this.onSkip,
     this.next,
     this.skip,
     this.showSkipButton = false,
@@ -62,7 +64,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.pages.length < 1) throw Exception("You provide at least one page on introduction screen !");
+    if (widget.pages.length < 1)
+      throw Exception("You provide at least one page on introduction screen !");
     _currentPage = min(widget.initialPage, widget.pages.length - 1);
     _pageController = PageController(initialPage: _currentPage);
   }
@@ -71,7 +74,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     return widget.pages.map((page) {
       return IntroPage(
         bgColor: page.pageColor,
-        image: Center(child: page.image),
+        image: page.image,
         content: IntroContent(
           title: page.title,
           body: page.body,
@@ -88,6 +91,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   Future<void> _onSkip() async {
+    if (widget.onSkip != null) return widget.onSkip();
+    
     setState(() => _isSkipPressed = true);
     await animateScroll(widget.pages.length - 1);
     setState(() => _isSkipPressed = false);
