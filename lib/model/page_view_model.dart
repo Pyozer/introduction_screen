@@ -38,21 +38,24 @@ class PageViewModel {
   /// TextStyle for title
   final TextStyle bodyTextStyle;
 
-  PageViewModel(
-    this.title,
-    this.body,
-    this.image, {
-    this.footer,
-    this.pageColor,
-    this.progressColor = Colors.lightBlue,
-    this.progressSize = const Size.fromRadius(5.0),
-    this.titleTextStyle = const TextStyle(
-      fontSize: 20.0,
-      fontWeight: FontWeight.bold,
-    ),
-    this.bodyTextStyle = const TextStyle(
-      fontSize: 18.0,
-      fontWeight: FontWeight.normal,
-    ),
-  });
+  /// BoxDecoration for page
+  final BoxDecoration decoration;
+
+  PageViewModel(this.title,
+      this.body,
+      this.image, {
+        this.decoration,
+        this.footer,
+        this.pageColor,
+        this.progressColor = Colors.lightBlue,
+        this.progressSize = const Size.fromRadius(5.0),
+        this.titleTextStyle = const TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),
+        this.bodyTextStyle = const TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.normal,
+        ),
+      }) : assert(pageColor == null || decoration == null, 'Cannot provide both a pageColor and a decoration\n');
 }
