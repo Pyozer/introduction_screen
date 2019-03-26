@@ -70,6 +70,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   List<Widget> _buildPages() {
     return widget.pages.map((page) {
       return IntroPage(
+        decoration: page.decoration,
         bgColor: page.pageColor,
         image: Center(child: page.image),
         content: IntroContent(
