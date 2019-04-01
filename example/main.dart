@@ -31,9 +31,16 @@ class App extends StatelessWidget {
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
       bodyTextStyle: TextStyle(fontSize: 22.0),
       progressColor: Colors.red,
-      progressSize: Size.fromRadius(8)
+      progressSize: Size.fromRadius(8),
     ),
   ];
+
+  void _onIntroEnd(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +49,8 @@ class App extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       home: IntroductionScreen(
         pages: pages,
-        onDone: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        },
+        onDone: () => _onIntroEnd(context),
+        onSkip: () => _onIntroEnd(context),
         showSkipButton: true,
         skip: const Text('Skip'),
         next: const Icon(Icons.arrow_forward),

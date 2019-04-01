@@ -1,3 +1,9 @@
+## 1.0.0
+
+* __Breaking changes :__ `image` (Widget) parameter is now optional
+* Add possibility to provide `BoxDecoration` (Thanks to [https://github.com/MohiuddinM](https://github.com/MohiuddinM))
+* Add possibility to override default onSkip method
+
 ## 0.0.5
 
 * __Breaking changes :__ `done` (Widget) parameter is now required

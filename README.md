@@ -28,7 +28,7 @@ This example only define title, body and an image (you can define any widget)
 new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
-  Image.network("https://domaine.com/image.png", height: 175.0),
+  image: Center(child: Image.network("https://domaine.com/image.png", height: 175.0)),
 )
 ```
 
@@ -40,7 +40,7 @@ This example show you how to define the color of the page (background but also t
 new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
-  Image.asset("res/images/logo.png", height: 175.0),
+  image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
   pageColor: Colors.blue,
   progressColor: Colors.red,
 )
@@ -54,7 +54,7 @@ This example show you how to define another TextStyle for the title and the body
 new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
-  const Icon(Icons.android),
+  image: const Center(child: Icon(Icons.android)),
   titleTextStyle: const TextStyle(color: Colors.orange),
   bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
 )
@@ -68,7 +68,7 @@ This example show you how to define a page with a footer, like a Button
 new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
-  const Icon(Icons.android),
+  image: const Center(child: Icon(Icons.android)),
   footer: RaisedButton(
     onPressed: () {
       // On button presed
@@ -127,6 +127,9 @@ new IntroductionScreen(
   pages: listPagesViewModel,
   onDone: () {
     // When done button is press
+  },
+  onSkip: () {
+    // You can also override onSkip callback
   },
   showSkipButton: true,
   skip: const Icon(Icons.skip_next),
