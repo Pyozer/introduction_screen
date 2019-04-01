@@ -93,7 +93,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   Future<void> _onSkip() async {
     if (widget.onSkip != null) return widget.onSkip();
-    
+
     setState(() => _isSkipPressed = true);
     await animateScroll(widget.pages.length - 1);
     setState(() => _isSkipPressed = false);
