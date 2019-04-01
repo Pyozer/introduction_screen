@@ -38,6 +38,9 @@ class PageViewModel {
   /// TextStyle for title
   final TextStyle bodyTextStyle;
 
+  /// BoxDecoration for page
+  final BoxDecoration decoration;
+
   PageViewModel(
     this.title,
     this.body, {
@@ -54,5 +57,6 @@ class PageViewModel {
       fontSize: 18.0,
       fontWeight: FontWeight.normal,
     ),
-  });
+    this.decoration,
+  }) : assert(pageColor == null || decoration == null, 'Cannot provide both a pageColor and a decoration\n');
 }
