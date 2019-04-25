@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Add scrollview on page content to handle small screen
+  
 ## 1.0.0
 
 * __Breaking changes :__ `image` (Widget) parameter is now optional
