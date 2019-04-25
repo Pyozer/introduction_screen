@@ -117,7 +117,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
     final skipBtn = Opacity(
       opacity: isSkipBtn ? 1.0 : 0.0,
-      child: IntroButton(child: widget.skip, onPressed: _onSkip),
+      child: IntroButton(
+        child: widget.skip,
+        onPressed: isSkipBtn ? _onSkip : null,
+      ),
     );
 
     final nextBtn = IntroButton(
@@ -131,49 +134,46 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
 
     return Scaffold(
-      body: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                physics: (widget.freeze)
-                    ? const NeverScrollableScrollPhysics()
-                    : BouncingScrollPhysics(),
-                children: _buildPages(),
-                onPageChanged: (index) {
-                  setState(() => _currentPage = index);
-                  if (widget.onChange != null) widget.onChange(index);
-                },
-              ),
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              physics: widget.freeze
+                  ? const NeverScrollableScrollPhysics()
+                  : const BouncingScrollPhysics(),
+              children: _buildPages(),
+              onPageChanged: (index) {
+                setState(() => _currentPage = index);
+                if (widget.onChange != null) widget.onChange(index);
+              },
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-              child: Row(
-                children: [
-                  skipBtn,
-                  Expanded(
-                    child: Center(
-                      child: widget.isProgress
-                          ? DotsIndicator(
-                              numberOfDot: widget.pages.length,
-                              position: _currentPage,
-                              dotSpacing: widget.dotsSpacing,
-                              dotActiveSize: page.progressSize,
-                              dotSize: widget.progressSizes,
-                              dotActiveColor: page.progressColor,
-                            )
-                          : const SizedBox(),
-                    ),
-                    flex: 36,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+            child: Row(
+              children: [
+                skipBtn,
+                Expanded(
+                  child: Center(
+                    child: widget.isProgress
+                        ? DotsIndicator(
+                            numberOfDot: widget.pages.length,
+                            position: _currentPage,
+                            dotSpacing: widget.dotsSpacing,
+                            dotActiveSize: page.progressSize,
+                            dotSize: widget.progressSizes,
+                            dotActiveColor: page.progressColor,
+                          )
+                        : const SizedBox(),
                   ),
-                  isLastPage ? doneBtn : nextBtn,
-                ],
-              ),
+                ),
+                isLastPage ? doneBtn : nextBtn,
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

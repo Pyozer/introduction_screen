@@ -6,8 +6,13 @@ class IntroPage extends StatelessWidget {
   final Widget content;
   final BoxDecoration decoration;
 
-  const IntroPage({Key key, this.image, @required this.content, this.bgColor, this.decoration})
-      : super(key: key);
+  const IntroPage({
+    Key key,
+    this.image,
+    @required this.content,
+    this.bgColor,
+    this.decoration,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,13 @@ class IntroPage extends StatelessWidget {
       child: Column(
         children: [
           image != null ? Expanded(child: image) : const SizedBox.shrink(),
-          Expanded(child: content),
+          SizedBox(height: image != null ? 16.0 : 0.0),
+          Expanded(
+            child: SingleChildScrollView(
+              child: content,
+              physics: BouncingScrollPhysics(),
+            ),
+          ),
         ],
       ),
     );
