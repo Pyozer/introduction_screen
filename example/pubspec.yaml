@@ -1,0 +1,16 @@
+name: introduction_example
+description: Demo app of the introduction_screen package
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  introduction_screen:
+    path: ../
+
+flutter:
+  uses-material-design: true
