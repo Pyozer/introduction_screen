@@ -58,5 +58,6 @@ class PageViewModel {
       fontWeight: FontWeight.normal,
     ),
     this.decoration,
-  }) : assert(pageColor == null || decoration == null, 'Cannot provide both a pageColor and a decoration\n');
+  }) : assert(pageColor == null || decoration == null,
+            'Cannot provide both a pageColor and a decoration\n');
 }
