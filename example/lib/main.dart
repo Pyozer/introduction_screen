@@ -60,7 +60,7 @@ class OnBoardingPage extends StatelessWidget {
             bodyTextStyle: const TextStyle(fontSize: 22.0),
             progressColor: Colors.red,
             progressSize: Size.fromRadius(8),
-            pageColor: Colors.grey[200]
+            pageColor: Colors.grey[200],
           ),
         ),
       ];

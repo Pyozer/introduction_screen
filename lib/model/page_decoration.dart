@@ -17,12 +17,12 @@ class PageDecoration {
   final Size progressSize;
 
   /// TextStyle for title
-  /// 
+  ///
   /// @Default style `fontSize: 20.0, fontWeight: FontWeight.bold`
   final TextStyle titleTextStyle;
 
   /// TextStyle for title
-  /// 
+  ///
   /// @Default style `fontSize: 18.0, fontWeight: FontWeight.normal`
   final TextStyle bodyTextStyle;
 
