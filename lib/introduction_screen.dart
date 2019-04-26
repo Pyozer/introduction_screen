@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:introduction_screen/model/page_view_model.dart';
 import 'package:introduction_screen/ui/intro_button.dart';
-import 'package:introduction_screen/ui/intro_content.dart';
 import 'package:introduction_screen/ui/intro_page.dart';
 
 class IntroductionScreen extends StatefulWidget {
@@ -70,23 +69,6 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     _pageController = PageController(initialPage: _currentPage);
   }
 
-  List<Widget> _buildPages() {
-    return widget.pages.map((page) {
-      return IntroPage(
-        decoration: page.decoration,
-        bgColor: page.pageColor,
-        image: page.image,
-        content: IntroContent(
-          title: page.title,
-          body: page.body,
-          footer: page.footer,
-          titleStyle: page.titleTextStyle,
-          bodyStyle: page.bodyTextStyle,
-        ),
-      );
-    }).toList();
-  }
-
   void _onNext() {
     animateScroll(min(_currentPage + 1, widget.pages.length - 1));
   }
@@ -143,7 +125,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               physics: widget.freeze
                   ? const NeverScrollableScrollPhysics()
                   : const BouncingScrollPhysics(),
-              children: _buildPages(),
+              children: widget.pages.map((page) {
+                return IntroPage(page: page);
+              }).toList(),
               onPageChanged: (index) {
                 setState(() => _currentPage = index);
                 if (widget.onChange != null) widget.onChange(index);
@@ -162,9 +146,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                             numberOfDot: widget.pages.length,
                             position: _currentPage,
                             dotSpacing: widget.dotsSpacing,
-                            dotActiveSize: page.progressSize,
+                            dotActiveSize: page.decoration.progressSize,
                             dotSize: widget.progressSizes,
-                            dotActiveColor: page.progressColor,
+                            dotActiveColor: page.decoration.progressColor,
                           )
                         : const SizedBox(),
                   ),
