@@ -116,45 +116,46 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
 
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
+      body: Stack(
         children: [
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              physics: widget.freeze
-                  ? const NeverScrollableScrollPhysics()
-                  : const BouncingScrollPhysics(),
-              children: widget.pages.map((page) {
-                return IntroPage(page: page);
-              }).toList(),
-              onPageChanged: (index) {
-                setState(() => _currentPage = index);
-                if (widget.onChange != null) widget.onChange(index);
-              },
-            ),
+          PageView(
+            controller: _pageController,
+            physics: widget.freeze
+                ? const NeverScrollableScrollPhysics()
+                : const BouncingScrollPhysics(),
+            children: widget.pages.map((page) {
+              return IntroPage(page: page);
+            }).toList(),
+            onPageChanged: (index) {
+              setState(() => _currentPage = index);
+              if (widget.onChange != null) widget.onChange(index);
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-            child: Row(
-              children: [
-                skipBtn,
-                Expanded(
-                  child: Center(
-                    child: widget.isProgress
-                        ? DotsIndicator(
-                            numberOfDot: widget.pages.length,
-                            position: _currentPage,
-                            dotSpacing: widget.dotsSpacing,
-                            dotActiveSize: page.decoration.progressSize,
-                            dotSize: widget.progressSizes,
-                            dotActiveColor: page.decoration.progressColor,
-                          )
-                        : const SizedBox(),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            right: 16,
+            child: SafeArea(
+              child: Row(
+                children: [
+                  skipBtn,
+                  Expanded(
+                    child: Center(
+                      child: widget.isProgress
+                          ? DotsIndicator(
+                              numberOfDot: widget.pages.length,
+                              position: _currentPage,
+                              dotSpacing: widget.dotsSpacing,
+                              dotActiveSize: page.decoration.progressSize,
+                              dotSize: widget.progressSizes,
+                              dotActiveColor: page.decoration.progressColor,
+                            )
+                          : const SizedBox(),
+                    ),
                   ),
-                ),
-                isLastPage ? doneBtn : nextBtn,
-              ],
+                  isLastPage ? doneBtn : nextBtn,
+                ],
+              ),
             ),
           ),
         ],

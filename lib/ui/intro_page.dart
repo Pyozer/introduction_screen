@@ -22,7 +22,7 @@ class IntroPage extends StatelessWidget {
     elements.add(Expanded(
       flex: page.decoration.bodyFlex,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(bottom: 70.0),
         child: SingleChildScrollView(
           child: IntroContent(
             title: page.title,
@@ -46,6 +46,7 @@ class IntroPage extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildPage(),
         ),
       ),
