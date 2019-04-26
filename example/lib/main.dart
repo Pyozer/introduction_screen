@@ -24,7 +24,7 @@ class OnBoardingPage extends StatelessWidget {
 
   List<PageViewModel> _buildPages() => [
         PageViewModel(
-          "Affluences",
+          "First title page",
           "Text of the first page of this onboarding",
           image: Align(
             child: Image.network(kImageDemo, height: 175.0),
@@ -52,11 +52,15 @@ class OnBoardingPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
           ),
           decoration: PageDecoration(
-            titleTextStyle:
-                TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
-            bodyTextStyle: TextStyle(fontSize: 22.0),
+            titleTextStyle: const TextStyle(
+              fontSize: 28.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.red,
+            ),
+            bodyTextStyle: const TextStyle(fontSize: 22.0),
             progressColor: Colors.red,
             progressSize: Size.fromRadius(8),
+            pageColor: Colors.grey[200]
           ),
         ),
       ];
