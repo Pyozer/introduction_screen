@@ -11,7 +11,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^1.0.0
+  introduction_screen: ^1.0.2
 ```
 
 ## Example
@@ -41,8 +41,10 @@ new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
   image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
-  pageColor: Colors.blue,
-  progressColor: Colors.red,
+  decoration: PageDecoration(
+    pageColor: Colors.blue,
+    progressColor: Colors.red,
+  ),
 )
 ```
 
@@ -55,8 +57,10 @@ new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
   image: const Center(child: Icon(Icons.android)),
-  titleTextStyle: const TextStyle(color: Colors.orange),
-  bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+  decoration: PageDecoration(
+    titleTextStyle: const TextStyle(color: Colors.orange),
+    bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+  ),
 )
 ```
 

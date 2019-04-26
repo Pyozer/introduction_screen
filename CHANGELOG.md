@@ -1,3 +1,10 @@
+## 1.0.2
+
+* __Breaking changes :__ All page customization has been moved to **PageDecoration** model
+* Improve layout of the page
+* Add `imageFlex` and `bodyFlex` parameter on **PageDecoration**, to custom flex ratio
+* Improve example app
+
 ## 1.0.1
 
 * Add scrollview on page content to handle small screen
