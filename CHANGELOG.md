@@ -1,3 +1,7 @@
+## 1.0.3
+
+* __Breaking changes :__ Update `dots_indicator` library, now you must/can provide dots customizations with `DotsDecorator` model with `dotsDecorator` property of `PageDecoration`.
+
 ## 1.0.2
 
 * __Breaking changes :__ All page customization has been moved to **PageDecoration** model

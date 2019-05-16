@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:introduction_screen/model/page_decoration.dart';
-import 'package:introduction_screen/model/page_view_model.dart';
 
 const kImageDemo =
     "https://cdn4.iconfinder.com/data/icons/onboarding-material-color/128/__14-512.png";
@@ -58,8 +56,10 @@ class OnBoardingPage extends StatelessWidget {
               color: Colors.red,
             ),
             bodyTextStyle: const TextStyle(fontSize: 22.0),
-            progressColor: Colors.red,
-            progressSize: Size.fromRadius(8),
+            dotsDecorator: const DotsDecorator(
+              activeColor: Colors.red,
+              activeSize: Size.fromRadius(8),
+            ),
             pageColor: Colors.grey[200],
           ),
         ),

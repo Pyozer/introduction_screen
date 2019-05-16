@@ -11,12 +11,12 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^1.0.2
+  introduction_screen: ^1.0.3
 ```
 
 ## Example
 
-In these example, `listPagesViewModel` is the **list of pages**. A page is base on PageViewModel. See example of a PageViewModel below.
+In these example, `listPagesViewModel` is the **list of pages**. A page is base on `PageViewModel`. See example of a `PageViewModel` below.
 
 ## PageViewModel
 
@@ -28,7 +28,9 @@ This example only define title, body and an image (you can define any widget)
 new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
-  image: Center(child: Image.network("https://domaine.com/image.png", height: 175.0)),
+  image: Center(
+    child: Image.network("https://domaine.com/image.png", height: 175.0),
+  ),
 )
 ```
 
@@ -41,9 +43,11 @@ new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
   image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
-  decoration: PageDecoration(
+  decoration: const PageDecoration(
     pageColor: Colors.blue,
-    progressColor: Colors.red,
+    dotsDecorator: DotsDecorator(
+      activeColor: Colors.red,
+    )
   ),
 )
 ```
@@ -57,9 +61,9 @@ new PageViewModel(
   "Title of first page",
   "Here you can write the description of the page, to explain someting...",
   image: const Center(child: Icon(Icons.android)),
-  decoration: PageDecoration(
-    titleTextStyle: const TextStyle(color: Colors.orange),
-    bodyTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+  decoration: const PageDecoration(
+    titleTextStyle: TextStyle(color: Colors.orange),
+    bodyTextStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
   ),
 )
 ```

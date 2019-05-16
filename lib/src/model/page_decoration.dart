@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
 class PageDecoration {
@@ -6,20 +7,8 @@ class PageDecoration {
   /// @Default `Colors.white`
   final Color pageColor;
 
-  /// Progress indicator color
-  ///
-  /// @Default `Colors.blue`
-  final Color progressColor;
-
-  /// Inactive progress indicator color
-  ///
-  /// @Default `Colors.grey`
-  final Color inactiveProgressColor;
-
-  /// Progress indicator size
-  ///
-  /// @Default `Size.fromRadius(5.0)`
-  final Size progressSize;
+  /// Dots decorator to custom dots color, size and spacing
+  final DotsDecorator dotsDecorator;
 
   /// TextStyle for title
   ///
@@ -42,9 +31,7 @@ class PageDecoration {
 
   const PageDecoration({
     this.pageColor,
-    this.progressColor = Colors.lightBlue,
-    this.inactiveProgressColor = Colors.grey,
-    this.progressSize = const Size.fromRadius(5.0),
+    this.dotsDecorator = const DotsDecorator(),
     this.titleTextStyle = const TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.bold,
