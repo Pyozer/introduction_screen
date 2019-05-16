@@ -149,6 +149,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                               dotActiveSize: page.decoration.progressSize,
                               dotSize: widget.progressSizes,
                               dotActiveColor: page.decoration.progressColor,
+                              dotColor: page.decoration.inactiveProgressColor,
                             )
                           : const SizedBox(),
                     ),

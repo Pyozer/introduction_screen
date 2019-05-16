@@ -11,6 +11,11 @@ class PageDecoration {
   /// @Default `Colors.blue`
   final Color progressColor;
 
+  /// Inactive progress indicator color
+  ///
+  /// @Default `Colors.grey`
+  final Color inactiveProgressColor;
+
   /// Progress indicator size
   ///
   /// @Default `Size.fromRadius(5.0)`
@@ -38,6 +43,7 @@ class PageDecoration {
   const PageDecoration({
     this.pageColor,
     this.progressColor = Colors.lightBlue,
+    this.inactiveProgressColor = Colors.grey,
     this.progressSize = const Size.fromRadius(5.0),
     this.titleTextStyle = const TextStyle(
       fontSize: 20.0,
