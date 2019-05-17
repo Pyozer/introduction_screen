@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Add possibility to define flex ratio for skip, dots and next/done button.
+
 ## 1.0.3+1
 
 * Update dots_indicator library to `0.0.5+1`

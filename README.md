@@ -11,7 +11,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^1.0.3
+  introduction_screen: ^1.0.4
 ```
 
 ## Example
@@ -153,3 +153,6 @@ There is other possibles parameters that you can add :
 - Freeze the scroll, by adding `freeze: true` parameter.
 - Duration of scrolling animation, by adding `animationDuration: 400` parameter.
 - Initial page, by adding `initialPage: 1` parameter.
+- Skip button flex, by adding `skipFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
+- Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
+- Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour)

@@ -22,6 +22,9 @@ class IntroductionScreen extends StatefulWidget {
   final Widget skip;
   final int animationDuration;
   final int initialPage;
+  final int skipFlex;
+  final int dotsFlex;
+  final int nextFlex;
 
   const IntroductionScreen({
     Key key,
@@ -37,10 +40,14 @@ class IntroductionScreen extends StatefulWidget {
     this.freeze = false,
     this.animationDuration = 350,
     this.initialPage = 0,
+    this.skipFlex = 1,
+    this.dotsFlex = 1,
+    this.nextFlex = 1,
   })  : assert(pages != null),
         assert(onDone != null),
         assert(done != null),
         assert((skip != null && showSkipButton) || !showSkipButton),
+        assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
         super(key: key);
 
   @override
@@ -131,8 +138,12 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             child: SafeArea(
               child: Row(
                 children: [
-                  skipBtn,
                   Expanded(
+                    flex: widget.skipFlex,
+                    child: skipBtn,
+                  ),
+                  Expanded(
+                    flex: widget.dotsFlex,
                     child: Center(
                       child: widget.isProgress
                           ? DotsIndicator(
@@ -143,7 +154,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                           : const SizedBox(),
                     ),
                   ),
-                  isLastPage ? doneBtn : nextBtn,
+                  Expanded(
+                    flex: widget.nextFlex,
+                    child: isLastPage ? doneBtn : nextBtn,
+                  ),
                 ],
               ),
             ),
