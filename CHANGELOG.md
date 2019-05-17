@@ -1,3 +1,7 @@
+## 1.0.3+1
+
+* Update dots_indicator library to `0.0.5+1`
+
 ## 1.0.3
 
 * __Breaking changes :__ Update `dots_indicator` library, now you must/can provide dots customizations with `DotsDecorator` model with `dotsDecorator` property of `PageDecoration`.
