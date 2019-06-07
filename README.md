@@ -152,7 +152,9 @@ There is other possibles parameters that you can add :
 
 - Freeze the scroll, by adding `freeze: true` parameter.
 - Duration of scrolling animation, by adding `animationDuration: 400` parameter.
+- Global background color, by adding `globalBackgroundColor: Colors.blue` parameter.
 - Initial page, by adding `initialPage: 1` parameter.
+- Hide next button, by adding `showNextButton: false` parameter.
 - Skip button flex, by adding `skipFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
 - Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
 - Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour)

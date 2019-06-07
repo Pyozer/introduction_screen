@@ -1,3 +1,10 @@
+# Changelog
+
+## 1.0.5
+
+* Add `globalBackgroundColor` property to define background color for all transparent pages
+* Add `showNextButton` property to set Next button visible or not
+
 ## 1.0.4
 
 * Add possibility to define flex ratio for skip, dots and next/done button.
