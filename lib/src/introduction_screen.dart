@@ -10,20 +10,55 @@ import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
 
 class IntroductionScreen extends StatefulWidget {
+  /// All pages of the onboarding
   final List<PageViewModel> pages;
-  final bool showSkipButton;
+
+  /// Callback when Done button is pressed
   final VoidCallback onDone;
-  final VoidCallback onSkip;
-  final ValueChanged<int> onChange;
-  final bool isProgress;
-  final bool freeze;
-  final Widget next;
+
+  /// Done button
   final Widget done;
+
+  /// Callback when Skip button is pressed
+  final VoidCallback onSkip;
+
+  /// Callback when page change
+  final ValueChanged<int> onChange;
+
+  /// Skip button
   final Widget skip;
+
+  /// Next button
+  final Widget next;
+
+  /// Is the Skip button should be display
+  final bool showSkipButton;
+
+  /// Is the Next button should be display
+  final bool showNextButton;
+
+  /// Is the progress indicator should be display
+  final bool isProgress;
+
+  /// Is the user is allow to change page
+  final bool freeze;
+
+  /// Global background color (only visible when a page has a transparent background color)
+  final Color globalBackgroundColor;
+
+  /// Animation duration in millisecondes
   final int animationDuration;
+
+  /// Index of the initial page
   final int initialPage;
+
+  /// Flex ratio of the skip button
   final int skipFlex;
+
+  /// Flex ratio of the progress indicator
   final int dotsFlex;
+
+  /// Flex ratio of the next/done button
   final int nextFlex;
 
   const IntroductionScreen({
@@ -32,12 +67,14 @@ class IntroductionScreen extends StatefulWidget {
     @required this.onDone,
     @required this.done,
     this.onSkip,
-    this.next,
-    this.skip,
-    this.showSkipButton = false,
     this.onChange,
+    this.skip,
+    this.next,
+    this.showSkipButton = false,
+    this.showNextButton = true,
     this.isProgress = true,
     this.freeze = false,
+    this.globalBackgroundColor,
     this.animationDuration = 350,
     this.initialPage = 0,
     this.skipFlex = 1,
@@ -97,17 +134,14 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
     final page = widget.pages[_currentPage];
 
-    final skipBtn = Opacity(
-      opacity: isSkipBtn ? 1.0 : 0.0,
-      child: IntroButton(
-        child: widget.skip,
-        onPressed: isSkipBtn ? _onSkip : null,
-      ),
+    final skipBtn = IntroButton(
+      child: widget.skip,
+      onPressed: isSkipBtn ? _onSkip : null,
     );
 
     final nextBtn = IntroButton(
       child: widget.next,
-      onPressed: _isScrolling ? null : _onNext,
+      onPressed: widget.showNextButton && _isScrolling ? _onNext : null,
     );
 
     final doneBtn = IntroButton(
@@ -116,6 +150,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
 
     return Scaffold(
+      backgroundColor: widget.globalBackgroundColor,
       body: Stack(
         children: [
           PageView(
@@ -123,9 +158,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             physics: widget.freeze
                 ? const NeverScrollableScrollPhysics()
                 : const BouncingScrollPhysics(),
-            children: widget.pages.map((page) {
-              return IntroPage(page: page);
-            }).toList(),
+            children: widget.pages.map((p) => IntroPage(page: p)).toList(),
             onPageChanged: (index) {
               setState(() => _currentPage = index);
               if (widget.onChange != null) widget.onChange(index);
@@ -140,7 +173,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 children: [
                   Expanded(
                     flex: widget.skipFlex,
-                    child: skipBtn,
+                    child: isSkipBtn
+                        ? skipBtn
+                        : Opacity(opacity: 0.0, child: skipBtn),
                   ),
                   Expanded(
                     flex: widget.dotsFlex,
@@ -156,7 +191,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   ),
                   Expanded(
                     flex: widget.nextFlex,
-                    child: isLastPage ? doneBtn : nextBtn,
+                    child: isLastPage
+                        ? doneBtn
+                        : widget.showNextButton
+                            ? nextBtn
+                            : Opacity(opacity: 0.0, child: nextBtn),
                   ),
                 ],
               ),

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 class PageDecoration {
   /// Background page color
-  ///
-  /// @Default `Colors.white`
   final Color pageColor;
 
   /// Dots decorator to custom dots color, size and spacing
