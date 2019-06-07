@@ -20,22 +20,32 @@ class App extends StatelessWidget {
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({Key key}) : super(key: key);
 
-  List<PageViewModel> _buildPages() => [
+  void _onIntroEnd(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => HomePage()),
+    );
+  }
+
+  Widget _buildImage() {
+    return Align(
+      child: Image.network(kImageDemo, height: 175.0),
+      alignment: Alignment.bottomCenter,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IntroductionScreen(
+      pages: [
         PageViewModel(
           "First title page",
           "Text of the first page of this onboarding",
-          image: Align(
-            child: Image.network(kImageDemo, height: 175.0),
-            alignment: Alignment.bottomCenter,
-          ),
+          image: _buildImage(),
         ),
         PageViewModel(
           "Second title page",
           "Text of the second page of this onboarding",
-          image: Align(
-            child: Image.network(kImageDemo, height: 175.0),
-            alignment: Alignment.bottomCenter,
-          ),
+          image: _buildImage(),
           footer: RaisedButton(
             onPressed: () {/* Nothing */},
             child: const Text('Button', style: TextStyle(color: Colors.white)),
@@ -45,10 +55,7 @@ class OnBoardingPage extends StatelessWidget {
         PageViewModel(
           "Third title page",
           "Text of the third page of this onboarding",
-          image: Align(
-            child: Image.network(kImageDemo, height: 175.0),
-            alignment: Alignment.bottomCenter,
-          ),
+          image: _buildImage(),
           decoration: PageDecoration(
             titleTextStyle: const TextStyle(
               fontSize: 28.0,
@@ -63,18 +70,7 @@ class OnBoardingPage extends StatelessWidget {
             pageColor: Colors.grey[200],
           ),
         ),
-      ];
-
-  void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IntroductionScreen(
-      pages: _buildPages(),
+      ],
       onDone: () => _onIntroEnd(context),
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,

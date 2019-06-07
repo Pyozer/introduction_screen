@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5+1
+
+* Improve example code
+* Fix README mistake
+
 ## 1.0.5
 
 * Add `globalBackgroundColor` property to define background color for all transparent pages
