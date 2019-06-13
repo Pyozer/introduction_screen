@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5+2
+
+* Fix next button disable
+
 ## 1.0.5+1
 
 * Improve example code
