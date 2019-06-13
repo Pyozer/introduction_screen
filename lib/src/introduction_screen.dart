@@ -141,7 +141,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
     final nextBtn = IntroButton(
       child: widget.next,
-      onPressed: widget.showNextButton && _isScrolling ? _onNext : null,
+      onPressed: widget.showNextButton && !_isScrolling ? _onNext : null,
     );
 
     final doneBtn = IntroButton(
