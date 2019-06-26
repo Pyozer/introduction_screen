@@ -9,10 +9,18 @@ environment:
 
 dependencies:
   flutter_web: any
-  dots_indicator: ^0.0.5+1
+  flutter_web_ui: any
+  dots_indicator:
+    git:
+      url: https://github.com/pyozer/dots_indicator
+      ref: e7fe97e48b6a446924801a68b7a358e3d80b2d6b
 
 dependency_overrides:
   flutter_web:
     git:
       url: https://github.com/flutter/flutter_web
       path: packages/flutter_web
+  flutter_web_ui:
+    git:
+      url: https://github.com/flutter/flutter_web
+      path: packages/flutter_web_ui
