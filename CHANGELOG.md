@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6
+
+* __Breaking changes :__ `title` and `body` are now named parameters
+* You can now add `titleWidget` to have a title as Widget instead of String
+* You can now add `bodyWidget` to have a body as Widget instead of String
+
 ## 1.0.5+2
 
 * Fix next button disable

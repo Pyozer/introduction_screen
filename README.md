@@ -11,7 +11,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^1.0.5+2
+  introduction_screen: ^1.0.6
 ```
 
 ## Example
@@ -25,9 +25,9 @@ In these example, `listPagesViewModel` is the **list of pages**. A page is base 
 This example only define title, body and an image (you can define any widget)
 
 ```dart
-new PageViewModel(
-  "Title of first page",
-  "Here you can write the description of the page, to explain someting...",
+PageViewModel(
+  title: "Title of first page",
+  body: "Here you can write the description of the page, to explain someting...",
   image: Center(
     child: Image.network("https://domaine.com/image.png", height: 175.0),
   ),
@@ -39,9 +39,9 @@ new PageViewModel(
 This example show you how to define the color of the page (background but also the dot indicator color)
 
 ```dart
-new PageViewModel(
-  "Title of first page",
-  "Here you can write the description of the page, to explain someting...",
+PageViewModel(
+  title: "Title of first page",
+  body: "Here you can write the description of the page, to explain someting...",
   image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
   decoration: const PageDecoration(
     pageColor: Colors.blue,
@@ -57,9 +57,9 @@ new PageViewModel(
 This example show you how to define another TextStyle for the title and the body
 
 ```dart
-new PageViewModel(
-  "Title of first page",
-  "Here you can write the description of the page, to explain someting...",
+PageViewModel(
+  title: "Title of first page",
+  body: "Here you can write the description of the page, to explain someting...",
   image: const Center(child: Icon(Icons.android)),
   decoration: const PageDecoration(
     titleTextStyle: TextStyle(color: Colors.orange),
@@ -73,9 +73,9 @@ new PageViewModel(
 This example show you how to define a page with a footer, like a Button
 
 ```dart
-new PageViewModel(
-  "Title of first page",
-  "Here you can write the description of the page, to explain someting...",
+PageViewModel(
+  title: "Title of first page",
+  body: "Here you can write the description of the page, to explain someting...",
   image: const Center(child: Icon(Icons.android)),
   footer: RaisedButton(
     onPressed: () {
@@ -83,6 +83,26 @@ new PageViewModel(
     },
     child: const Text("Let's Go !"),
   ),
+);
+```
+
+### Page with widget body
+
+This example show you how to define a page with a body as Widget and not a simple String
+You can to the same this for title, with `titleWidget` parameter.
+
+```dart
+PageViewModel(
+  title: "Title of first page",
+  bodyWidget: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: const [
+      Text("Click on "),
+      Icon(Icons.edit),
+      Text(" to edit a post"),
+    ],
+  ),
+  image: const Center(child: Icon(Icons.android)),
 );
 ```
 
@@ -101,7 +121,7 @@ Simple intro screen
 ![Base intro](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/normal.gif)
 
 ```dart
-new IntroductionScreen(
+IntroductionScreen(
   pages: listPagesViewModel,
   done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600))
   onDone: () {
@@ -115,7 +135,7 @@ new IntroductionScreen(
 ![With skip button](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/skip.gif)
 
 ```dart
-new IntroductionScreen(
+IntroductionScreen(
   pages: listPagesViewModel,
   onDone: () {
     // When done button is press
@@ -131,7 +151,7 @@ new IntroductionScreen(
 ![Custom button text](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/custom_buttons.gif)
 
 ```dart
-new IntroductionScreen(
+IntroductionScreen(
   pages: listPagesViewModel,
   onDone: () {
     // When done button is press

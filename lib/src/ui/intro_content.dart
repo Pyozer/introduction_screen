@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroContent extends StatelessWidget {
-  final String title;
-  final String body;
-  final Widget footer;
-  final TextStyle titleStyle;
-  final TextStyle bodyStyle;
+  final PageViewModel page;
 
-  const IntroContent({
-    Key key,
-    @required this.title,
-    @required this.body,
-    this.footer,
-    this.titleStyle,
-    this.bodyStyle,
-  }) : super(key: key);
+  const IntroContent({Key key, @required this.page}) : super(key: key);
+
+  Widget _buildWidget(Widget widget, String text, TextStyle style) {
+    return widget ?? Text(text, style: style, textAlign: TextAlign.center);
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> footerWidgets = [];
-    if (footer != null)
-      footerWidgets.addAll([const SizedBox(height: 24.0), footer]);
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           const SizedBox(height: 24.0),
-          Text(title, style: titleStyle, textAlign: TextAlign.center),
+          _buildWidget(
+            page.titleWidget,
+            page.title,
+            page.decoration.titleTextStyle,
+          ),
           const SizedBox(height: 24.0),
-          Text(body, style: bodyStyle, textAlign: TextAlign.center),
-        ]..addAll(footerWidgets),
+          _buildWidget(
+            page.bodyWidget,
+            page.body,
+            page.decoration.bodyTextStyle,
+          ),
+          if (page.footer != null) const SizedBox(height: 24.0),
+          if (page.footer != null) page.footer,
+        ],
       ),
     );
   }

@@ -7,37 +7,6 @@ class IntroPage extends StatelessWidget {
 
   const IntroPage({Key key, @required this.page}) : super(key: key);
 
-  List<Widget> _buildPage() {
-    List<Widget> elements = [];
-    if (page.image != null) {
-      elements.add(Expanded(
-        flex: page.decoration.imageFlex,
-        child: Padding(
-          child: page.image,
-          padding: const EdgeInsets.only(bottom: 24.0),
-        ),
-      ));
-    }
-
-    elements.add(Expanded(
-      flex: page.decoration.bodyFlex,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 70.0),
-        child: SingleChildScrollView(
-          child: IntroContent(
-            title: page.title,
-            body: page.body,
-            footer: page.footer,
-            titleStyle: page.decoration.titleTextStyle,
-            bodyStyle: page.decoration.bodyTextStyle,
-          ),
-          physics: const BouncingScrollPhysics(),
-        ),
-      ),
-    ));
-    return elements;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +16,26 @@ class IntroPage extends StatelessWidget {
         top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _buildPage(),
+          children: [
+            if (page.image != null)
+              Expanded(
+                flex: page.decoration.imageFlex,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: page.image,
+                ),
+              ),
+            Expanded(
+              flex: page.decoration.bodyFlex,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70.0),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: IntroContent(page: page),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

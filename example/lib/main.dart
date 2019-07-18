@@ -38,13 +38,13 @@ class OnBoardingPage extends StatelessWidget {
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          "First title page",
-          "Text of the first page of this onboarding",
+          title: "First title page",
+          body: "Text of the first page of this onboarding",
           image: _buildImage(),
         ),
         PageViewModel(
-          "Second title page",
-          "Text of the second page of this onboarding",
+          title: "Second title page",
+          body: "Text of the second page of this onboarding",
           image: _buildImage(),
           footer: RaisedButton(
             onPressed: () {/* Nothing */},
@@ -53,8 +53,8 @@ class OnBoardingPage extends StatelessWidget {
           ),
         ),
         PageViewModel(
-          "Third title page",
-          "Text of the third page of this onboarding",
+          title: "Third title page",
+          body: "Text of the third page of this onboarding",
           image: _buildImage(),
           decoration: PageDecoration(
             titleTextStyle: const TextStyle(
@@ -70,10 +70,24 @@ class OnBoardingPage extends StatelessWidget {
             pageColor: Colors.grey[200],
           ),
         ),
+        PageViewModel(
+          title: "Fourth title page",
+          bodyWidget: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text("Click on "),
+              Icon(Icons.edit),
+              Text(" to edit a post"),
+            ],
+          ),
+          image: _buildImage(),
+        ),
       ],
       onDone: () => _onIntroEnd(context),
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,
+      skipFlex: 0,
+      nextFlex: 0,
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
       done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
