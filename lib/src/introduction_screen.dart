@@ -169,7 +169,6 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   Widget build(BuildContext context) {
     final isLastPage = (_currentPage.round() == widget.pages.length - 1);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
-    final page = widget.pages[_currentPage.round()];
 
     final skipBtn = IntroButton(
       child: widget.skip,
