@@ -76,7 +76,10 @@ class OnBoardingPage extends StatelessWidget {
           image: _buildImage('img2'),
           footer: RaisedButton(
             onPressed: () {/* Nothing */},
-            child: const Text('FooButton', style: TextStyle(color: Colors.white)),
+            child: const Text(
+              'FooButton',
+              style: TextStyle(color: Colors.white),
+            ),
             color: Colors.lightBlue,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),

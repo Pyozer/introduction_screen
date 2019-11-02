@@ -24,27 +24,27 @@ class PageDecoration {
   final int bodyFlex;
 
   /// Padding of image
-  /// 
+  ///
   /// @Default `EdgeInsets.only(bottom: 24.0)`
   final EdgeInsets imagePadding;
 
   /// Padding of content (title + description + footer)
-  /// 
+  ///
   /// @Default `EdgeInsets.all(16.0)`
   final EdgeInsets contentPadding;
 
   /// Padding of title
-  /// 
+  ///
   /// @Default `EdgeInsets.only(bottom: 24.0)`
   final EdgeInsets titlePadding;
 
   /// Padding of description
-  /// 
+  ///
   /// @Default: `EdgeInsets.zero`
   final EdgeInsets descriptionPadding;
 
   /// Padding of footer
-  /// 
+  ///
   /// @Default `EdgeInsets.symmetric(vertical: 24.0)`
   final EdgeInsets footerPadding;
 
