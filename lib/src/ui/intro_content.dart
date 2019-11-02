@@ -13,24 +13,30 @@ class IntroContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: page.decoration.contentPadding,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         children: [
-          const SizedBox(height: 24.0),
-          _buildWidget(
-            page.titleWidget,
-            page.title,
-            page.decoration.titleTextStyle,
+          Padding(
+            padding: page.decoration.titlePadding,
+            child: _buildWidget(
+              page.titleWidget,
+              page.title,
+              page.decoration.titleTextStyle,
+            ),
           ),
-          const SizedBox(height: 24.0),
-          _buildWidget(
-            page.bodyWidget,
-            page.body,
-            page.decoration.bodyTextStyle,
+          Padding(
+            padding: page.decoration.descriptionPadding,
+            child: _buildWidget(
+              page.bodyWidget,
+              page.body,
+              page.decoration.bodyTextStyle,
+            ),
           ),
-          if (page.footer != null) const SizedBox(height: 24.0),
-          if (page.footer != null) page.footer,
+          if (page.footer != null)
+            Padding(
+              padding: page.decoration.footerPadding,
+              child: page.footer,
+            ),
         ],
       ),
     );

@@ -5,13 +5,15 @@ This Widget is customizable (more in the future) with a great design.
 
 Introduction_screen use another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
 
+![Demo](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/example.gif)
+
 ## Installation
 
 You just need to add `introduction_screen` as a [dependency in your pubspec.yaml file](https://flutter.io/using-packages/).
 
 ```yaml
 dependencies:
-  introduction_screen: ^1.0.6
+  introduction_screen: ^1.0.7
 ```
 
 ## Example
@@ -36,7 +38,7 @@ PageViewModel(
 
 ### Page with custom colors
 
-This example show you how to define the color of the page (background but also the dot indicator color)
+This example show you how to define the color of the page
 
 ```dart
 PageViewModel(
@@ -45,9 +47,6 @@ PageViewModel(
   image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
   decoration: const PageDecoration(
     pageColor: Colors.blue,
-    dotsDecorator: DotsDecorator(
-      activeColor: Colors.red,
-    )
   ),
 )
 ```
@@ -111,14 +110,13 @@ PageViewModel(
 **Note :**
 
 If you not provide `next` parameter, the Next button will be not displayed.
-If you want to display a skip button, you must add `skip` parameter and `showSkipButton: true`
+If you want to display a skip button, you must add `skip` parameter and `showSkipButton: true`.
+
 The `done` parameter is required.
 
 ### Simple intro screen
 
 Simple intro screen
-
-![Base intro](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/normal.gif)
 
 ```dart
 IntroductionScreen(
@@ -132,8 +130,6 @@ IntroductionScreen(
 
 ### Intro screen with skip button
 
-![With skip button](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/skip.gif)
-
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
@@ -146,9 +142,7 @@ IntroductionScreen(
 );
 ```
 
-### Intro screen with custom button text
-
-![Custom button text](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/custom_buttons.gif)
+### Intro screen with custom button text and dots indicators
 
 ```dart
 IntroductionScreen(
@@ -162,7 +156,17 @@ IntroductionScreen(
   showSkipButton: true,
   skip: const Icon(Icons.skip_next),
   next: const Icon(Icons.next),
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600))
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+  dotsDecorator: DotsDecorator(
+    size: const Size.square(10.0),
+    activeSize: const Size(20.0, 10.0),
+    activeColor: theme.accentColor,
+    color: Colors.black26,
+    spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+    activeShape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(25.0)
+    )
+  ),
 );
 ```
 
@@ -171,6 +175,7 @@ IntroductionScreen(
 There is other possibles parameters that you can add :
 
 - Freeze the scroll, by adding `freeze: true` parameter.
+- Hide dots indicators, by adding `isProgress: false` parameter.
 - Duration of scrolling animation, by adding `animationDuration: 400` parameter.
 - Global background color, by adding `globalBackgroundColor: Colors.blue` parameter.
 - Initial page, by adding `initialPage: 1` parameter.
@@ -178,3 +183,4 @@ There is other possibles parameters that you can add :
 - Skip button flex, by adding `skipFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
 - Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
 - Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
+- Animation type between pages, by adding `curve` parameter.

@@ -21,7 +21,7 @@ class IntroPage extends StatelessWidget {
               Expanded(
                 flex: page.decoration.imageFlex,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
+                  padding: page.decoration.imagePadding,
                   child: page.image,
                 ),
               ),

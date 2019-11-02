@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.7
+
+* __Breaking changes :__ `dotsDecoration` is now for all pages
+* Add new parameters to handle paddings (image, title, body, ..)
+* Using latest dots_indicator package to support "animate" dots
+* Improve example app and update demo gifs on Readme
+
 ## 1.0.6
 
 * __Breaking changes :__ `title` and `body` are now named parameters
