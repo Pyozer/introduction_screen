@@ -115,19 +115,22 @@ class IntroductionScreen extends StatefulWidget {
         ),
         assert(onDone != null),
         assert(done != null),
-        assert((skip != null && showSkipButton) || !showSkipButton),
+        assert((showSkipButton && skip != null) || !showSkipButton),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
+        assert(initialPage == null || initialPage >= 0),
         super(key: key);
 
   @override
-  _IntroductionScreenState createState() => _IntroductionScreenState();
+  IntroductionScreenState createState() => IntroductionScreenState();
 }
 
-class _IntroductionScreenState extends State<IntroductionScreen> {
+class IntroductionScreenState extends State<IntroductionScreen> {
   PageController _pageController;
   double _currentPage = 0.0;
   bool _isSkipPressed = false;
   bool _isScrolling = false;
+
+  PageController get controller => _pageController;
 
   @override
   void initState() {
@@ -143,7 +146,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   Future<void> _onSkip() async {
     if (widget.onSkip != null) return widget.onSkip();
+    await skipToEnd();
+  }
 
+  Future<void> skipToEnd() async {
     setState(() => _isSkipPressed = true);
     await animateScroll(widget.pages.length - 1);
     setState(() => _isSkipPressed = false);
@@ -160,8 +166,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   bool _onScroll(ScrollNotification notification) {
-    final PageMetrics metrics = notification.metrics;
-    setState(() => _currentPage = metrics.page);
+    final metrics = notification.metrics;
+    if (metrics is PageMetrics) {
+      setState(() => _currentPage = metrics.page);
+    }
     return false;
   }
 

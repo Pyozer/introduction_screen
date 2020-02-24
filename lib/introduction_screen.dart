@@ -1,7 +1,7 @@
 library introduction_screen;
 
 export 'package:introduction_screen/src/introduction_screen.dart'
-    show IntroductionScreen;
+    show IntroductionScreen, IntroductionScreenState;
 export 'package:introduction_screen/src/model/page_view_model.dart'
     show PageViewModel;
 export 'package:introduction_screen/src/model/page_decoration.dart'

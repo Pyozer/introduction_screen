@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.8
+
+* You can now access to IntroductionScreenState (for controller, animateScroll or skipToEnd functions)
+* Add public function to go to last page (skip to end)
+* Fix PageMetric type issue
+
 ## 1.0.7
 
 * __Breaking changes :__ `dotsDecoration` is now for all pages

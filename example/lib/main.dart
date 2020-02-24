@@ -20,8 +20,13 @@ class App extends StatelessWidget {
   }
 }
 
-class OnBoardingPage extends StatelessWidget {
-  const OnBoardingPage({Key key}) : super(key: key);
+class OnBoardingPage extends StatefulWidget {
+  @override
+  _OnBoardingPageState createState() => _OnBoardingPageState();
+}
+
+class _OnBoardingPageState extends State<OnBoardingPage> {
+  final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
@@ -48,6 +53,7 @@ class OnBoardingPage extends StatelessWidget {
     );
 
     return IntroductionScreen(
+      key: introKey,
       pages: [
         PageViewModel(
           title: "Fractional shares",
@@ -75,7 +81,9 @@ class OnBoardingPage extends StatelessWidget {
           body: "Another beautiful body text for this example onboarding",
           image: _buildImage('img2'),
           footer: RaisedButton(
-            onPressed: () {/* Nothing */},
+            onPressed: () {
+              introKey.currentState?.animateScroll(0);
+            },
             child: const Text(
               'FooButton',
               style: TextStyle(color: Colors.white),
