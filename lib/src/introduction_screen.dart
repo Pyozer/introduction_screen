@@ -152,7 +152,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> skipToEnd() async {
     setState(() => _isSkipPressed = true);
     await animateScroll(widget.pages.length - 1);
-    setState(() => _isSkipPressed = false);
+    if (mounted) {
+      setState(() => _isSkipPressed = false); 
+    }
   }
 
   Future<void> animateScroll(int page) async {
@@ -162,7 +164,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       duration: Duration(milliseconds: widget.animationDuration),
       curve: widget.curve,
     );
-    setState(() => _isScrolling = false);
+    if (mounted) {
+      setState(() => _isScrolling = false); 
+    }
   }
 
   bool _onScroll(ScrollNotification notification) {
