@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.9
+
+* You can now access to `next` function
+* Add mounted check before setState ([PR#24](https://github.com/Pyozer/introduction_screen/pull/24))
+* You can now press the dots indicators to change the page (can be disabled)
+
 ## 1.0.8
 
 * You can now access to IntroductionScreenState (for controller, animateScroll or skipToEnd functions)
