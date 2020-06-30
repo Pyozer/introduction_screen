@@ -46,6 +46,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `true`
   final bool isProgress;
 
+  /// Enable or not onTap feature on progress indicator
+  ///
+  /// @Default `true`
+  final bool isProgressTap;
+
   /// Is the user is allow to change page
   ///
   /// @Default `false`
@@ -99,6 +104,7 @@ class IntroductionScreen extends StatefulWidget {
     this.showSkipButton = false,
     this.showNextButton = true,
     this.isProgress = true,
+    this.isProgressTap = true,
     this.freeze = false,
     this.globalBackgroundColor,
     this.dotsDecorator = const DotsDecorator(),
@@ -140,7 +146,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     _pageController = PageController(initialPage: initialPage);
   }
 
-  void _onNext() {
+  void next() {
     animateScroll(min(_currentPage.round() + 1, widget.pages.length - 1));
   }
 
@@ -153,7 +159,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     setState(() => _isSkipPressed = true);
     await animateScroll(widget.pages.length - 1);
     if (mounted) {
-      setState(() => _isSkipPressed = false); 
+      setState(() => _isSkipPressed = false);
     }
   }
 
@@ -165,7 +171,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       curve: widget.curve,
     );
     if (mounted) {
-      setState(() => _isScrolling = false); 
+      setState(() => _isScrolling = false);
     }
   }
 
@@ -189,7 +195,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     final nextBtn = IntroButton(
       child: widget.next,
-      onPressed: widget.showNextButton && !_isScrolling ? _onNext : null,
+      onPressed: widget.showNextButton && !_isScrolling ? next : null,
     );
 
     final doneBtn = IntroButton(
@@ -233,6 +239,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                               dotsCount: widget.pages.length,
                               position: _currentPage,
                               decorator: widget.dotsDecorator,
+                              onTap: widget.isProgressTap && !widget.freeze
+                                  ? (pos) => animateScroll(pos.toInt())
+                                  : null,
                             )
                           : const SizedBox(),
                     ),
