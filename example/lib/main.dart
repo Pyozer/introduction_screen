@@ -34,22 +34,47 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget _buildImage(String assetName) {
-    return Align(
-      child: Image.asset('assets/$assetName.jpg', width: 350.0),
-      alignment: Alignment.bottomCenter,
-    );
+  Widget _buildImage(String assetName, {bool fullScreen = false}) {
+    if (fullScreen) {
+      return Align(
+        child: Image.asset(
+          'assets/$assetName.jpg',
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
+          alignment: Alignment.center,
+        ),
+        alignment: Alignment.bottomCenter,
+      );
+    } else {
+      return Align(
+        child: Image.asset('assets/$assetName.jpg', width: 350.0),
+        alignment: Alignment.bottomCenter,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
+
     const pageDecoration = const PageDecoration(
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
+    );
+
+    const fullScreenPageDecoration = const PageDecoration(
+      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      bodyTextStyle: bodyStyle,
+      descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      pageColor: Colors.white,
+      imagePadding: EdgeInsets.zero,
+      fullScreen: true,
+      bodyFlex: 1,
+      imageFlex: 2,
     );
 
     return IntroductionScreen(
@@ -75,6 +100,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               "Kids and teens can track their stocks 24/7 and place trades that you approve.",
           image: _buildImage('img3'),
           decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Full Screen Page",
+          // cspell:disable
+          body: "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis. In bibendum pellentesque iaculis. Maecenas in molestie arcu. Aliquam non nisi orci. Sed posuere ante porttitor, lacinia risus a, laoreet arcu. Nullam nec sapien sed nisi sollicitudin elementum. Sed vitae imperdiet velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus in nisl turpis. Nulla in eros dolor. In blandit velit nec fermentum hendrerit.  Praesent at elit risus. Proin euismod suscipit elementum. Cras facilisis erat quam, ac egestas elit mattis in. Vivamus rutrum viverra interdum. Aliquam orci.",
+          // cspell:enable
+          image: _buildImage('fullscreen', fullScreen: true),
+          decoration: fullScreenPageDecoration,
         ),
         PageViewModel(
           title: "Another title page",
@@ -123,6 +156,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         activeSize: Size(22.0, 10.0),
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        ),
+      ),
+      dotsContainerDecorator: const ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
       ),
     );
