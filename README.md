@@ -121,7 +121,7 @@ Simple intro screen
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600))
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
   onDone: () {
     // When done button is press
   },
