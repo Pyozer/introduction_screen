@@ -92,6 +92,19 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `Curves.easeIn`
   final Curve curve;
 
+  /// Color of buttons
+  final Color color;
+
+  /// Color of skip button
+  final Color skipColor;
+
+  /// Color of next button
+  final Color nextColor;
+
+  /// Color of done button
+  final Color doneColor;
+
+
   const IntroductionScreen({
     Key key,
     @required this.pages,
@@ -114,6 +127,10 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsFlex = 1,
     this.nextFlex = 1,
     this.curve = Curves.easeIn,
+    this.color,
+    this.skipColor,
+    this.nextColor,
+    this.doneColor
   })  : assert(pages != null),
         assert(
           pages.length > 0,
@@ -190,16 +207,19 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     final skipBtn = IntroButton(
       child: widget.skip,
+      color: widget.skipColor ?? widget.color,
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
     final nextBtn = IntroButton(
       child: widget.next,
+      color: widget.nextColor ?? widget.color,
       onPressed: widget.showNextButton && !_isScrolling ? next : null,
     );
 
     final doneBtn = IntroButton(
       child: widget.done,
+      color: widget.doneColor ?? widget.color,
       onPressed: widget.onDone,
     );
 
