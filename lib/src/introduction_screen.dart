@@ -107,6 +107,8 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color doneColor;
 
+  final EdgeInsets controlsMargin;
+
   const IntroductionScreen(
       {Key key,
       this.pages,
@@ -133,7 +135,9 @@ class IntroductionScreen extends StatefulWidget {
       this.color,
       this.skipColor,
       this.nextColor,
-      this.doneColor})
+      this.doneColor,
+      this.controlsMargin =
+          const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0)})
       : assert(pages != null || rawPages != null),
         assert(
           (pages != null && pages.length > 0) ||
@@ -257,9 +261,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             ),
           ),
           Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
+            bottom: widget.controlsMargin.bottom,
+            left: widget.controlsMargin.left,
+            right: widget.controlsMargin.right,
             child: SafeArea(
               child: Row(
                 children: [
