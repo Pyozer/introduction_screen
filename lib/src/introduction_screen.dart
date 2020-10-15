@@ -276,7 +276,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                           ? DotsIndicator(
                               dotsCount: widget.pages != null
                                   ? widget.pages.length
-                                  : widget.rawPages,
+                                  : widget.rawPages.length,
                               position: _currentPage,
                               decorator: widget.dotsDecorator,
                               onTap: widget.isProgressTap && !widget.freeze
