@@ -13,6 +13,9 @@ class IntroductionScreen extends StatefulWidget {
   /// All pages of the onboarding
   final List<PageViewModel> pages;
 
+  /// All pages of the onboarding, as a complete widget instead of a PageViewModel
+  final List<Widget> rawPages;
+
   /// Callback when Done button is pressed
   final VoidCallback onDone;
 
@@ -104,36 +107,37 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color doneColor;
 
-
-  const IntroductionScreen({
-    Key key,
-    @required this.pages,
-    @required this.onDone,
-    @required this.done,
-    this.onSkip,
-    this.onChange,
-    this.skip,
-    this.next,
-    this.showSkipButton = false,
-    this.showNextButton = true,
-    this.isProgress = true,
-    this.isProgressTap = true,
-    this.freeze = false,
-    this.globalBackgroundColor,
-    this.dotsDecorator = const DotsDecorator(),
-    this.animationDuration = 350,
-    this.initialPage = 0,
-    this.skipFlex = 1,
-    this.dotsFlex = 1,
-    this.nextFlex = 1,
-    this.curve = Curves.easeIn,
-    this.color,
-    this.skipColor,
-    this.nextColor,
-    this.doneColor
-  })  : assert(pages != null),
+  const IntroductionScreen(
+      {Key key,
+      this.pages,
+      this.rawPages,
+      @required this.onDone,
+      @required this.done,
+      this.onSkip,
+      this.onChange,
+      this.skip,
+      this.next,
+      this.showSkipButton = false,
+      this.showNextButton = true,
+      this.isProgress = true,
+      this.isProgressTap = true,
+      this.freeze = false,
+      this.globalBackgroundColor,
+      this.dotsDecorator = const DotsDecorator(),
+      this.animationDuration = 350,
+      this.initialPage = 0,
+      this.skipFlex = 1,
+      this.dotsFlex = 1,
+      this.nextFlex = 1,
+      this.curve = Curves.easeIn,
+      this.color,
+      this.skipColor,
+      this.nextColor,
+      this.doneColor})
+      : assert(pages != null || rawPages != null),
         assert(
-          pages.length > 0,
+          (pages != null && pages.length > 0) ||
+              (rawPages != null && rawPages.length > 0),
           "You provide at least one page on introduction screen !",
         ),
         assert(onDone != null),
@@ -234,7 +238,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               physics: widget.freeze
                   ? const NeverScrollableScrollPhysics()
                   : const BouncingScrollPhysics(),
-              children: widget.pages.map((p) => IntroPage(page: p)).toList(),
+              children: widget.pages != null
+                  ? widget.pages.map((p) => IntroPage(page: p)).toList()
+                  : widget.rawPages,
               onPageChanged: widget.onChange,
             ),
           ),
