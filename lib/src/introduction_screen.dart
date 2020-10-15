@@ -162,13 +162,19 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
-    int initialPage = min(widget.initialPage, widget.pages.length - 1);
+    int length =
+        (widget.pages != null ? widget.pages.length : widget.rawPages.length) -
+            1;
+    int initialPage = min(widget.initialPage, length);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
   }
 
   void next() {
-    animateScroll(min(_currentPage.round() + 1, widget.pages.length - 1));
+    int length =
+        (widget.pages != null ? widget.pages.length : widget.rawPages.length) -
+            1;
+    animateScroll(min(_currentPage.round() + 1, length));
   }
 
   Future<void> _onSkip() async {
@@ -178,7 +184,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   Future<void> skipToEnd() async {
     setState(() => _isSkipPressed = true);
-    await animateScroll(widget.pages.length - 1);
+    int length =
+        (widget.pages != null ? widget.pages.length : widget.rawPages.length) -
+            1;
+    await animateScroll(length);
     if (mounted) {
       setState(() => _isSkipPressed = false);
     }
@@ -206,7 +215,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (_currentPage.round() == widget.pages.length - 1);
+    int length =
+        (widget.pages != null ? widget.pages.length : widget.rawPages.length) -
+            1;
+    final isLastPage = (_currentPage.round() == length);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
 
     final skipBtn = IntroButton(
@@ -262,7 +274,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                     child: Center(
                       child: widget.isProgress
                           ? DotsIndicator(
-                              dotsCount: widget.pages.length,
+                              dotsCount: widget.pages != null
+                                  ? widget.pages.length
+                                  : widget.rawPages,
                               position: _currentPage,
                               decorator: widget.dotsDecorator,
                               onTap: widget.isProgressTap && !widget.freeze
