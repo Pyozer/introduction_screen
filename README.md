@@ -202,3 +202,4 @@ There is other possibles parameters that you can add :
 - Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
 - Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour)
 - Animation type between pages, by adding `curve` parameter.
+- Hide done button, by adding `showDoneButton: false` parameter.

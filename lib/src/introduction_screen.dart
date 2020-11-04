@@ -41,6 +41,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `true`
   final bool showNextButton;
 
+  /// If the 'Done' button should be rendered at all the end
+  ///
+  /// @Default `false`
+  final bool showDoneButton;
+
   /// Is the progress indicator should be display
   ///
   /// @Default `true`
@@ -104,40 +109,40 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color doneColor;
 
-
-  const IntroductionScreen({
-    Key key,
-    @required this.pages,
-    @required this.onDone,
-    @required this.done,
-    this.onSkip,
-    this.onChange,
-    this.skip,
-    this.next,
-    this.showSkipButton = false,
-    this.showNextButton = true,
-    this.isProgress = true,
-    this.isProgressTap = true,
-    this.freeze = false,
-    this.globalBackgroundColor,
-    this.dotsDecorator = const DotsDecorator(),
-    this.animationDuration = 350,
-    this.initialPage = 0,
-    this.skipFlex = 1,
-    this.dotsFlex = 1,
-    this.nextFlex = 1,
-    this.curve = Curves.easeIn,
-    this.color,
-    this.skipColor,
-    this.nextColor,
-    this.doneColor
-  })  : assert(pages != null),
+  const IntroductionScreen(
+      {Key key,
+      @required this.pages,
+      @required this.onDone,
+      @required this.done,
+      this.onSkip,
+      this.onChange,
+      this.skip,
+      this.next,
+      this.showSkipButton = false,
+      this.showNextButton = true,
+      this.showDoneButton = true,
+      this.isProgress = true,
+      this.isProgressTap = true,
+      this.freeze = false,
+      this.globalBackgroundColor,
+      this.dotsDecorator = const DotsDecorator(),
+      this.animationDuration = 350,
+      this.initialPage = 0,
+      this.skipFlex = 1,
+      this.dotsFlex = 1,
+      this.nextFlex = 1,
+      this.curve = Curves.easeIn,
+      this.color,
+      this.skipColor,
+      this.nextColor,
+      this.doneColor})
+      : assert(pages != null),
         assert(
           pages.length > 0,
           "You provide at least one page on introduction screen !",
         ),
-        assert(onDone != null),
-        assert(done != null),
+        assert(!showDoneButton || onDone != null),
+        assert(!showDoneButton || done != null),
         assert((showSkipButton && skip != null) || !showSkipButton),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
         assert(initialPage == null || initialPage >= 0),
@@ -220,7 +225,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final doneBtn = IntroButton(
       child: widget.done,
       color: widget.doneColor ?? widget.color,
-      onPressed: widget.onDone,
+      onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
     );
 
     return Scaffold(
@@ -269,7 +274,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   Expanded(
                     flex: widget.nextFlex,
                     child: isLastPage
-                        ? doneBtn
+                        ? widget.showDoneButton
+                            ? doneBtn
+                            : Opacity(opacity: 0.0, child: doneBtn)
                         : widget.showNextButton
                             ? nextBtn
                             : Opacity(opacity: 0.0, child: nextBtn),
