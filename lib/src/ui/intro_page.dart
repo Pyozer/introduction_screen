@@ -4,8 +4,9 @@ import 'package:introduction_screen/src/ui/intro_content.dart';
 
 class IntroPage extends StatelessWidget {
   final PageViewModel page;
+  final ScrollController sc;
 
-  const IntroPage({Key key, @required this.page}) : super(key: key);
+  const IntroPage({Key key, @required this.page, this.sc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class IntroPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 70.0),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
+                  controller: widget.sc,
                   child: IntroContent(page: page),
                 ),
               ),
