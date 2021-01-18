@@ -32,7 +32,7 @@ class IntroPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 70.0),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  controller: widget.sc,
+                  controller: sc,
                   child: IntroContent(page: page),
                 ),
               ),
