@@ -104,6 +104,10 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color doneColor;
 
+  /// ScrollController of vertical SingleChildScrollView
+  ///
+  /// @Default `null`
+  final ScrollController scrollController;
 
   const IntroductionScreen({
     Key key,
@@ -130,7 +134,8 @@ class IntroductionScreen extends StatefulWidget {
     this.color,
     this.skipColor,
     this.nextColor,
-    this.doneColor
+    this.doneColor,
+    this.scrollController,
   })  : assert(pages != null),
         assert(
           pages.length > 0,
@@ -234,7 +239,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               physics: widget.freeze
                   ? const NeverScrollableScrollPhysics()
                   : const BouncingScrollPhysics(),
-              children: widget.pages.map((p) => IntroPage(page: p)).toList(),
+              children: widget.pages.map((p) => IntroPage(page: p, scrollController: widget.scrollController)).toList(),
               onPageChanged: widget.onChange,
             ),
           ),
