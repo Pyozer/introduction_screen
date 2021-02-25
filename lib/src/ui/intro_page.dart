@@ -29,10 +29,7 @@ class IntroPage extends StatelessWidget {
               flex: page.decoration.bodyFlex,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 70.0),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: IntroContent(page: page),
-                ),
+                child: IntroContent(page: page),
               ),
             ),
           ],
