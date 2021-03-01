@@ -243,7 +243,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             left: 16.0,
             right: 16.0,
             child: SafeArea(
-              child: Row(
+              child: isLastPage ? Expanded(
+                    flex: widget.nextFlex,
+                    child: doneBtn
+                ): Row(
                 children: [
                   Expanded(
                     flex: widget.skipFlex,
