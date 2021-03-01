@@ -243,39 +243,42 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             left: 16.0,
             right: 16.0,
             child: SafeArea(
-              child: isLastPage ? Expanded(
-                    flex: widget.nextFlex,
-                    child: doneBtn
-                ): Row(
+              child: Row(
                 children: [
-                  Expanded(
-                    flex: widget.skipFlex,
-                    child: isSkipBtn
-                        ? skipBtn
-                        : Opacity(opacity: 0.0, child: skipBtn),
-                  ),
-                  Expanded(
-                    flex: widget.dotsFlex,
-                    child: Center(
-                      child: widget.isProgress
-                          ? DotsIndicator(
-                              dotsCount: widget.pages.length,
-                              position: _currentPage,
-                              decorator: widget.dotsDecorator,
-                              onTap: widget.isProgressTap && !widget.freeze
-                                  ? (pos) => animateScroll(pos.toInt())
-                                  : null,
-                            )
-                          : const SizedBox(),
+                  if (isLastPage)
+                    Expanded(
+                      flex: widget.nextFlex,
+                      child: doneBtn
                     ),
-                  ),
-                  Expanded(
-                    flex: widget.nextFlex,
-                    child: isLastPage
-                        ? doneBtn
-                        : widget.showNextButton
-                            ? nextBtn
-                            : Opacity(opacity: 0.0, child: nextBtn),
+                  if (!isLastPage)
+                    Expanded(
+                     flex: widget.skipFlex,
+                      child: isSkipBtn
+                          ? skipBtn
+                          : Opacity(opacity: 0.0, child: skipBtn),
+                    ),
+                  if (!isLastPage)
+                    Expanded(
+                      flex: widget.dotsFlex,
+                      child: Center(
+                        child: widget.isProgress
+                            ? DotsIndicator(
+                                dotsCount: widget.pages.length,
+                                position: _currentPage,
+                                decorator: widget.dotsDecorator,
+                                onTap: widget.isProgressTap && !widget.freeze
+                                    ? (pos) => animateScroll(pos.toInt())
+                                    : null,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ),
+                  if (!isLastPage)
+                    Expanded(
+                      flex: widget.nextFlex,
+                      child: widget.showNextButton
+                              ? nextBtn
+                              : Opacity(opacity: 0.0, child: nextBtn),
                   ),
                 ],
               ),
