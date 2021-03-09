@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class IntroButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Widget child;
-  final Color color;
+  final Color? color;
 
-  const IntroButton({Key key, this.onPressed, @required this.child, this.color})
+  const IntroButton({Key? key, this.onPressed, required this.child, this.color})
       : super(key: key);
 
   @override
@@ -15,7 +15,9 @@ class IntroButton extends StatelessWidget {
       child: child,
       style: TextButton.styleFrom(
         primary: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
       ),
     );
   }
