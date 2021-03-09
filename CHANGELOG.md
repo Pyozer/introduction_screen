@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+
+* Add null safety support (Thanks to [PR#60](https://github.com/Pyozer/introduction_screen/pull/60))
+
 ## 1.0.9
 
 * You can now access to `next` function
