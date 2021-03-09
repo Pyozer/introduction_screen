@@ -10,8 +10,4 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # dots_indicator: ^1.2.0
-  dots_indicator:
-    git:
-      url: https://github.com/hlavki/dots_indicator.git
-      ref: master
+  dots_indicator: ^2.0.0
