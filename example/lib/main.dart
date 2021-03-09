@@ -80,7 +80,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           title: "Another title page",
           body: "Another beautiful body text for this example onboarding",
           image: _buildImage('img2'),
-          footer: RaisedButton(
+          footer: ElevatedButton(
             onPressed: () {
               introKey.currentState?.animateScroll(0);
             },
@@ -88,9 +88,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               'FooButton',
               style: TextStyle(color: Colors.white),
             ),
-            color: Colors.lightBlue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.lightBlue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
             ),
           ),
           decoration: pageDecoration,

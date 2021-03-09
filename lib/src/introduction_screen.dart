@@ -3,8 +3,8 @@ library introduction_screen;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
@@ -104,7 +104,6 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color doneColor;
 
-
   const IntroductionScreen({
     Key key,
     @required this.pages,
@@ -130,7 +129,7 @@ class IntroductionScreen extends StatefulWidget {
     this.color,
     this.skipColor,
     this.nextColor,
-    this.doneColor
+    this.doneColor,
   })  : assert(pages != null),
         assert(
           pages.length > 0,
