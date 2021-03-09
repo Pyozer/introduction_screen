@@ -3,23 +3,23 @@ import 'package:introduction_screen/src/model/page_decoration.dart';
 
 class PageViewModel {
   /// Title of page
-  final String title;
+  final String? title;
 
   /// Title of page
-  final Widget titleWidget;
+  final Widget? titleWidget;
 
   /// Text of page (description)
-  final String body;
+  final String? body;
 
   /// Widget content of page (description)
-  final Widget bodyWidget;
+  final Widget? bodyWidget;
 
   /// Image of page
   /// Tips: Wrap your image with an alignment widget like Align or Center
-  final Widget image;
+  final Widget? image;
 
   /// Footer widget, you can add a button for example
-  final Widget footer;
+  final Widget? footer;
 
   /// Page decoration
   /// Contain all page customizations, like page color, text styles

@@ -5,7 +5,7 @@ import 'package:introduction_screen/src/ui/intro_content.dart';
 class IntroPage extends StatelessWidget {
   final PageViewModel page;
 
-  const IntroPage({Key key, @required this.page}) : super(key: key);
+  const IntroPage({Key? key, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

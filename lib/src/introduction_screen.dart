@@ -3,8 +3,8 @@ library introduction_screen;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
@@ -20,16 +20,16 @@ class IntroductionScreen extends StatefulWidget {
   final Widget done;
 
   /// Callback when Skip button is pressed
-  final VoidCallback onSkip;
+  final VoidCallback? onSkip;
 
   /// Callback when page change
-  final ValueChanged<int> onChange;
+  final ValueChanged<int>? onChange;
 
   /// Skip button
-  final Widget skip;
+  final Widget? skip;
 
   /// Next button
-  final Widget next;
+  final Widget? next;
 
   /// Is the Skip button should be display
   ///
@@ -57,7 +57,7 @@ class IntroductionScreen extends StatefulWidget {
   final bool freeze;
 
   /// Global background color (only visible when a page has a transparent background color)
-  final Color globalBackgroundColor;
+  final Color? globalBackgroundColor;
 
   /// Dots decorator to custom dots color, size and spacing
   final DotsDecorator dotsDecorator;
@@ -92,11 +92,23 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `Curves.easeIn`
   final Curve curve;
 
+  /// Color of buttons
+  final Color? color;
+
+  /// Color of skip button
+  final Color? skipColor;
+
+  /// Color of next button
+  final Color? nextColor;
+
+  /// Color of done button
+  final Color? doneColor;
+
   const IntroductionScreen({
-    Key key,
-    @required this.pages,
-    @required this.onDone,
-    @required this.done,
+    Key? key,
+    required this.pages,
+    required this.onDone,
+    required this.done,
     this.onSkip,
     this.onChange,
     this.skip,
@@ -114,16 +126,18 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsFlex = 1,
     this.nextFlex = 1,
     this.curve = Curves.easeIn,
-  })  : assert(pages != null),
-        assert(
+    this.color,
+    this.skipColor,
+    this.nextColor,
+    this.doneColor,
+  })  : assert(
           pages.length > 0,
           "You provide at least one page on introduction screen !",
         ),
-        assert(onDone != null),
-        assert(done != null),
         assert((showSkipButton && skip != null) || !showSkipButton),
+        assert((showNextButton && next != null) || !showNextButton),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
-        assert(initialPage == null || initialPage >= 0),
+        assert(initialPage >= 0),
         super(key: key);
 
   @override
@@ -131,7 +145,7 @@ class IntroductionScreen extends StatefulWidget {
 }
 
 class IntroductionScreenState extends State<IntroductionScreen> {
-  PageController _pageController;
+  late PageController _pageController;
   double _currentPage = 0.0;
   bool _isSkipPressed = false;
   bool _isScrolling = false;
@@ -151,8 +165,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   Future<void> _onSkip() async {
-    if (widget.onSkip != null) return widget.onSkip();
-    await skipToEnd();
+    if (widget.onSkip != null) {
+      widget.onSkip!();
+    } else {
+      await skipToEnd();
+    }
   }
 
   Future<void> skipToEnd() async {
@@ -177,8 +194,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   bool _onScroll(ScrollNotification notification) {
     final metrics = notification.metrics;
-    if (metrics is PageMetrics) {
-      setState(() => _currentPage = metrics.page);
+    if (metrics is PageMetrics && metrics.page != null) {
+      setState(() => _currentPage = metrics.page!);
     }
     return false;
   }
@@ -189,17 +206,20 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
 
     final skipBtn = IntroButton(
-      child: widget.skip,
+      child: widget.skip ?? Container(),
+      color: widget.skipColor ?? widget.color,
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
     final nextBtn = IntroButton(
-      child: widget.next,
+      child: widget.next ?? Container(),
+      color: widget.nextColor ?? widget.color,
       onPressed: widget.showNextButton && !_isScrolling ? next : null,
     );
 
     final doneBtn = IntroButton(
       child: widget.done,
+      color: widget.doneColor ?? widget.color,
       onPressed: widget.onDone,
     );
 

@@ -2,8 +2,10 @@ name: introduction_example
 description: Demo app of the introduction_screen package
 version: 1.0.0+1
 
+publish_to: none
+
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:

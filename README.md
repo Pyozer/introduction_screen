@@ -5,7 +5,7 @@ This Widget is customizable (more in the future) with a great design.
 
 Introduction_screen use another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
 
-![Demo](https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/example.gif)
+<img src="https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/example.gif" width="270">
 
 ## Installation
 
@@ -121,7 +121,7 @@ Simple intro screen
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600))
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
   onDone: () {
     // When done button is press
   },
@@ -168,6 +168,24 @@ IntroductionScreen(
     )
   ),
 );
+```
+
+### Intro screen with custom button colors
+
+When one of the colors such as `skipColor` is defined, `color` will be ignored.
+
+```dart
+IntroductionScreen(
+  pages: listPagesViewModel,
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+  color: Colors.orange,  
+  skipColor: Colors.red,  
+  doneColor: Colors.green,  
+  nextColor: Colors.blue,
+  onDone: () {
+    // When done button is press
+  },
+); 
 ```
 
 ### Others parameters
