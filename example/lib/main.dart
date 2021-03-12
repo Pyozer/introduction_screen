@@ -54,6 +54,20 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     return IntroductionScreen(
       key: introKey,
+      globalFooterHeight: 64.0,
+      globalFooter: new Center(
+        child: new SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: new ElevatedButton(
+              child: Text(
+                'Let\s go right away!',
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+              onPressed: () => _onIntroEnd(context)),
+        ),
+      ),
+
       pages: [
         PageViewModel(
           title: "Fractional shares",

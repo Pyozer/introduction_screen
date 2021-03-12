@@ -104,6 +104,10 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color? doneColor;
 
+  /// A footer widget to be shown on every screen
+  final Widget? globalFooter;
+  final double globalFooterHeight;
+
   const IntroductionScreen({
     Key? key,
     required this.pages,
@@ -130,6 +134,8 @@ class IntroductionScreen extends StatefulWidget {
     this.skipColor,
     this.nextColor,
     this.doneColor,
+    this.globalFooter,
+    this.globalFooterHeight = 0.0,
   })  : assert(
           pages.length > 0,
           "You provide at least one page on introduction screen !",
@@ -223,6 +229,17 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       onPressed: widget.onDone,
     );
 
+    final globalFooter = widget.globalFooter != null
+        ? Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: SafeArea(
+                // this test is just to please the compiler...
+                child: widget.globalFooter ?? Container(width: 0, height: 0)),
+          )
+        : Container(width: 0, height: 0);
+
     return Scaffold(
       backgroundColor: widget.globalBackgroundColor,
       body: Stack(
@@ -239,7 +256,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             ),
           ),
           Positioned(
-            bottom: 16.0,
+            bottom: 16.0 + widget.globalFooterHeight,
             left: 16.0,
             right: 16.0,
             child: SafeArea(
@@ -278,6 +295,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               ),
             ),
           ),
+          globalFooter
         ],
       ),
     );
