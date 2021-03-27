@@ -48,6 +48,16 @@ class PageDecoration {
   /// @Default `EdgeInsets.symmetric(vertical: 24.0)`
   final EdgeInsets footerPadding;
 
+  /// Body alignment
+  ///
+  /// @Default `Alignment.topCenter`
+  final Alignment bodyAlignment;
+
+  /// Image alignment
+  ///
+  /// @Default `Alignment.bottomCenter`
+  final Alignment imageAlignment;
+
   /// Layout the page using the full screen with the image behind the text.
   ///
   /// @Default: `false`
@@ -71,7 +81,48 @@ class PageDecoration {
     this.titlePadding = const EdgeInsets.only(bottom: 24.0),
     this.descriptionPadding = EdgeInsets.zero,
     this.footerPadding = const EdgeInsets.symmetric(vertical: 24.0),
+    this.bodyAlignment = Alignment.topCenter,
+    this.imageAlignment = Alignment.bottomCenter,
     this.fullScreen = false,
   }) : assert(pageColor == null || boxDecoration == null,
             'Cannot provide both a Color and a BoxDecoration\n');
+
+  PageDecoration copyWith({
+    Color? pageColor,
+    TextStyle? titleTextStyle,
+    TextStyle? bodyTextStyle,
+    BoxDecoration? boxDecoration,
+    int? imageFlex,
+    int? bodyFlex,
+    EdgeInsets? imagePadding,
+    EdgeInsets? contentPadding,
+    EdgeInsets? titlePadding,
+    EdgeInsets? descriptionPadding,
+    EdgeInsets? footerPadding,
+    Alignment? bodyAlignment,
+    Alignment? imageAlignment,
+    bool? fullScreen,
+  }) {
+    assert(
+      pageColor == null || boxDecoration == null,
+      'Cannot provide both a Color and a BoxDecoration\n',
+    );
+
+    return PageDecoration(
+      pageColor: pageColor ?? this.pageColor,
+      titleTextStyle: titleTextStyle ?? this.titleTextStyle,
+      bodyTextStyle: bodyTextStyle ?? this.bodyTextStyle,
+      boxDecoration: boxDecoration ?? this.boxDecoration,
+      imageFlex: imageFlex ?? this.imageFlex,
+      bodyFlex: bodyFlex ?? this.bodyFlex,
+      imagePadding: imagePadding ?? this.imagePadding,
+      contentPadding: contentPadding ?? this.contentPadding,
+      titlePadding: titlePadding ?? this.titlePadding,
+      descriptionPadding: descriptionPadding ?? this.descriptionPadding,
+      footerPadding: footerPadding ?? this.footerPadding,
+      bodyAlignment: bodyAlignment ?? this.bodyAlignment,
+      imageAlignment: imageAlignment ?? this.imageAlignment,
+      fullScreen: fullScreen ?? this.fullScreen,
+    );
+  }
 }

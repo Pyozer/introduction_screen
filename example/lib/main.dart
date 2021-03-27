@@ -34,24 +34,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget _buildImage(String assetName, {bool fullScreen = false}) {
-    if (fullScreen) {
-      return Align(
-        child: Image.asset(
-          'assets/$assetName.jpg',
-          fit: BoxFit.cover,
-          height: double.infinity,
-          width: double.infinity,
-          alignment: Alignment.center,
-        ),
-        alignment: Alignment.bottomCenter,
-      );
-    } else {
-      return Align(
-        child: Image.asset('assets/$assetName.jpg', width: 350.0),
-        alignment: Alignment.bottomCenter,
-      );
-    }
+  Widget _buildFullscrenImage(String assetName) {
+    return Image.asset(
+      'assets/$assetName.jpg',
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    );
+  }
+
+  Widget _buildImage(String assetName) {
+    return Image.asset('assets/$assetName.jpg', width: 350.0);
   }
 
   @override
@@ -64,17 +58,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
-    );
-
-    const fullScreenPageDecoration = const PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
-      bodyTextStyle: bodyStyle,
-      descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-      pageColor: Colors.white,
-      imagePadding: EdgeInsets.zero,
-      fullScreen: true,
-      bodyFlex: 1,
-      imageFlex: 2,
     );
 
     return IntroductionScreen(
@@ -103,11 +86,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
         PageViewModel(
           title: "Full Screen Page",
-          // cspell:disable
-          body: "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis. In bibendum pellentesque iaculis. Maecenas in molestie arcu. Aliquam non nisi orci. Sed posuere ante porttitor, lacinia risus a, laoreet arcu. Nullam nec sapien sed nisi sollicitudin elementum. Sed vitae imperdiet velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus in nisl turpis. Nulla in eros dolor. In blandit velit nec fermentum hendrerit.  Praesent at elit risus. Proin euismod suscipit elementum. Cras facilisis erat quam, ac egestas elit mattis in. Vivamus rutrum viverra interdum. Aliquam orci.",
-          // cspell:enable
-          image: _buildImage('fullscreen', fullScreen: true),
-          decoration: fullScreenPageDecoration,
+          body:
+              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis. In bibendum pellentesque iaculis. Maecenas in molestie arcu. Aliquam non nisi orci. Sed posuere ante porttitor, lacinia risus a, laoreet arcu. Nullam nec sapien sed nisi sollicitudin elementum. Sed vitae imperdiet velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus in nisl turpis. Nulla in eros dolor. In blandit velit nec fermentum hendrerit.  Praesent at elit risus. Proin euismod suscipit elementum. Cras facilisis erat quam, ac egestas elit mattis in. Vivamus rutrum viverra interdum. Aliquam orci.",
+          image: _buildFullscrenImage('fullscreen'),
+          decoration: pageDecoration.copyWith(
+            fullScreen: true,
+            bodyFlex: 1,
+            imageFlex: 2,
+          ),
+          reverse: true,
         ),
         PageViewModel(
           title: "Another title page",
@@ -131,7 +118,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Title of last page",
+          title: "Title of last page - reversed",
           bodyWidget: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -140,8 +127,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               Text(" to edit a post", style: bodyStyle),
             ],
           ),
+          decoration: pageDecoration.copyWith(
+            bodyAlignment: Alignment.bottomCenter,
+            imageAlignment: Alignment.topCenter,
+          ),
           image: _buildImage('img1'),
-          decoration: pageDecoration,
+          reverse: true,
         ),
       ],
       onDone: () => _onIntroEnd(context),
