@@ -123,6 +123,9 @@ class IntroductionScreen extends StatefulWidget {
   final Widget? globalFooter;
   final EdgeInsets globalFooterPadding;
 
+  /// ScrollController of vertical SingleChildScrollView
+  final ScrollController? scrollController;
+
   const IntroductionScreen({
     Key? key,
     this.pages,
@@ -155,6 +158,7 @@ class IntroductionScreen extends StatefulWidget {
     this.controlsMargin,
     this.globalFooter,
     this.globalFooterPadding = const EdgeInsets.only(top: 16.0),
+    this.scrollController,
   })  : assert(pages != null || rawPages != null),
         assert(
           (pages != null && pages.length > 0) ||
@@ -275,7 +279,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   ? const NeverScrollableScrollPhysics()
                   : const BouncingScrollPhysics(),
               children: widget.pages != null
-                  ? widget.pages!.map((p) => IntroPage(page: p)).toList()
+                  ? widget.pages!.map((p) => IntroPage(page: p, scrollController: widget.scrollController)).toList()
                   : widget.rawPages!,
               onPageChanged: widget.onChange,
             ),

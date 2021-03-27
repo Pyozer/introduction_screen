@@ -10,8 +10,10 @@ extension ReversedList<T> on List<T> {
 
 class IntroPage extends StatelessWidget {
   final PageViewModel page;
+  final ScrollController? scrollController;
 
-  const IntroPage({Key? key, required this.page}) : super(key: key);
+  const IntroPage({Key? key, required this.page, this.scrollController})
+      : super(key: key);
 
   Widget _buildStack() {
     final content = Container(
@@ -37,6 +39,7 @@ class IntroPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 70.0),
                 child: page.useScrollView
                     ? SingleChildScrollView(
+                        controller: scrollController,
                         physics: const BouncingScrollPhysics(),
                         child: content,
                       )
@@ -74,6 +77,7 @@ class IntroPage extends StatelessWidget {
                 alignment: page.decoration.bodyAlignment,
                 child: page.useScrollView
                     ? SingleChildScrollView(
+                        controller: scrollController,
                         physics: const BouncingScrollPhysics(),
                         child: IntroContent(page: page),
                       )
