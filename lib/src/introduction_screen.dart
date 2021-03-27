@@ -17,10 +17,10 @@ class IntroductionScreen extends StatefulWidget {
   final List<Widget>? rawPages;
 
   /// Callback when Done button is pressed
-  final VoidCallback onDone;
+  final VoidCallback? onDone;
 
   /// Done button
-  final Widget done;
+  final Widget? done;
 
   /// Callback when Skip button is pressed
   final VoidCallback? onSkip;
@@ -43,6 +43,11 @@ class IntroductionScreen extends StatefulWidget {
   ///
   /// @Default `true`
   final bool showNextButton;
+
+  /// If the 'Done' button should be rendered at all the end
+  ///
+  /// @Default `true`
+  final bool showDoneButton;
 
   /// Is the progress indicator should be display
   ///
@@ -118,14 +123,15 @@ class IntroductionScreen extends StatefulWidget {
     Key? key,
     this.pages,
     this.rawPages,
-    required this.onDone,
-    required this.done,
+    this.onDone,
+    this.done,
     this.onSkip,
     this.onChange,
     this.skip,
     this.next,
     this.showSkipButton = false,
     this.showNextButton = true,
+    this.showDoneButton = true,
     this.isProgress = true,
     this.isProgressTap = true,
     this.freeze = false,
@@ -149,6 +155,8 @@ class IntroductionScreen extends StatefulWidget {
               (rawPages != null && rawPages.length > 0),
           "You provide at least one page on introduction screen !",
         ),
+        assert(!showDoneButton || onDone != null),
+        assert(!showDoneButton || done != null),
         assert((showSkipButton && skip != null) || !showSkipButton),
         assert((showNextButton && next != null) || !showNextButton),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
@@ -241,7 +249,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final doneBtn = IntroButton(
       child: widget.done,
       color: widget.doneColor ?? widget.color,
-      onPressed: widget.onDone,
+      onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
     );
 
     return Scaffold(
@@ -295,6 +303,16 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                       flex: widget.nextFlex,
                       child: isLastPage
                           ? doneBtn
+                          : widget.showNextButton
+                              ? nextBtn
+                              : Opacity(opacity: 0.0, child: nextBtn),
+                    ),
+                    Expanded(
+                      flex: widget.nextFlex,
+                      child: isLastPage
+                          ? widget.showDoneButton
+                              ? doneBtn
+                              : Opacity(opacity: 0.0, child: doneBtn)
                           : widget.showNextButton
                               ? nextBtn
                               : Opacity(opacity: 0.0, child: nextBtn),
