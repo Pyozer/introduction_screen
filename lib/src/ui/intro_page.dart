@@ -14,6 +14,14 @@ class IntroPage extends StatelessWidget {
   const IntroPage({Key? key, required this.page}) : super(key: key);
 
   Widget _buildStack() {
+    final content = Container(
+      child: IntroContent(page: page),
+      decoration: BoxDecoration(
+        color: page.decoration.pageColor,
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+    );
+
     return Stack(
       fit: StackFit.loose,
       alignment: Alignment.bottomCenter,
@@ -27,16 +35,12 @@ class IntroPage extends StatelessWidget {
               flex: page.decoration.bodyFlex,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 70.0),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Container(
-                    child: IntroContent(page: page),
-                    decoration: BoxDecoration(
-                      color: page.decoration.pageColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                  ),
-                ),
+                child: page.useScrollView
+                    ? SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: content,
+                      )
+                    : content,
               ),
             ),
           ].asReversed(page.reverse),
@@ -68,10 +72,12 @@ class IntroPage extends StatelessWidget {
               flex: page.decoration.bodyFlex,
               child: Align(
                 alignment: page.decoration.bodyAlignment,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: IntroContent(page: page),
-                ),
+                child: page.useScrollView
+                    ? SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: IntroContent(page: page),
+                      )
+                    : IntroContent(page: page),
               ),
             ),
           ].asReversed(page.reverse),
