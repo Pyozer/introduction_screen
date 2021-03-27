@@ -7,6 +7,27 @@ class IntroPage extends StatelessWidget {
 
   const IntroPage({Key? key, required this.page}) : super(key: key);
 
+  List<Widget> _buildWidgetList(bool reverse) {
+    List<Widget> list = [
+      if (page.image != null)
+        Expanded(
+          flex: page.decoration.imageFlex,
+          child: Padding(
+            padding: page.decoration.imagePadding,
+            child: page.image,
+          ),
+        ),
+      Expanded(
+        flex: page.decoration.bodyFlex,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: IntroContent(page: page),
+        ),
+      ),
+    ];
+    return reverse ? list.reversed.toList() : list;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (page.decoration.fullScreen) {
@@ -67,24 +88,8 @@ class IntroPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (page.image != null)
-              Expanded(
-                flex: page.decoration.imageFlex,
-                child: Padding(
-                  padding: page.decoration.imagePadding,
-                  child: page.image,
-                ),
-              ),
-            Expanded(
-              flex: page.decoration.bodyFlex,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 70.0),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: IntroContent(page: page),
-                ),
-              ),
-            ),
+            for (var i in _buildWidgetList(page.reverse)) i,
+            SizedBox(height: 70)
           ],
         ),
       ),
