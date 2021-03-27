@@ -94,7 +94,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             bodyFlex: 1,
             imageFlex: 2,
           ),
-          reverse: true,
         ),
         PageViewModel(
           title: "Another title page",

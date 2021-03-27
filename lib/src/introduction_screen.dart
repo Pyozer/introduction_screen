@@ -155,8 +155,7 @@ class IntroductionScreen extends StatefulWidget {
               (rawPages != null && rawPages.length > 0),
           "You provide at least one page on introduction screen !",
         ),
-        assert(!showDoneButton || onDone != null),
-        assert(!showDoneButton || done != null),
+        assert(!showDoneButton || (done != null && onDone != null)),
         assert((showSkipButton && skip != null) || !showSkipButton),
         assert((showNextButton && next != null) || !showNextButton),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
@@ -229,19 +228,25 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     return false;
   }
 
+  Widget _toggleBtn(Widget btn, bool isShow) {
+    return isShow
+        ? btn
+        : Opacity(opacity: 0.0, child: IgnorePointer(child: btn));
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
 
     final skipBtn = IntroButton(
-      child: widget.skip ?? Container(),
+      child: widget.skip,
       color: widget.skipColor ?? widget.color,
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
     final nextBtn = IntroButton(
-      child: widget.next ?? Container(),
+      child: widget.next,
       color: widget.nextColor ?? widget.color,
       onPressed: widget.showNextButton && !_isScrolling ? next : null,
     );
@@ -280,9 +285,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   children: [
                     Expanded(
                       flex: widget.skipFlex,
-                      child: isSkipBtn
-                          ? skipBtn
-                          : Opacity(opacity: 0.0, child: skipBtn),
+                      child: _toggleBtn(skipBtn, isSkipBtn),
                     ),
                     Expanded(
                       flex: widget.dotsFlex,
@@ -302,20 +305,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                     Expanded(
                       flex: widget.nextFlex,
                       child: isLastPage
-                          ? doneBtn
-                          : widget.showNextButton
-                              ? nextBtn
-                              : Opacity(opacity: 0.0, child: nextBtn),
-                    ),
-                    Expanded(
-                      flex: widget.nextFlex,
-                      child: isLastPage
-                          ? widget.showDoneButton
-                              ? doneBtn
-                              : Opacity(opacity: 0.0, child: doneBtn)
-                          : widget.showNextButton
-                              ? nextBtn
-                              : Opacity(opacity: 0.0, child: nextBtn),
+                          ? _toggleBtn(doneBtn, widget.showDoneButton)
+                          : _toggleBtn(nextBtn, widget.showNextButton),
                     ),
                   ],
                 ),
