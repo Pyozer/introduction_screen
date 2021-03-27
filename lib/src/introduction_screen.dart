@@ -11,7 +11,10 @@ import 'package:introduction_screen/src/ui/intro_page.dart';
 
 class IntroductionScreen extends StatefulWidget {
   /// All pages of the onboarding
-  final List<PageViewModel> pages;
+  final List<PageViewModel>? pages;
+
+  /// All pages of the onboarding, as a complete widget instead of a PageViewModel
+  final List<Widget>? rawPages;
 
   /// Callback when Done button is pressed
   final VoidCallback onDone;
@@ -108,9 +111,13 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color? doneColor;
 
+  /// Margin for controls
+  final EdgeInsets? controlsMargin;
+
   const IntroductionScreen({
     Key? key,
-    required this.pages,
+    this.pages,
+    this.rawPages,
     required this.onDone,
     required this.done,
     this.onSkip,
@@ -135,8 +142,11 @@ class IntroductionScreen extends StatefulWidget {
     this.skipColor,
     this.nextColor,
     this.doneColor,
-  })  : assert(
-          pages.length > 0,
+    this.controlsMargin,
+  })  : assert(pages != null || rawPages != null),
+        assert(
+          (pages != null && pages.length > 0) ||
+              (rawPages != null && rawPages.length > 0),
           "You provide at least one page on introduction screen !",
         ),
         assert((showSkipButton && skip != null) || !showSkipButton),
@@ -160,13 +170,17 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
-    int initialPage = min(widget.initialPage, widget.pages.length - 1);
+    int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
   }
 
+  int getPagesLength() {
+    return (widget.pages ?? widget.rawPages!).length;
+  }
+
   void next() {
-    animateScroll(min(_currentPage.round() + 1, widget.pages.length - 1));
+    animateScroll(min(_currentPage.round() + 1, getPagesLength() - 1));
   }
 
   Future<void> _onSkip() async {
@@ -179,7 +193,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   Future<void> skipToEnd() async {
     setState(() => _isSkipPressed = true);
-    await animateScroll(widget.pages.length - 1);
+    await animateScroll(getPagesLength() - 1);
     if (mounted) {
       setState(() => _isSkipPressed = false);
     }
@@ -209,7 +223,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (_currentPage.round() == widget.pages.length - 1);
+    final isLastPage = (_currentPage.round() == getPagesLength() - 1);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
 
     final skipBtn = IntroButton(
@@ -241,14 +255,16 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               physics: widget.freeze
                   ? const NeverScrollableScrollPhysics()
                   : const BouncingScrollPhysics(),
-              children: widget.pages.map((p) => IntroPage(page: p)).toList(),
+              children: widget.pages != null
+                  ? widget.pages!.map((p) => IntroPage(page: p)).toList()
+                  : widget.rawPages!,
               onPageChanged: widget.onChange,
             ),
           ),
           Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
+            bottom: widget.controlsMargin?.bottom ?? 16.0,
+            left: widget.controlsMargin?.left ?? 16.0,
+            right: widget.controlsMargin?.right ?? 16.0,
             child: SafeArea(
               child: Container(
                 decoration: widget.dotsContainerDecorator,
@@ -265,7 +281,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                       child: Center(
                         child: widget.isProgress
                             ? DotsIndicator(
-                                dotsCount: widget.pages.length,
+                                dotsCount: getPagesLength(),
                                 position: _currentPage,
                                 decorator: widget.dotsDecorator,
                                 onTap: widget.isProgressTap && !widget.freeze
