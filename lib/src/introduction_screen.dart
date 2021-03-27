@@ -119,6 +119,10 @@ class IntroductionScreen extends StatefulWidget {
   /// Margin for controls
   final EdgeInsets? controlsMargin;
 
+  /// A footer widget to be shown on every screen
+  final Widget? globalFooter;
+  final EdgeInsets globalFooterPadding;
+
   const IntroductionScreen({
     Key? key,
     this.pages,
@@ -149,6 +153,8 @@ class IntroductionScreen extends StatefulWidget {
     this.nextColor,
     this.doneColor,
     this.controlsMargin,
+    this.globalFooter,
+    this.globalFooterPadding = const EdgeInsets.only(top: 16.0),
   })  : assert(pages != null || rawPages != null),
         assert(
           (pages != null && pages.length > 0) ||
@@ -279,37 +285,48 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             left: widget.controlsMargin?.left ?? 16.0,
             right: widget.controlsMargin?.right ?? 16.0,
             child: SafeArea(
-              child: Container(
-                decoration: widget.dotsContainerDecorator,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: widget.skipFlex,
-                      child: _toggleBtn(skipBtn, isSkipBtn),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: widget.dotsContainerDecorator,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: widget.skipFlex,
+                          child: _toggleBtn(skipBtn, isSkipBtn),
+                        ),
+                        Expanded(
+                          flex: widget.dotsFlex,
+                          child: Center(
+                            child: widget.isProgress
+                                ? DotsIndicator(
+                                    dotsCount: getPagesLength(),
+                                    position: _currentPage,
+                                    decorator: widget.dotsDecorator,
+                                    onTap: widget.isProgressTap &&
+                                            !widget.freeze
+                                        ? (pos) => animateScroll(pos.toInt())
+                                        : null,
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ),
+                        Expanded(
+                          flex: widget.nextFlex,
+                          child: isLastPage
+                              ? _toggleBtn(doneBtn, widget.showDoneButton)
+                              : _toggleBtn(nextBtn, widget.showNextButton),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      flex: widget.dotsFlex,
-                      child: Center(
-                        child: widget.isProgress
-                            ? DotsIndicator(
-                                dotsCount: getPagesLength(),
-                                position: _currentPage,
-                                decorator: widget.dotsDecorator,
-                                onTap: widget.isProgressTap && !widget.freeze
-                                    ? (pos) => animateScroll(pos.toInt())
-                                    : null,
-                              )
-                            : const SizedBox(),
-                      ),
-                    ),
-                    Expanded(
-                      flex: widget.nextFlex,
-                      child: isLastPage
-                          ? _toggleBtn(doneBtn, widget.showDoneButton)
-                          : _toggleBtn(nextBtn, widget.showNextButton),
-                    ),
-                  ],
-                ),
+                  ),
+                  if (widget.globalFooter != null) ...[
+                    Padding(
+                      padding: widget.globalFooterPadding,
+                      child: widget.globalFooter,
+                    )
+                  ]
+                ],
               ),
             ),
           ),
