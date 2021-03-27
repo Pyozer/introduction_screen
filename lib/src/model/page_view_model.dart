@@ -25,6 +25,9 @@ class PageViewModel {
   /// Contain all page customizations, like page color, text styles
   final PageDecoration decoration;
 
+  /// If widget Order is reverse - body before image
+  final bool reverse;
+
   PageViewModel({
     this.title,
     this.titleWidget,
@@ -32,6 +35,7 @@ class PageViewModel {
     this.bodyWidget,
     this.image,
     this.footer,
+    this.reverse =  false,
     this.decoration = const PageDecoration(),
   })  : assert(
           title != null || titleWidget != null,
