@@ -64,7 +64,7 @@ class IntroductionScreen extends StatefulWidget {
 
   /// Decorator to customize the appearance of the progress dots container.
   /// This is useful when the background image is full screen.
-  final Decoration dotsContainerDecorator;
+  final Decoration? dotsContainerDecorator;
 
   /// Animation duration in millisecondes
   ///
@@ -199,9 +199,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   bool _onScroll(ScrollNotification notification) {
     final metrics = notification.metrics;
-    if (metrics is PageMetrics) {
+    if (metrics is PageMetrics && metrics.page != null) {
       if (mounted) {
-        setState(() => _currentPage = metrics.page);
+        setState(() => _currentPage = metrics.page!);
       }
     }
     return false;

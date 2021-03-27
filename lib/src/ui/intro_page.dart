@@ -24,7 +24,7 @@ class IntroPage extends StatelessWidget {
           fit: StackFit.loose,
           alignment: Alignment.bottomCenter,
           children: [
-            if (page.image != null) page.image,
+            if (page.image != null) page.image!,
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
