@@ -48,6 +48,11 @@ class PageDecoration {
   /// @Default `EdgeInsets.symmetric(vertical: 24.0)`
   final EdgeInsets footerPadding;
 
+  /// Layout the page using the full screen with the image behind the text.
+  ///
+  /// @Default: `false`
+  final bool fullScreen;
+
   const PageDecoration({
     this.pageColor,
     this.titleTextStyle = const TextStyle(
@@ -66,6 +71,7 @@ class PageDecoration {
     this.titlePadding = const EdgeInsets.only(bottom: 24.0),
     this.descriptionPadding = EdgeInsets.zero,
     this.footerPadding = const EdgeInsets.symmetric(vertical: 24.0),
+    this.fullScreen = false,
   }) : assert(pageColor == null || boxDecoration == null,
             'Cannot provide both a Color and a BoxDecoration\n');
 }
