@@ -156,6 +156,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
       done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      curve: Curves.elasticOut,
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),

@@ -1,6 +1,5 @@
 library introduction_screen;
 
-import 'dart:async';
 import 'dart:math';
 
 import 'package:dots_indicator/dots_indicator.dart';
