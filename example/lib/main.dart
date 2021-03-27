@@ -34,9 +34,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget _buildFullscrenImage(String assetName) {
+  Widget _buildFullscrenImage() {
     return Image.asset(
-      'assets/$assetName.jpg',
+      'assets/fullscreen.jpg',
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
@@ -44,8 +44,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget _buildImage(String assetName) {
-    return Image.asset('assets/$assetName.jpg', width: 350.0);
+  Widget _buildImage(String assetName, [double width = 350]) {
+    return Image.asset('assets/$assetName', width: width);
   }
 
   @override
@@ -62,6 +62,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     return IntroductionScreen(
       key: introKey,
+      globalHeader: Align(
+        alignment: Alignment.topRight,
+        child: _buildImage('flutter.png', 150),
+      ),
+      globalHeaderPadding: const EdgeInsets.only(top: 16, right: 16),
       globalFooter: Center(
         child: SizedBox(
           width: double.infinity,
@@ -81,28 +86,28 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           title: "Fractional shares",
           body:
               "Instead of having to buy an entire share, invest any amount you want.",
-          image: _buildImage('img1'),
+          image: _buildImage('img1.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Learn as you go",
           body:
               "Download the Stockpile app and master the market with our mini-lesson.",
-          image: _buildImage('img2'),
+          image: _buildImage('img2.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Kids and teens",
           body:
               "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-          image: _buildImage('img3'),
+          image: _buildImage('img3.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Full Screen Page",
           body:
               "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis. In bibendum pellentesque iaculis. Maecenas in molestie arcu. Aliquam non nisi orci. Sed posuere ante porttitor, lacinia risus a, laoreet arcu. Nullam nec sapien sed nisi sollicitudin elementum. Sed vitae imperdiet velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus in nisl turpis. Nulla in eros dolor. In blandit velit nec fermentum hendrerit.  Praesent at elit risus. Proin euismod suscipit elementum. Cras facilisis erat quam, ac egestas elit mattis in. Vivamus rutrum viverra interdum. Aliquam orci.",
-          image: _buildFullscrenImage('fullscreen'),
+          image: _buildFullscrenImage(),
           decoration: pageDecoration.copyWith(
             fullScreen: true,
             bodyFlex: 1,
@@ -112,7 +117,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         PageViewModel(
           title: "Another title page",
           body: "Another beautiful body text for this example onboarding",
-          image: _buildImage('img2'),
+          image: _buildImage('img2.jpg'),
           footer: ElevatedButton(
             onPressed: () {
               introKey.currentState?.animateScroll(0);
@@ -144,7 +149,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             bodyAlignment: Alignment.bottomCenter,
             imageAlignment: Alignment.topCenter,
           ),
-          image: _buildImage('img1'),
+          image: _buildImage('img1.jpg'),
           reverse: true,
         ),
       ],

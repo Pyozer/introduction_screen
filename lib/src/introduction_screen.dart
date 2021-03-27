@@ -118,8 +118,20 @@ class IntroductionScreen extends StatefulWidget {
   /// Margin for controls
   final EdgeInsets? controlsMargin;
 
+  /// A header widget to be shown on every screen
+  final Widget? globalHeader;
+
+  // Padding of the global header
+  //
+  // @Default `EdgeInsets.all(16.0)`
+  final EdgeInsets globalHeaderPadding;
+
   /// A footer widget to be shown on every screen
   final Widget? globalFooter;
+
+  // Padding of the global footer
+  //
+  // @Default `EdgeInsets.only(top: 16.0)`
   final EdgeInsets globalFooterPadding;
 
   /// ScrollController of vertical SingleChildScrollView
@@ -155,6 +167,8 @@ class IntroductionScreen extends StatefulWidget {
     this.nextColor,
     this.doneColor,
     this.controlsMargin,
+    this.globalHeader,
+    this.globalHeaderPadding = const EdgeInsets.all(16.0),
     this.globalFooter,
     this.globalFooterPadding = const EdgeInsets.only(top: 16.0),
     this.scrollController,
@@ -278,11 +292,28 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   ? const NeverScrollableScrollPhysics()
                   : const BouncingScrollPhysics(),
               children: widget.pages != null
-                  ? widget.pages!.map((p) => IntroPage(page: p, scrollController: widget.scrollController)).toList()
+                  ? widget.pages!
+                      .map((p) => IntroPage(
+                            page: p,
+                            scrollController: widget.scrollController,
+                          ))
+                      .toList()
                   : widget.rawPages!,
               onPageChanged: widget.onChange,
             ),
           ),
+          if (widget.globalHeader != null)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: widget.globalHeaderPadding,
+                  child: widget.globalHeader,
+                ),
+              ),
+            ),
           Positioned(
             bottom: widget.controlsMargin?.bottom ?? 16.0,
             left: widget.controlsMargin?.left ?? 16.0,
@@ -323,12 +354,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                       ],
                     ),
                   ),
-                  if (widget.globalFooter != null) ...[
+                  if (widget.globalFooter != null)
                     Padding(
                       padding: widget.globalFooterPadding,
                       child: widget.globalFooter,
                     )
-                  ]
                 ],
               ),
             ),
