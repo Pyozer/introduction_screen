@@ -8,18 +8,27 @@ extension ReversedList<T> on List<T> {
   }
 }
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
   final PageViewModel page;
   final ScrollController? scrollController;
 
   const IntroPage({Key? key, required this.page, this.scrollController})
       : super(key: key);
 
+  @override
+  _IntroPageState createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   Widget _buildStack() {
     final content = Container(
-      child: IntroContent(page: page),
+      child: IntroContent(page: widget.page),
       decoration: BoxDecoration(
-        color: page.decoration.pageColor,
+        color: widget.page.decoration.pageColor,
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
     );
@@ -28,25 +37,25 @@ class IntroPage extends StatelessWidget {
       fit: StackFit.loose,
       alignment: Alignment.bottomCenter,
       children: [
-        if (page.image != null) page.image!,
+        if (widget.page.image != null) widget.page.image!,
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Spacer(flex: page.decoration.imageFlex),
-            Expanded(
-              flex: page.decoration.bodyFlex,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 70.0),
-                child: page.useScrollView
+          children: [
+            ...[
+              Spacer(flex: widget.page.decoration.imageFlex),
+              Expanded(
+                flex: widget.page.decoration.bodyFlex,
+                child: widget.page.useScrollView
                     ? SingleChildScrollView(
-                        controller: scrollController,
+                        controller: widget.scrollController,
                         physics: const BouncingScrollPhysics(),
                         child: content,
                       )
                     : content,
               ),
-            ),
-          ].asReversed(page.reverse),
+            ].asReversed(widget.page.reverse),
+            const SizedBox(height: 70.0),
+          ],
         ),
       ],
     );
@@ -54,37 +63,37 @@ class IntroPage extends StatelessWidget {
 
   Widget _buildFlex() {
     return Container(
-      color: page.decoration.pageColor,
-      decoration: page.decoration.boxDecoration,
+      color: widget.page.decoration.pageColor,
+      decoration: widget.page.decoration.boxDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ...[
-            if (page.image != null)
+            if (widget.page.image != null)
               Expanded(
-                flex: page.decoration.imageFlex,
+                flex: widget.page.decoration.imageFlex,
                 child: Align(
-                  alignment: page.decoration.imageAlignment,
+                  alignment: widget.page.decoration.imageAlignment,
                   child: Padding(
-                    padding: page.decoration.imagePadding,
-                    child: page.image,
+                    padding: widget.page.decoration.imagePadding,
+                    child: widget.page.image,
                   ),
                 ),
               ),
             Expanded(
-              flex: page.decoration.bodyFlex,
+              flex: widget.page.decoration.bodyFlex,
               child: Align(
-                alignment: page.decoration.bodyAlignment,
-                child: page.useScrollView
+                alignment: widget.page.decoration.bodyAlignment,
+                child: widget.page.useScrollView
                     ? SingleChildScrollView(
-                        controller: scrollController,
+                        controller: widget.scrollController,
                         physics: const BouncingScrollPhysics(),
-                        child: IntroContent(page: page),
+                        child: IntroContent(page: widget.page),
                       )
-                    : IntroContent(page: page),
+                    : IntroContent(page: widget.page),
               ),
             ),
-          ].asReversed(page.reverse),
+          ].asReversed(widget.page.reverse),
           const SizedBox(height: 70),
         ],
       ),
@@ -93,9 +102,11 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return SafeArea(
       top: false,
-      child: page.decoration.fullScreen ? _buildStack() : _buildFlex(),
+      child: widget.page.decoration.fullScreen ? _buildStack() : _buildFlex(),
     );
   }
 }

@@ -67,20 +67,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         child: _buildImage('flutter.png', 150),
       ),
       globalHeaderPadding: const EdgeInsets.only(top: 16, right: 16),
-      globalFooter: Center(
-        child: SizedBox(
-          width: double.infinity,
-          height: 60,
-          child: ElevatedButton(
-            child: const Text(
-              'Let\s go right away!',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            onPressed: () => _onIntroEnd(context),
+      globalFooter: SizedBox(
+        width: double.infinity,
+        height: 60,
+        child: ElevatedButton(
+          child: const Text(
+            'Let\s go right away!',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           ),
+          onPressed: () => _onIntroEnd(context),
         ),
       ),
-
       pages: [
         PageViewModel(
           title: "Fractional shares",
@@ -146,6 +143,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ],
           ),
           decoration: pageDecoration.copyWith(
+            bodyFlex: 2,
+            imageFlex: 3,
             bodyAlignment: Alignment.bottomCenter,
             imageAlignment: Alignment.topCenter,
           ),
@@ -161,7 +160,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
       done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
-      curve: Curves.elasticOut,
+      curve: Curves.fastLinearToSlowEaseIn,
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),
