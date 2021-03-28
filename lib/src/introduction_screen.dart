@@ -209,9 +209,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     return (widget.pages ?? widget.rawPages!).length;
   }
 
-  void next() {
-    animateScroll(min(_currentPage.round() + 1, getPagesLength() - 1));
-  }
+  void next() => animateScroll(_currentPage.round() + 1);
+
+  void previous() => animateScroll(_currentPage.round() - 1);
 
   Future<void> _onSkip() async {
     if (widget.onSkip != null) {
@@ -232,7 +232,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> animateScroll(int page) async {
     setState(() => _isScrolling = true);
     await _pageController.animateToPage(
-      page,
+      max(min(page, getPagesLength() - 1), 0),
       duration: Duration(milliseconds: widget.animationDuration),
       curve: widget.curve,
     );
