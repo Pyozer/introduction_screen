@@ -149,6 +149,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `Axis.horizontal`
   final Axis pagesAxis;
 
+  /// Is right to left behaviour
+  ///
+  /// @Default `false`
+  final bool rtl;
+
   const IntroductionScreen({
     Key? key,
     this.pages,
@@ -186,6 +191,7 @@ class IntroductionScreen extends StatefulWidget {
     this.globalFooter,
     this.scrollController,
     this.pagesAxis = Axis.horizontal,
+    this.rtl = false,
   })  : assert(pages != null || rawPages != null),
         assert(
           (pages != null && pages.length > 0) ||
@@ -302,6 +308,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             child: NotificationListener<ScrollNotification>(
               onNotification: _onScroll,
               child: PageView(
+                reverse: widget.rtl,
                 scrollDirection: widget.pagesAxis,
                 controller: _pageController,
                 onPageChanged: widget.onChange,
@@ -349,6 +356,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         child: Center(
                           child: widget.isProgress
                               ? DotsIndicator(
+                                  reversed: widget.rtl,
                                   dotsCount: getPagesLength(),
                                   position: _currentPage,
                                   decorator: widget.dotsDecorator,
@@ -365,7 +373,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                             ? _toggleBtn(doneBtn, widget.showDoneButton)
                             : _toggleBtn(nextBtn, widget.showNextButton),
                       ),
-                    ],
+                    ].asReversed(widget.rtl),
                   ),
                 ),
                 if (widget.globalFooter != null) widget.globalFooter!
