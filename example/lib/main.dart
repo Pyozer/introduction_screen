@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -56,17 +59,22 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-      pageColor: Colors.white,
+      pageColor: Colors.green,
       imagePadding: EdgeInsets.zero,
     );
 
     return IntroductionScreen(
       key: introKey,
+      globalBackgroundColor: Colors.white,
       globalHeader: Align(
         alignment: Alignment.topRight,
-        child: _buildImage('flutter.png', 150),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16, right: 16),
+            child: _buildImage('flutter.png', 100),
+          ),
+        ),
       ),
-      globalHeaderPadding: const EdgeInsets.only(top: 16, right: 16),
       globalFooter: SizedBox(
         width: double.infinity,
         height: 60,
@@ -103,12 +111,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         PageViewModel(
           title: "Full Screen Page",
           body:
-              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis. In bibendum pellentesque iaculis. Maecenas in molestie arcu. Aliquam non nisi orci. Sed posuere ante porttitor, lacinia risus a, laoreet arcu. Nullam nec sapien sed nisi sollicitudin elementum. Sed vitae imperdiet velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus in nisl turpis. Nulla in eros dolor. In blandit velit nec fermentum hendrerit.  Praesent at elit risus. Proin euismod suscipit elementum. Cras facilisis erat quam, ac egestas elit mattis in. Vivamus rutrum viverra interdum. Aliquam orci.",
+              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
           image: _buildFullscrenImage(),
           decoration: pageDecoration.copyWith(
+            contentMargin: const EdgeInsets.symmetric(horizontal: 16),
             fullScreen: true,
-            bodyFlex: 1,
-            imageFlex: 2,
+            bodyFlex: 2,
+            imageFlex: 3,
           ),
         ),
         PageViewModel(
@@ -144,7 +153,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           ),
           decoration: pageDecoration.copyWith(
             bodyFlex: 2,
-            imageFlex: 3,
+            imageFlex: 4,
             bodyAlignment: Alignment.bottomCenter,
             imageAlignment: Alignment.topCenter,
           ),
@@ -161,6 +170,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       next: const Icon(Icons.arrow_forward),
       done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
       curve: Curves.fastLinearToSlowEaseIn,
+      controlsMargin: const EdgeInsets.all(16),
+      controlsPadding: kIsWeb
+          ? const EdgeInsets.all(12.0)
+          : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),
@@ -170,7 +183,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
       ),
       dotsContainerDecorator: const ShapeDecoration(
-        color: Colors.white,
+        color: Colors.black87,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),

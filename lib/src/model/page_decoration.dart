@@ -28,14 +28,14 @@ class PageDecoration {
   /// @Default `EdgeInsets.only(bottom: 24.0)`
   final EdgeInsets imagePadding;
 
-  /// Padding of content (title + description + footer)
+  /// Margin of content (title + description + footer)
   ///
   /// @Default `EdgeInsets.all(16.0)`
-  final EdgeInsets contentPadding;
+  final EdgeInsets contentMargin;
 
   /// Padding of title
   ///
-  /// @Default `EdgeInsets.only(bottom: 24.0)`
+  /// @Default `EdgeInsets.only(top: 16.0, bottom: 24.0)`
   final EdgeInsets titlePadding;
 
   /// Padding of description
@@ -77,8 +77,8 @@ class PageDecoration {
     this.imageFlex = 1,
     this.bodyFlex = 1,
     this.imagePadding = const EdgeInsets.only(bottom: 24.0),
-    this.contentPadding = const EdgeInsets.all(16.0),
-    this.titlePadding = const EdgeInsets.only(bottom: 24.0),
+    this.contentMargin = const EdgeInsets.all(16.0),
+    this.titlePadding = const EdgeInsets.only(top: 16.0, bottom: 24.0),
     this.descriptionPadding = EdgeInsets.zero,
     this.footerPadding = const EdgeInsets.symmetric(vertical: 24.0),
     this.bodyAlignment = Alignment.topCenter,
@@ -95,7 +95,7 @@ class PageDecoration {
     int? imageFlex,
     int? bodyFlex,
     EdgeInsets? imagePadding,
-    EdgeInsets? contentPadding,
+    EdgeInsets? contentMargin,
     EdgeInsets? titlePadding,
     EdgeInsets? descriptionPadding,
     EdgeInsets? footerPadding,
@@ -116,7 +116,7 @@ class PageDecoration {
       imageFlex: imageFlex ?? this.imageFlex,
       bodyFlex: bodyFlex ?? this.bodyFlex,
       imagePadding: imagePadding ?? this.imagePadding,
-      contentPadding: contentPadding ?? this.contentPadding,
+      contentMargin: contentMargin ?? this.contentMargin,
       titlePadding: titlePadding ?? this.titlePadding,
       descriptionPadding: descriptionPadding ?? this.descriptionPadding,
       footerPadding: footerPadding ?? this.footerPadding,

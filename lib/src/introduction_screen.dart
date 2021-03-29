@@ -115,27 +115,39 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color? doneColor;
 
+  /// Enable or disabled top SafeArea
+  ///
+  /// @Default `false`
+  final bool isTopSafeArea;
+
+  /// Enable or disabled bottom SafeArea
+  ///
+  /// @Default `false`
+  final bool isBottomSafeArea;
+
   /// Margin for controls
-  final EdgeInsets? controlsMargin;
+  ///
+  /// @Default `EdgeInsets.zero`
+  final EdgeInsets controlsMargin;
+
+  /// Padding for controls
+  ///
+  /// @Default `EdgeInsets.all(16.0)`
+  final EdgeInsets controlsPadding;
 
   /// A header widget to be shown on every screen
   final Widget? globalHeader;
 
-  // Padding of the global header
-  //
-  // @Default `EdgeInsets.all(16.0)`
-  final EdgeInsets globalHeaderPadding;
-
   /// A footer widget to be shown on every screen
   final Widget? globalFooter;
 
-  // Padding of the global footer
-  //
-  // @Default `EdgeInsets.only(top: 16.0)`
-  final EdgeInsets globalFooterPadding;
-
   /// ScrollController of vertical SingleChildScrollView
   final ScrollController? scrollController;
+
+  /// Scroll/Axis direction of pages, can he horizontal or vertical
+  ///
+  /// @Default `Axis.horizontal`
+  final Axis pagesAxis;
 
   const IntroductionScreen({
     Key? key,
@@ -166,12 +178,14 @@ class IntroductionScreen extends StatefulWidget {
     this.skipColor,
     this.nextColor,
     this.doneColor,
-    this.controlsMargin,
+    this.isTopSafeArea = false,
+    this.isBottomSafeArea = false,
+    this.controlsMargin = EdgeInsets.zero,
+    this.controlsPadding = const EdgeInsets.all(16.0),
     this.globalHeader,
-    this.globalHeaderPadding = const EdgeInsets.all(16.0),
     this.globalFooter,
-    this.globalFooterPadding = const EdgeInsets.only(top: 16.0),
     this.scrollController,
+    this.pagesAxis = Axis.horizontal,
   })  : assert(pages != null || rawPages != null),
         assert(
           (pages != null && pages.length > 0) ||
@@ -284,22 +298,27 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       backgroundColor: widget.globalBackgroundColor,
       body: Stack(
         children: [
-          NotificationListener<ScrollNotification>(
-            onNotification: _onScroll,
-            child: PageView(
-              controller: _pageController,
-              physics: widget.freeze
-                  ? const NeverScrollableScrollPhysics()
-                  : const BouncingScrollPhysics(),
-              children: widget.pages != null
-                  ? widget.pages!
-                      .map((p) => IntroPage(
-                            page: p,
-                            scrollController: widget.scrollController,
-                          ))
-                      .toList()
-                  : widget.rawPages!,
-              onPageChanged: widget.onChange,
+          Positioned.fill(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _onScroll,
+              child: PageView(
+                scrollDirection: widget.pagesAxis,
+                controller: _pageController,
+                onPageChanged: widget.onChange,
+                physics: widget.freeze
+                    ? const NeverScrollableScrollPhysics()
+                    : const BouncingScrollPhysics(),
+                children: widget.pages != null
+                    ? widget.pages!
+                        .map((p) => IntroPage(
+                              page: p,
+                              scrollController: widget.scrollController,
+                              isTopSafeArea: widget.isTopSafeArea,
+                              isBottomSafeArea: widget.isBottomSafeArea,
+                            ))
+                        .toList()
+                    : widget.rawPages!,
+              ),
             ),
           ),
           if (widget.globalHeader != null)
@@ -307,60 +326,50 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               top: 0,
               left: 0,
               right: 0,
-              child: SafeArea(
-                child: Padding(
-                  padding: widget.globalHeaderPadding,
-                  child: widget.globalHeader,
-                ),
-              ),
+              child: widget.globalHeader!,
             ),
           Positioned(
-            bottom: widget.controlsMargin?.bottom ?? 16.0,
-            left: widget.controlsMargin?.left ?? 16.0,
-            right: widget.controlsMargin?.right ?? 16.0,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: widget.dotsContainerDecorator,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: widget.skipFlex,
-                          child: _toggleBtn(skipBtn, isSkipBtn),
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Container(
+                  padding: widget.controlsPadding,
+                  margin: widget.controlsMargin,
+                  decoration: widget.dotsContainerDecorator,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: widget.skipFlex,
+                        child: _toggleBtn(skipBtn, isSkipBtn),
+                      ),
+                      Expanded(
+                        flex: widget.dotsFlex,
+                        child: Center(
+                          child: widget.isProgress
+                              ? DotsIndicator(
+                                  dotsCount: getPagesLength(),
+                                  position: _currentPage,
+                                  decorator: widget.dotsDecorator,
+                                  onTap: widget.isProgressTap && !widget.freeze
+                                      ? (pos) => animateScroll(pos.toInt())
+                                      : null,
+                                )
+                              : const SizedBox(),
                         ),
-                        Expanded(
-                          flex: widget.dotsFlex,
-                          child: Center(
-                            child: widget.isProgress
-                                ? DotsIndicator(
-                                    dotsCount: getPagesLength(),
-                                    position: _currentPage,
-                                    decorator: widget.dotsDecorator,
-                                    onTap: widget.isProgressTap &&
-                                            !widget.freeze
-                                        ? (pos) => animateScroll(pos.toInt())
-                                        : null,
-                                  )
-                                : const SizedBox(),
-                          ),
-                        ),
-                        Expanded(
-                          flex: widget.nextFlex,
-                          child: isLastPage
-                              ? _toggleBtn(doneBtn, widget.showDoneButton)
-                              : _toggleBtn(nextBtn, widget.showNextButton),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        flex: widget.nextFlex,
+                        child: isLastPage
+                            ? _toggleBtn(doneBtn, widget.showDoneButton)
+                            : _toggleBtn(nextBtn, widget.showNextButton),
+                      ),
+                    ],
                   ),
-                  if (widget.globalFooter != null)
-                    Padding(
-                      padding: widget.globalFooterPadding,
-                      child: widget.globalFooter,
-                    )
-                ],
-              ),
+                ),
+                if (widget.globalFooter != null) widget.globalFooter!
+              ],
             ),
           ),
         ],
