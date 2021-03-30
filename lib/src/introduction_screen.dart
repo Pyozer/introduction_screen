@@ -149,6 +149,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `Axis.horizontal`
   final Axis pagesAxis;
 
+  /// PageView scroll physics (only when freeze is set to false)
+  ///
+  /// @Default `BouncingScrollPhysics()`
+  final ScrollPhysics scrollPhysics;
+
   /// Is right to left behaviour
   ///
   /// @Default `false`
@@ -191,6 +196,7 @@ class IntroductionScreen extends StatefulWidget {
     this.globalFooter,
     this.scrollController,
     this.pagesAxis = Axis.horizontal,
+    this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
   })  : assert(pages != null || rawPages != null),
         assert(
@@ -314,7 +320,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 onPageChanged: widget.onChange,
                 physics: widget.freeze
                     ? const NeverScrollableScrollPhysics()
-                    : const BouncingScrollPhysics(),
+                    : widget.scrollPhysics,
                 children: widget.pages != null
                     ? widget.pages!
                         .map((p) => IntroPage(
