@@ -19,7 +19,7 @@ dependencies:
 ## Example
 
 Many parameters are available, in next section of example all are not listed. To see all parameters available please check end of README.
-If you want to display IntroductionScreen only once (e.g: first start of your app), use SharedPreferences (or similar) to save status (already display or not). It's not responsability of this package ot handle this.
+If you want to display IntroductionScreen only once (e.g: first start of your app), use SharedPreferences (or similar) to save status (already display or not). It's not responsability of this package to handle this.
 
 
 In these example, `listPagesViewModel` is the **list of pages**. A page is base on `PageViewModel`. See example of a `PageViewModel` below.
@@ -28,7 +28,7 @@ In these example, `listPagesViewModel` is the **list of pages**. A page is base 
 
 ### Simple page
 
-This example only define title, body and an image (you can define any widget)
+This example only defines title, body and an image (you can define any widget)
 
 ```dart
 PageViewModel(
@@ -42,7 +42,7 @@ PageViewModel(
 
 ### Page with custom colors
 
-This example show you how to define the color of the page
+This example shows you how to define the color of the page
 
 ```dart
 PageViewModel(
@@ -57,7 +57,7 @@ PageViewModel(
 
 ### Page with custom text style
 
-This example show you how to define another TextStyle for the title and the body
+This example shows you how to define another TextStyle for the title and the body
 
 ```dart
 PageViewModel(
@@ -73,7 +73,7 @@ PageViewModel(
 
 ### Page with a footer, like a button
 
-This example show you how to define a page with a footer, like a Button
+This example shows you how to define a page with a footer, like a Button
 
 ```dart
 PageViewModel(
@@ -91,7 +91,7 @@ PageViewModel(
 
 ### Page with widget body
 
-This example show you how to define a page with a body as Widget and not a simple String
+This example shows you how to define a page with a body as Widget and not a simple String
 You can to the same this for title, with `titleWidget` parameter.
 
 ```dart
