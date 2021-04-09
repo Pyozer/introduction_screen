@@ -192,7 +192,7 @@ IntroductionScreen(
 ); 
 ```
 
-### Parameters of IntroductioonScreen widget
+### Parameters of IntroductionScreen widget
 
 Many parameters can be used to customized Intro like you want !
 This is all parameters you can add :
