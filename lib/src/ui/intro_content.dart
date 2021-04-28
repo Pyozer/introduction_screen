@@ -33,8 +33,8 @@ class IntroContent extends StatelessWidget {
               page.decoration.titleTextStyle,
             ),
           ),
-          Padding(
-            padding: page.decoration.descriptionPadding,
+          Container(
+            padding: page.decoration.bodyPadding,
             child: _buildWidget(
               page.bodyWidget,
               page.body,
