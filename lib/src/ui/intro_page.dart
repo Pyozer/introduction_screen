@@ -62,12 +62,18 @@ class _IntroPageState extends State<IntroPage>
     );
   }
 
-  Widget _buildFlex() {
+  Widget _buildFlex(context) {
+    final orientation = MediaQuery.of(context).orientation;
+
     return Container(
       color: widget.page.decoration.pageColor,
       decoration: widget.page.decoration.boxDecoration,
       margin: const EdgeInsets.only(bottom: 60.0),
-      child: Column(
+      child: Flex(
+        direction: widget.page.useRowInLandscape &&
+                orientation == Orientation.landscape
+            ? Axis.horizontal
+            : Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.page.image != null)
@@ -109,7 +115,7 @@ class _IntroPageState extends State<IntroPage>
     return SafeArea(
       top: widget.isTopSafeArea,
       bottom: widget.isBottomSafeArea,
-      child: _buildFlex(),
+      child: _buildFlex(context),
     );
   }
 }
