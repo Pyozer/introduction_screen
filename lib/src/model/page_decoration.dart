@@ -39,8 +39,6 @@ class PageDecoration {
   final EdgeInsets titlePadding;
 
   /// Padding of body
-  ///
-  /// @Default: `EdgeInsets.zero`
   final EdgeInsets? bodyPadding;
 
   /// Padding of footer
