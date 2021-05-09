@@ -3,17 +3,26 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroContent extends StatelessWidget {
   final PageViewModel page;
+  final bool isFullScreen;
 
-  const IntroContent({Key key, @required this.page}) : super(key: key);
+  const IntroContent({Key? key, required this.page, this.isFullScreen = false})
+      : super(key: key);
 
-  Widget _buildWidget(Widget widget, String text, TextStyle style) {
-    return widget ?? Text(text, style: style, textAlign: TextAlign.center);
+  Widget _buildWidget(Widget? widget, String? text, TextStyle style) {
+    return widget ?? Text(text!, style: style, textAlign: TextAlign.center);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: page.decoration.contentPadding,
+    return Container(
+      margin: page.decoration.contentMargin,
+      decoration: isFullScreen
+          ? page.decoration.boxDecoration ??
+              BoxDecoration(
+                color: page.decoration.pageColor,
+                borderRadius: BorderRadius.circular(8.0),
+              )
+          : null,
       child: Column(
         children: [
           Padding(

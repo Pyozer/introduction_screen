@@ -1,35 +1,37 @@
 library introduction_screen;
 
-import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
 
 class IntroductionScreen extends StatefulWidget {
   /// All pages of the onboarding
-  final List<PageViewModel> pages;
+  final List<PageViewModel>? pages;
+
+  /// All pages of the onboarding, as a complete widget instead of a PageViewModel
+  final List<Widget>? rawPages;
 
   /// Callback when Done button is pressed
-  final VoidCallback onDone;
+  final VoidCallback? onDone;
 
   /// Done button
-  final Widget done;
+  final Widget? done;
 
   /// Callback when Skip button is pressed
-  final VoidCallback onSkip;
+  final VoidCallback? onSkip;
 
   /// Callback when page change
-  final ValueChanged<int> onChange;
+  final ValueChanged<int>? onChange;
 
   /// Skip button
-  final Widget skip;
+  final Widget? skip;
 
   /// Next button
-  final Widget next;
+  final Widget? next;
 
   /// Is the Skip button should be display
   ///
@@ -40,6 +42,11 @@ class IntroductionScreen extends StatefulWidget {
   ///
   /// @Default `true`
   final bool showNextButton;
+
+  /// If the 'Done' button should be rendered at all the end
+  ///
+  /// @Default `true`
+  final bool showDoneButton;
 
   /// Is the progress indicator should be display
   ///
@@ -57,10 +64,14 @@ class IntroductionScreen extends StatefulWidget {
   final bool freeze;
 
   /// Global background color (only visible when a page has a transparent background color)
-  final Color globalBackgroundColor;
+  final Color? globalBackgroundColor;
 
   /// Dots decorator to custom dots color, size and spacing
   final DotsDecorator dotsDecorator;
+
+  /// Decorator to customize the appearance of the progress dots container.
+  /// This is useful when the background image is full screen.
+  final Decoration? dotsContainerDecorator;
 
   /// Animation duration in millisecondes
   ///
@@ -93,34 +104,80 @@ class IntroductionScreen extends StatefulWidget {
   final Curve curve;
 
   /// Color of buttons
-  final Color color;
+  final Color? color;
 
   /// Color of skip button
-  final Color skipColor;
+  final Color? skipColor;
 
   /// Color of next button
-  final Color nextColor;
+  final Color? nextColor;
 
   /// Color of done button
-  final Color doneColor;
+  final Color? doneColor;
 
+  /// Enable or disabled top SafeArea
+  ///
+  /// @Default `false`
+  final bool isTopSafeArea;
+
+  /// Enable or disabled bottom SafeArea
+  ///
+  /// @Default `false`
+  final bool isBottomSafeArea;
+
+  /// Margin for controls
+  ///
+  /// @Default `EdgeInsets.zero`
+  final EdgeInsets controlsMargin;
+
+  /// Padding for controls
+  ///
+  /// @Default `EdgeInsets.all(16.0)`
+  final EdgeInsets controlsPadding;
+
+  /// A header widget to be shown on every screen
+  final Widget? globalHeader;
+
+  /// A footer widget to be shown on every screen
+  final Widget? globalFooter;
+
+  /// ScrollController of vertical SingleChildScrollView
+  final ScrollController? scrollController;
+
+  /// Scroll/Axis direction of pages, can he horizontal or vertical
+  ///
+  /// @Default `Axis.horizontal`
+  final Axis pagesAxis;
+
+  /// PageView scroll physics (only when freeze is set to false)
+  ///
+  /// @Default `BouncingScrollPhysics()`
+  final ScrollPhysics scrollPhysics;
+
+  /// Is right to left behaviour
+  ///
+  /// @Default `false`
+  final bool rtl;
 
   const IntroductionScreen({
-    Key key,
-    @required this.pages,
-    @required this.onDone,
-    @required this.done,
+    Key? key,
+    this.pages,
+    this.rawPages,
+    this.onDone,
+    this.done,
     this.onSkip,
     this.onChange,
     this.skip,
     this.next,
     this.showSkipButton = false,
     this.showNextButton = true,
+    this.showDoneButton = true,
     this.isProgress = true,
     this.isProgressTap = true,
     this.freeze = false,
     this.globalBackgroundColor,
     this.dotsDecorator = const DotsDecorator(),
+    this.dotsContainerDecorator,
     this.animationDuration = 350,
     this.initialPage = 0,
     this.skipFlex = 1,
@@ -130,17 +187,28 @@ class IntroductionScreen extends StatefulWidget {
     this.color,
     this.skipColor,
     this.nextColor,
-    this.doneColor
-  })  : assert(pages != null),
+    this.doneColor,
+    this.isTopSafeArea = false,
+    this.isBottomSafeArea = false,
+    this.controlsMargin = EdgeInsets.zero,
+    this.controlsPadding = const EdgeInsets.all(16.0),
+    this.globalHeader,
+    this.globalFooter,
+    this.scrollController,
+    this.pagesAxis = Axis.horizontal,
+    this.scrollPhysics = const BouncingScrollPhysics(),
+    this.rtl = false,
+  })  : assert(pages != null || rawPages != null),
         assert(
-          pages.length > 0,
+          (pages != null && pages.length > 0) ||
+              (rawPages != null && rawPages.length > 0),
           "You provide at least one page on introduction screen !",
         ),
-        assert(onDone != null),
-        assert(done != null),
+        assert(!showDoneButton || (done != null && onDone != null)),
         assert((showSkipButton && skip != null) || !showSkipButton),
+        assert((showNextButton && next != null) || !showNextButton),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
-        assert(initialPage == null || initialPage >= 0),
+        assert(initialPage >= 0),
         super(key: key);
 
   @override
@@ -148,7 +216,7 @@ class IntroductionScreen extends StatefulWidget {
 }
 
 class IntroductionScreenState extends State<IntroductionScreen> {
-  PageController _pageController;
+  late PageController _pageController;
   double _currentPage = 0.0;
   bool _isSkipPressed = false;
   bool _isScrolling = false;
@@ -158,23 +226,30 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
-    int initialPage = min(widget.initialPage, widget.pages.length - 1);
+    int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
   }
 
-  void next() {
-    animateScroll(min(_currentPage.round() + 1, widget.pages.length - 1));
+  int getPagesLength() {
+    return (widget.pages ?? widget.rawPages!).length;
   }
 
+  void next() => animateScroll(_currentPage.round() + 1);
+
+  void previous() => animateScroll(_currentPage.round() - 1);
+
   Future<void> _onSkip() async {
-    if (widget.onSkip != null) return widget.onSkip();
-    await skipToEnd();
+    if (widget.onSkip != null) {
+      widget.onSkip!();
+    } else {
+      await skipToEnd();
+    }
   }
 
   Future<void> skipToEnd() async {
     setState(() => _isSkipPressed = true);
-    await animateScroll(widget.pages.length - 1);
+    await animateScroll(getPagesLength() - 1);
     if (mounted) {
       setState(() => _isSkipPressed = false);
     }
@@ -183,7 +258,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> animateScroll(int page) async {
     setState(() => _isScrolling = true);
     await _pageController.animateToPage(
-      page,
+      max(min(page, getPagesLength() - 1), 0),
       duration: Duration(milliseconds: widget.animationDuration),
       curve: widget.curve,
     );
@@ -194,15 +269,23 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   bool _onScroll(ScrollNotification notification) {
     final metrics = notification.metrics;
-    if (metrics is PageMetrics) {
-      setState(() => _currentPage = metrics.page);
+    if (metrics is PageMetrics && metrics.page != null) {
+      if (mounted) {
+        setState(() => _currentPage = metrics.page!);
+      }
     }
     return false;
   }
 
+  Widget _toggleBtn(Widget btn, bool isShow) {
+    return isShow
+        ? btn
+        : Opacity(opacity: 0.0, child: IgnorePointer(child: btn));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (_currentPage.round() == widget.pages.length - 1);
+    final isLastPage = (_currentPage.round() == getPagesLength() - 1);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
 
     final skipBtn = IntroButton(
@@ -220,24 +303,44 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final doneBtn = IntroButton(
       child: widget.done,
       color: widget.doneColor ?? widget.color,
-      onPressed: widget.onDone,
+      onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
     );
 
     return Scaffold(
       backgroundColor: widget.globalBackgroundColor,
       body: Stack(
         children: [
-          NotificationListener<ScrollNotification>(
-            onNotification: _onScroll,
-            child: PageView(
-              controller: _pageController,
-              physics: widget.freeze
-                  ? const NeverScrollableScrollPhysics()
-                  : const BouncingScrollPhysics(),
-              children: widget.pages.map((p) => IntroPage(page: p)).toList(),
-              onPageChanged: widget.onChange,
+          Positioned.fill(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _onScroll,
+              child: PageView(
+                reverse: widget.rtl,
+                scrollDirection: widget.pagesAxis,
+                controller: _pageController,
+                onPageChanged: widget.onChange,
+                physics: widget.freeze
+                    ? const NeverScrollableScrollPhysics()
+                    : widget.scrollPhysics,
+                children: widget.pages != null
+                    ? widget.pages!
+                        .map((p) => IntroPage(
+                              page: p,
+                              scrollController: widget.scrollController,
+                              isTopSafeArea: widget.isTopSafeArea,
+                              isBottomSafeArea: widget.isBottomSafeArea,
+                            ))
+                        .toList()
+                    : widget.rawPages!,
+              ),
             ),
           ),
+          if (widget.globalHeader != null)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: widget.globalHeader!,
+            ),
           Positioned(
             bottom: 16.0,
             left: 16.0,

@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.1.0
+
+* **Some UI changes has been made, please check your app to be sure nothing has been changed**
+* Support fullscreen images (Thanks to [PR#29](https://github.com/Pyozer/introduction_screen/pull/29))
+* Support reverse page coontent order (Thanks to [PR#32](https://github.com/Pyozer/introduction_screen/pull/32))
+* Support custom buttons colors (Thanks to [PR#34](https://github.com/Pyozer/introduction_screen/pull/34))
+* Support raw pages (Widget) (Thanks to [PR#42](https://github.com/Pyozer/introduction_screen/pull/42))
+* Add showDoneButton property (Thanks to [PR#45](https://github.com/Pyozer/introduction_screen/pull/45))
+* Add scrollController property for pages scroll views (Thanks to [PR#58](https://github.com/Pyozer/introduction_screen/pull/58))
+* Add globalFooter and globalHeader property (Thanks to [PR#61](https://github.com/Pyozer/introduction_screen/pull/61))
+* Other new properties for customizations has been added, see README for more info
+  * Like RTL, paddings, margins, ..
+
+## 2.0.0
+
+* Add null safety support (Thanks to [PR#60](https://github.com/Pyozer/introduction_screen/pull/60))
+
 ## 1.0.9
 
 * You can now access to `next` function
