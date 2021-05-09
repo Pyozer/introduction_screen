@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class PageDecoration {
   /// Background page color
-  final Color pageColor;
+  final Color? pageColor;
 
   /// TextStyle for title
   ///
@@ -15,7 +15,7 @@ class PageDecoration {
   final TextStyle bodyTextStyle;
 
   /// BoxDecoration for page
-  final BoxDecoration boxDecoration;
+  final BoxDecoration? boxDecoration;
 
   /// Flex ratio of the image
   final int imageFlex;
@@ -28,14 +28,14 @@ class PageDecoration {
   /// @Default `EdgeInsets.only(bottom: 24.0)`
   final EdgeInsets imagePadding;
 
-  /// Padding of content (title + description + footer)
+  /// Margin of content (title + description + footer)
   ///
   /// @Default `EdgeInsets.all(16.0)`
-  final EdgeInsets contentPadding;
+  final EdgeInsets contentMargin;
 
   /// Padding of title
   ///
-  /// @Default `EdgeInsets.only(bottom: 24.0)`
+  /// @Default `EdgeInsets.only(top: 16.0, bottom: 24.0)`
   final EdgeInsets titlePadding;
 
   /// Padding of description
@@ -47,6 +47,21 @@ class PageDecoration {
   ///
   /// @Default `EdgeInsets.symmetric(vertical: 24.0)`
   final EdgeInsets footerPadding;
+
+  /// Body alignment
+  ///
+  /// @Default `Alignment.topCenter`
+  final Alignment bodyAlignment;
+
+  /// Image alignment
+  ///
+  /// @Default `Alignment.bottomCenter`
+  final Alignment imageAlignment;
+
+  /// Layout the page using the full screen with the image behind the text.
+  ///
+  /// @Default: `false`
+  final bool fullScreen;
 
   const PageDecoration({
     this.pageColor,
@@ -62,10 +77,52 @@ class PageDecoration {
     this.imageFlex = 1,
     this.bodyFlex = 1,
     this.imagePadding = const EdgeInsets.only(bottom: 24.0),
-    this.contentPadding = const EdgeInsets.all(16.0),
-    this.titlePadding = const EdgeInsets.only(bottom: 24.0),
+    this.contentMargin = const EdgeInsets.all(16.0),
+    this.titlePadding = const EdgeInsets.only(top: 16.0, bottom: 24.0),
     this.descriptionPadding = EdgeInsets.zero,
     this.footerPadding = const EdgeInsets.symmetric(vertical: 24.0),
+    this.bodyAlignment = Alignment.topCenter,
+    this.imageAlignment = Alignment.bottomCenter,
+    this.fullScreen = false,
   }) : assert(pageColor == null || boxDecoration == null,
             'Cannot provide both a Color and a BoxDecoration\n');
+
+  PageDecoration copyWith({
+    Color? pageColor,
+    TextStyle? titleTextStyle,
+    TextStyle? bodyTextStyle,
+    BoxDecoration? boxDecoration,
+    int? imageFlex,
+    int? bodyFlex,
+    EdgeInsets? imagePadding,
+    EdgeInsets? contentMargin,
+    EdgeInsets? titlePadding,
+    EdgeInsets? descriptionPadding,
+    EdgeInsets? footerPadding,
+    Alignment? bodyAlignment,
+    Alignment? imageAlignment,
+    bool? fullScreen,
+  }) {
+    assert(
+      pageColor == null || boxDecoration == null,
+      'Cannot provide both a Color and a BoxDecoration\n',
+    );
+
+    return PageDecoration(
+      pageColor: pageColor ?? this.pageColor,
+      titleTextStyle: titleTextStyle ?? this.titleTextStyle,
+      bodyTextStyle: bodyTextStyle ?? this.bodyTextStyle,
+      boxDecoration: boxDecoration ?? this.boxDecoration,
+      imageFlex: imageFlex ?? this.imageFlex,
+      bodyFlex: bodyFlex ?? this.bodyFlex,
+      imagePadding: imagePadding ?? this.imagePadding,
+      contentMargin: contentMargin ?? this.contentMargin,
+      titlePadding: titlePadding ?? this.titlePadding,
+      descriptionPadding: descriptionPadding ?? this.descriptionPadding,
+      footerPadding: footerPadding ?? this.footerPadding,
+      bodyAlignment: bodyAlignment ?? this.bodyAlignment,
+      imageAlignment: imageAlignment ?? this.imageAlignment,
+      fullScreen: fullScreen ?? this.fullScreen,
+    );
+  }
 }
