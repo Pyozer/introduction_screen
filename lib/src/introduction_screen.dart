@@ -300,7 +300,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         color: widget.nextColor ?? widget.color,
         onPressed: widget.showNextButton && !_isScrolling ? next : null,
       ),
-      label: "Next",
+      label: "Next Button",
     );
 
     final doneBtn = IntroButton(
@@ -365,8 +365,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         child: Center(
                           child: widget.isProgress
                               ? Semantics(
-                                label: "Page $_currentPage of ${getPagesLength()}",
-                                explicitChildNodes: true,
+                                label: "Page ${_currentPage.round()} of ${getPagesLength()}",
+                                explicitChildNodes: false,
                                 child: DotsIndicator(
                                   reversed: widget.rtl,
                                   dotsCount: getPagesLength(),
