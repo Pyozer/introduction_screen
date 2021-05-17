@@ -294,10 +294,13 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
-    final nextBtn = IntroButton(
-      child: widget.next,
-      color: widget.nextColor ?? widget.color,
-      onPressed: widget.showNextButton && !_isScrolling ? next : null,
+    final nextBtn = Semantics(
+      child: IntroButton(
+        child: widget.next,
+        color: widget.nextColor ?? widget.color,
+        onPressed: widget.showNextButton && !_isScrolling ? next : null,
+      ),
+      label: "Next",
     );
 
     final doneBtn = IntroButton(
@@ -361,7 +364,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         flex: widget.dotsFlex,
                         child: Center(
                           child: widget.isProgress
-                              ? DotsIndicator(
+                              ? Semantics(
+                                label: "Page $_currentPage of ${getPagesLength()}",
+                                explicitChildNodes: true,
+                                child: DotsIndicator(
                                   reversed: widget.rtl,
                                   dotsCount: getPagesLength(),
                                   position: _currentPage,
@@ -369,6 +375,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                                   onTap: widget.isProgressTap && !widget.freeze
                                       ? (pos) => animateScroll(pos.toInt())
                                       : null,
+                                  ),
                                 )
                               : const SizedBox(),
                         ),
