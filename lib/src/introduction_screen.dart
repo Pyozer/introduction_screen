@@ -365,16 +365,16 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         child: Center(
                           child: widget.isProgress
                               ? Semantics(
-                                label: "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
-                                excludeSemantics: true,
-                                child: DotsIndicator(
-                                  reversed: widget.rtl,
-                                  dotsCount: getPagesLength(),
-                                  position: _currentPage,
-                                  decorator: widget.dotsDecorator,
-                                  onTap: widget.isProgressTap && !widget.freeze
-                                      ? (pos) => animateScroll(pos.toInt())
-                                      : null,
+                                  label: "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                  excludeSemantics: true,
+                                  child: DotsIndicator(
+                                    reversed: widget.rtl,
+                                    dotsCount: getPagesLength(),
+                                    position: _currentPage,
+                                    decorator: widget.dotsDecorator,
+                                    onTap: widget.isProgressTap && !widget.freeze
+                                        ? (pos) => animateScroll(pos.toInt())
+                                        : null,
                                   ),
                                 )
                               : const SizedBox(),
