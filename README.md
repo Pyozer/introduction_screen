@@ -140,8 +140,25 @@ IntroductionScreen(
   onDone: () {
     // When done button is press
   },
+  showBackButton: false,
   showSkipButton: true,
   skip: const Text("Skip"),
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+);
+```
+
+### Intro screen with back button
+`note: back button is not visible on first page for better UX`
+
+```dart
+IntroductionScreen(
+  pages: listPagesViewModel,
+  onDone: () {
+    // When done button is press
+  },
+  showBackButton: true,
+  showSkipButton: false,
+  back: const Icon(Icons.arrow_back),
   done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
 );
 ```
@@ -157,6 +174,7 @@ IntroductionScreen(
   onSkip: () {
     // You can also override onSkip callback
   },
+  showBackButton: false
   showSkipButton: true,
   skip: const Icon(Icons.skip_next),
   next: const Icon(Icons.next),
