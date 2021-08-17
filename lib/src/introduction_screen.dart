@@ -33,6 +33,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Next button
   final Widget? next;
 
+  /// Back button
+  final Widget? back;
+
   /// Is the Skip button should be display
   ///
   /// @Default `false`
@@ -47,6 +50,11 @@ class IntroductionScreen extends StatefulWidget {
   ///
   /// @Default `true`
   final bool showDoneButton;
+
+  /// Is the Back button should be display
+  ///
+  /// @Default `false`
+  final bool showBackButton;
 
   /// Is the progress indicator should be display
   ///
@@ -115,6 +123,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Color of done button
   final Color? doneColor;
 
+  /// Color of done button
+  final Color? backColor;
+
   /// Enable or disabled top SafeArea
   ///
   /// @Default `false`
@@ -159,54 +170,60 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool rtl;
 
-  const IntroductionScreen({
-    Key? key,
-    this.pages,
-    this.rawPages,
-    this.onDone,
-    this.done,
-    this.onSkip,
-    this.onChange,
-    this.skip,
-    this.next,
-    this.showSkipButton = false,
-    this.showNextButton = true,
-    this.showDoneButton = true,
-    this.isProgress = true,
-    this.isProgressTap = true,
-    this.freeze = false,
-    this.globalBackgroundColor,
-    this.dotsDecorator = const DotsDecorator(),
-    this.dotsContainerDecorator,
-    this.animationDuration = 350,
-    this.initialPage = 0,
-    this.skipFlex = 1,
-    this.dotsFlex = 1,
-    this.nextFlex = 1,
-    this.curve = Curves.easeIn,
-    this.color,
-    this.skipColor,
-    this.nextColor,
-    this.doneColor,
-    this.isTopSafeArea = false,
-    this.isBottomSafeArea = false,
-    this.controlsMargin = EdgeInsets.zero,
-    this.controlsPadding = const EdgeInsets.all(16.0),
-    this.globalHeader,
-    this.globalFooter,
-    this.scrollController,
-    this.pagesAxis = Axis.horizontal,
-    this.scrollPhysics = const BouncingScrollPhysics(),
-    this.rtl = false,
-  })  : assert(pages != null || rawPages != null),
+  const IntroductionScreen(
+      {Key? key,
+      this.pages,
+      this.rawPages,
+      this.onDone,
+      this.done,
+      this.onSkip,
+      this.onChange,
+      this.skip,
+      this.next,
+      this.back,
+      this.showSkipButton = false,
+      this.showNextButton = true,
+      this.showDoneButton = true,
+      this.showBackButton = false,
+      this.isProgress = true,
+      this.isProgressTap = true,
+      this.freeze = false,
+      this.globalBackgroundColor,
+      this.dotsDecorator = const DotsDecorator(),
+      this.dotsContainerDecorator,
+      this.animationDuration = 350,
+      this.initialPage = 0,
+      this.skipFlex = 1,
+      this.dotsFlex = 1,
+      this.nextFlex = 1,
+      this.curve = Curves.easeIn,
+      this.color,
+      this.skipColor,
+      this.nextColor,
+      this.doneColor,
+      this.backColor,
+      this.isTopSafeArea = false,
+      this.isBottomSafeArea = false,
+      this.controlsMargin = EdgeInsets.zero,
+      this.controlsPadding = const EdgeInsets.all(16.0),
+      this.globalHeader,
+      this.globalFooter,
+      this.scrollController,
+      this.pagesAxis = Axis.horizontal,
+      this.scrollPhysics = const BouncingScrollPhysics(),
+      this.rtl = false})
+      : assert(pages != null || rawPages != null),
         assert(
           (pages != null && pages.length > 0) ||
               (rawPages != null && rawPages.length > 0),
           "You provide at least one page on introduction screen !",
         ),
         assert(!showDoneButton || (done != null && onDone != null)),
-        assert((showSkipButton && skip != null) || !showSkipButton),
+        assert((showSkipButton == true && skip != null) || !showSkipButton),
         assert((showNextButton && next != null) || !showNextButton),
+        assert((showBackButton == true && back != null) || !showBackButton),
+        assert((showBackButton == true && showSkipButton == false) ||
+            (showBackButton == false && showSkipButton == true)),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
         assert(initialPage >= 0),
         super(key: key);
@@ -286,7 +303,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   Widget build(BuildContext context) {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
+    final isFirstPage = (_currentPage.round() == 0);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
+    bool isBackBtn = (widget.showBackButton);
 
     final skipBtn = IntroButton(
       child: widget.skip,
@@ -304,6 +323,12 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       child: widget.done,
       color: widget.doneColor ?? widget.color,
       onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
+    );
+
+    final backBtn = IntroButton(
+      child: widget.back,
+      color: widget.backColor,
+      onPressed: widget.showBackButton && !_isScrolling ? previous : null,
     );
 
     return Scaffold(
@@ -353,10 +378,21 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   decoration: widget.dotsContainerDecorator,
                   child: Row(
                     children: [
-                      Expanded(
-                        flex: widget.skipFlex,
-                        child: _toggleBtn(skipBtn, isSkipBtn),
-                      ),
+                      if (widget.showSkipButton == true &&
+                          widget.showBackButton == false)
+                        Expanded(
+                            flex: widget.skipFlex,
+                            child: _toggleBtn(skipBtn, isSkipBtn)),
+                      if (widget.showSkipButton == false &&
+                          widget.showBackButton == true)
+                        Expanded(
+                          flex: widget.skipFlex,
+                          child: isFirstPage
+                              ? Opacity(
+                                  opacity: 0,
+                                  child: _toggleBtn(backBtn, isBackBtn))
+                              : _toggleBtn(backBtn, isBackBtn),
+                        ),
                       Expanded(
                         flex: widget.dotsFlex,
                         child: Center(
