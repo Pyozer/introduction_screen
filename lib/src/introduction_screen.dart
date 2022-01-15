@@ -33,7 +33,7 @@ class IntroductionScreen extends StatefulWidget {
   /// Skip button
   final Widget? skip;
 
-  /// Skup button style
+  /// Skip button style
   final ButtonStyle? skipStyle;
 
   /// Next button
