@@ -21,9 +21,6 @@ class IntroductionScreen extends StatefulWidget {
   /// Done button
   final Widget? done;
 
-  /// Done button style
-  final ButtonStyle? doneStyle;
-
   /// Callback when Skip button is pressed
   final VoidCallback? onSkip;
 
@@ -33,14 +30,8 @@ class IntroductionScreen extends StatefulWidget {
   /// Skip button
   final Widget? skip;
 
-  /// Skip button style
-  final ButtonStyle? skipStyle;
-
   /// Next button
   final Widget? next;
-
-  /// Next button style
-  final ButtonStyle? nextStyle;
 
   /// Is the Skip button should be display
   ///
@@ -123,6 +114,15 @@ class IntroductionScreen extends StatefulWidget {
 
   /// Color of done button
   final Color? doneColor;
+
+  /// Done button style
+  final ButtonStyle? doneStyle;
+
+  /// Skip button style
+  final ButtonStyle? skipStyle;
+
+  /// Next button style
+  final ButtonStyle? nextStyle;
 
   /// Enable or disabled top SafeArea
   ///
