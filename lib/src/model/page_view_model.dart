@@ -31,6 +31,9 @@ class PageViewModel {
   /// Wrap content in scrollView
   final bool useScrollView;
 
+  /// Use Row instead of Column when in landscape to place image next to the content.
+  final bool useRowInLandscape;
+
   PageViewModel({
     this.title,
     this.titleWidget,
@@ -38,9 +41,10 @@ class PageViewModel {
     this.bodyWidget,
     this.image,
     this.footer,
-    this.reverse =  false,
+    this.reverse = false,
     this.decoration = const PageDecoration(),
     this.useScrollView = true,
+    this.useRowInLandscape = false,
   })  : assert(
           title != null || titleWidget != null,
           "You must provide either title (String) or titleWidget (Widget).",
