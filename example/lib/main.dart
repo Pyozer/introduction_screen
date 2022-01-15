@@ -162,7 +162,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       onDone: () => _onIntroEnd(context),
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: false,
-      skipFlex: 0,
+      skipOrBackFlex: 0,
       nextFlex: 0,
       showBackButton: true,
       //rtl: true, // Display as right-to-left

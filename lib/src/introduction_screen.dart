@@ -2,8 +2,10 @@ library introduction_screen;
 
 import 'dart:math';
 
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+import 'package:dots_indicator/dots_indicator.dart';
+import 'package:introduction_screen/src/helper.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
@@ -91,10 +93,10 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `0`
   final int initialPage;
 
-  /// Flex ratio of the skip button
+  /// Flex ratio of the skip or back button
   ///
   /// @Default `1`
-  final int skipFlex;
+  final int skipOrBackFlex;
 
   /// Flex ratio of the progress indicator
   ///
@@ -123,8 +125,8 @@ class IntroductionScreen extends StatefulWidget {
   /// Next button style
   final ButtonStyle? nextStyle;
 
-  /// Color of done button
-  final Color? backColor;
+  /// Back button style
+  final ButtonStyle? backStyle;
 
   /// Enable or disabled top SafeArea
   ///
@@ -193,15 +195,15 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsContainerDecorator,
     this.animationDuration = 350,
     this.initialPage = 0,
-    this.skipFlex = 1,
+    this.skipOrBackFlex = 1,
     this.dotsFlex = 1,
     this.nextFlex = 1,
     this.curve = Curves.easeIn,
-    this.backColor,
     this.baseBtnStyle,
     this.skipStyle,
     this.nextStyle,
     this.doneStyle,
+    this.backStyle,
     this.isTopSafeArea = false,
     this.isBottomSafeArea = false,
     this.controlsMargin = EdgeInsets.zero,
@@ -225,7 +227,7 @@ class IntroductionScreen extends StatefulWidget {
         assert((showBackButton == true && showSkipButton == false) ||
             (showBackButton == false && showSkipButton == true) ||
             (showBackButton == false && showSkipButton == false)),
-        assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
+        assert(skipOrBackFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
         assert(initialPage >= 0),
         super(key: key);
 
@@ -295,44 +297,43 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     return false;
   }
 
-  Widget _toggleBtn(Widget btn, bool isShow) {
-    return isShow
-        ? btn
-        : Opacity(opacity: 0.0, child: IgnorePointer(child: btn));
-  }
-
   @override
   Widget build(BuildContext context) {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
-    final isFirstPage = (_currentPage.round() == 0);
-    bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
-    bool isBackBtn = (widget.showBackButton);
 
-    final skipBtn = IntroButton(
-      child: widget.skip,
-      style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
-      onPressed: isSkipBtn ? _onSkip : null,
-    );
+    Widget? leftBtn;
+    if (widget.showSkipButton && !_isSkipPressed && !isLastPage) {
+      leftBtn = IntroButton(
+        child: widget.skip,
+        style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
+        onPressed: _onSkip,
+      );
+    } else if (widget.showBackButton && _currentPage.round() > 0) {
+      leftBtn = IntroButton(
+        child: widget.back,
+        style: widget.baseBtnStyle?.merge(widget.backStyle) ?? widget.backStyle,
+        onPressed: !_isScrolling ? previous : null,
+      );
+    }
 
-    final nextBtn = Semantics(
-      child: IntroButton(
-        child: widget.next,
-        style: widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
-        onPressed: widget.showNextButton && !_isScrolling ? next : null,
-      ),
-      label: "Next Button",
-    );
-
-    final doneBtn = IntroButton(
-      child: widget.done,
-      style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
-      onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
-    );
-
-    final backBtn = IntroButton(
-      child: widget.back,
-      onPressed: widget.showBackButton && !_isScrolling ? previous : null,
-    );
+    Widget? rightBtn;
+    if (isLastPage && widget.showDoneButton) {
+      rightBtn = IntroButton(
+        child: widget.done,
+        style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
+        onPressed: !_isScrolling ? widget.onDone : null,
+      );
+    } else if (!isLastPage && widget.showNextButton) {
+      rightBtn = Semantics(
+        child: IntroButton(
+          child: widget.next,
+          style:
+              widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
+          onPressed: !_isScrolling ? next : null,
+        ),
+        label: "Next Button",
+      );
+    }
 
     return Scaffold(
       backgroundColor: widget.globalBackgroundColor,
@@ -349,16 +350,18 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 physics: widget.freeze
                     ? const NeverScrollableScrollPhysics()
                     : widget.scrollPhysics,
-                children: widget.pages != null
-                    ? widget.pages!
-                        .map((p) => IntroPage(
-                              page: p,
-                              scrollController: widget.scrollController?[widget.pages!.indexOf(p)],
-                              isTopSafeArea: widget.isTopSafeArea,
-                              isBottomSafeArea: widget.isBottomSafeArea,
-                            ))
-                        .toList()
-                    : widget.rawPages!,
+                children: widget.pages
+                        ?.mapIndexed(
+                          (index, page) => IntroPage(
+                            page: page,
+                            scrollController:
+                                widget.scrollController?.elementAtOrNull(index),
+                            isTopSafeArea: widget.isTopSafeArea,
+                            isBottomSafeArea: widget.isBottomSafeArea,
+                          ),
+                        )
+                        .toList() ??
+                    widget.rawPages!,
               ),
             ),
           ),
@@ -381,34 +384,25 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   decoration: widget.dotsContainerDecorator,
                   child: Row(
                     children: [
-                      if (widget.showSkipButton == true &&
-                          widget.showBackButton == false)
-                        Expanded(
-                            flex: widget.skipFlex,
-                            child: _toggleBtn(skipBtn, isSkipBtn)),
-                      if (widget.showSkipButton == false &&
-                          widget.showBackButton == true)
-                        Expanded(
-                          flex: widget.skipFlex,
-                          child: isFirstPage
-                              ? Opacity(
-                                  opacity: 0,
-                                  child: _toggleBtn(backBtn, isBackBtn))
-                              : _toggleBtn(backBtn, isBackBtn),
-                        ),
+                      Expanded(
+                        flex: widget.skipOrBackFlex,
+                        child: leftBtn ?? const SizedBox(),
+                      ),
                       Expanded(
                         flex: widget.dotsFlex,
                         child: Center(
                           child: widget.isProgress
                               ? Semantics(
-                                  label: "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                  label:
+                                      "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
                                   excludeSemantics: true,
                                   child: DotsIndicator(
                                     reversed: widget.rtl,
                                     dotsCount: getPagesLength(),
                                     position: _currentPage,
                                     decorator: widget.dotsDecorator,
-                                    onTap: widget.isProgressTap && !widget.freeze
+                                    onTap: widget.isProgressTap &&
+                                            !widget.freeze
                                         ? (pos) => animateScroll(pos.toInt())
                                         : null,
                                   ),
@@ -418,9 +412,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                       ),
                       Expanded(
                         flex: widget.nextFlex,
-                        child: isLastPage
-                            ? _toggleBtn(doneBtn, widget.showDoneButton)
-                            : _toggleBtn(nextBtn, widget.showNextButton),
+                        child: rightBtn ?? const SizedBox(),
                       ),
                     ].asReversed(widget.rtl),
                   ),

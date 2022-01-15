@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:introduction_screen/src/helper.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_content.dart';
-
-extension ReversedList<T> on List<T> {
-  List<T> asReversed(bool reverse) {
-    return reverse ? this.reversed.toList() : this;
-  }
-}
 
 class IntroPage extends StatefulWidget {
   final PageViewModel page;
