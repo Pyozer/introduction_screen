@@ -21,6 +21,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Done button
   final Widget? done;
 
+  /// Done button style
+  final ButtonStyle? doneStyle;
+
   /// Callback when Skip button is pressed
   final VoidCallback? onSkip;
 
@@ -30,8 +33,14 @@ class IntroductionScreen extends StatefulWidget {
   /// Skip button
   final Widget? skip;
 
+  /// Skup button style
+  final ButtonStyle? skipStyle;
+
   /// Next button
   final Widget? next;
+
+  /// Next button style
+  final ButtonStyle? nextStyle;
 
   /// Is the Skip button should be display
   ///
@@ -188,6 +197,9 @@ class IntroductionScreen extends StatefulWidget {
     this.skipColor,
     this.nextColor,
     this.doneColor,
+    this.skipStyle,
+    this.nextStyle,
+    this.doneStyle,
     this.isTopSafeArea = false,
     this.isBottomSafeArea = false,
     this.controlsMargin = EdgeInsets.zero,
@@ -291,18 +303,21 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final skipBtn = IntroButton(
       child: widget.skip,
       color: widget.skipColor ?? widget.color,
+      style: widget.skipStyle,
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
     final nextBtn = IntroButton(
       child: widget.next,
       color: widget.nextColor ?? widget.color,
+      style: widget.nextStyle,
       onPressed: widget.showNextButton && !_isScrolling ? next : null,
     );
 
     final doneBtn = IntroButton(
       child: widget.done,
       color: widget.doneColor ?? widget.color,
+      style: widget.doneStyle,
       onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
     );
 
