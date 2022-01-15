@@ -103,17 +103,8 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `Curves.easeIn`
   final Curve curve;
 
-  /// Color of buttons
-  final Color? color;
-
-  /// Color of skip button
-  final Color? skipColor;
-
-  /// Color of next button
-  final Color? nextColor;
-
-  /// Color of done button
-  final Color? doneColor;
+  /// Base style for all buttons
+  final ButtonStyle? baseBtnStyle;
 
   /// Done button style
   final ButtonStyle? doneStyle;
@@ -193,10 +184,7 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsFlex = 1,
     this.nextFlex = 1,
     this.curve = Curves.easeIn,
-    this.color,
-    this.skipColor,
-    this.nextColor,
-    this.doneColor,
+    this.baseBtnStyle,
     this.skipStyle,
     this.nextStyle,
     this.doneStyle,
@@ -302,16 +290,14 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     final skipBtn = IntroButton(
       child: widget.skip,
-      color: widget.skipColor ?? widget.color,
-      style: widget.skipStyle,
+      style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
     final nextBtn = Semantics(
       child: IntroButton(
         child: widget.next,
-        color: widget.nextColor ?? widget.color,
-        style: widget.nextStyle,
+        style: widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
         onPressed: widget.showNextButton && !_isScrolling ? next : null,
       ),
       label: "Next Button",
@@ -319,8 +305,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     final doneBtn = IntroButton(
       child: widget.done,
-      color: widget.doneColor ?? widget.color,
-      style: widget.doneStyle,
+      style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
       onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
     );
 
