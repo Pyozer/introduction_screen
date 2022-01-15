@@ -33,6 +33,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Next button
   final Widget? next;
 
+  /// Back button
+  final Widget? back;
+
   /// Is the Skip button should be display
   ///
   /// @Default `false`
@@ -47,6 +50,11 @@ class IntroductionScreen extends StatefulWidget {
   ///
   /// @Default `true`
   final bool showDoneButton;
+
+  /// Is the Back button should be display
+  ///
+  /// @Default `false`
+  final bool showBackButton;
 
   /// Is the progress indicator should be display
   ///
@@ -115,6 +123,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Next button style
   final ButtonStyle? nextStyle;
 
+  /// Color of done button
+  final Color? backColor;
+
   /// Enable or disabled top SafeArea
   ///
   /// @Default `false`
@@ -169,9 +180,11 @@ class IntroductionScreen extends StatefulWidget {
     this.onChange,
     this.skip,
     this.next,
+    this.back,
     this.showSkipButton = false,
     this.showNextButton = true,
     this.showDoneButton = true,
+    this.showBackButton = false,
     this.isProgress = true,
     this.isProgressTap = true,
     this.freeze = false,
@@ -184,6 +197,7 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsFlex = 1,
     this.nextFlex = 1,
     this.curve = Curves.easeIn,
+    this.backColor,
     this.baseBtnStyle,
     this.skipStyle,
     this.nextStyle,
@@ -205,8 +219,12 @@ class IntroductionScreen extends StatefulWidget {
           "You provide at least one page on introduction screen !",
         ),
         assert(!showDoneButton || (done != null && onDone != null)),
-        assert((showSkipButton && skip != null) || !showSkipButton),
+        assert((showSkipButton == true && skip != null) || !showSkipButton),
         assert((showNextButton && next != null) || !showNextButton),
+        assert((showBackButton == true && back != null) || !showBackButton),
+        assert((showBackButton == true && showSkipButton == false) ||
+            (showBackButton == false && showSkipButton == true) ||
+            (showBackButton == false && showSkipButton == false)),
         assert(skipFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
         assert(initialPage >= 0),
         super(key: key);
@@ -286,7 +304,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   Widget build(BuildContext context) {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
+    final isFirstPage = (_currentPage.round() == 0);
     bool isSkipBtn = (!_isSkipPressed && !isLastPage && widget.showSkipButton);
+    bool isBackBtn = (widget.showBackButton);
 
     final skipBtn = IntroButton(
       child: widget.skip,
@@ -307,6 +327,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       child: widget.done,
       style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
       onPressed: widget.showDoneButton && !_isScrolling ? widget.onDone : null,
+    );
+
+    final backBtn = IntroButton(
+      child: widget.back,
+      onPressed: widget.showBackButton && !_isScrolling ? previous : null,
     );
 
     return Scaffold(
@@ -356,10 +381,21 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                   decoration: widget.dotsContainerDecorator,
                   child: Row(
                     children: [
-                      Expanded(
-                        flex: widget.skipFlex,
-                        child: _toggleBtn(skipBtn, isSkipBtn),
-                      ),
+                      if (widget.showSkipButton == true &&
+                          widget.showBackButton == false)
+                        Expanded(
+                            flex: widget.skipFlex,
+                            child: _toggleBtn(skipBtn, isSkipBtn)),
+                      if (widget.showSkipButton == false &&
+                          widget.showBackButton == true)
+                        Expanded(
+                          flex: widget.skipFlex,
+                          child: isFirstPage
+                              ? Opacity(
+                                  opacity: 0,
+                                  child: _toggleBtn(backBtn, isBackBtn))
+                              : _toggleBtn(backBtn, isBackBtn),
+                        ),
                       Expanded(
                         flex: widget.dotsFlex,
                         child: Center(

@@ -140,8 +140,25 @@ IntroductionScreen(
   onDone: () {
     // When done button is press
   },
+  showBackButton: false,
   showSkipButton: true,
   skip: const Text("Skip"),
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+);
+```
+
+### Intro screen with back button
+`note: back button is not visible on first page for better UX`
+
+```dart
+IntroductionScreen(
+  pages: listPagesViewModel,
+  onDone: () {
+    // When done button is press
+  },
+  showBackButton: true,
+  showSkipButton: false,
+  back: const Icon(Icons.arrow_back),
   done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
 );
 ```
@@ -157,6 +174,7 @@ IntroductionScreen(
   onSkip: () {
     // You can also override onSkip callback
   },
+  showBackButton: false
   showSkipButton: true,
   skip: const Icon(Icons.skip_next),
   next: const Icon(Icons.next),
@@ -211,9 +229,12 @@ This is all parameters you can add :
   - This param is required if you set `showSkipButton: true`
 - Define Next button (Widget), by adding `next: Text('Next')`
   - This param is required, except if you set `showNextButton: false`
+  Define Back button (Widget), by adding `back: Text('Next')`
+  - This param is required if you set `showNextButton: true`
 - Hide/show Skip button, by adding `showSkipButton: false` parameter. (Default `false`)
 - Hide/show Next button, by adding `showNextButton: false` parameter. (Default `true`)
 - Hide/show Done button, by adding `showDoneButton: false` parameter. (Default `true`)
+- Hide/show Back button, by adding `showBackButton: false` parameter. (Default `false`)
 - Display or not the progress dots, by adding `isProgress: false` parameter. (Default `true`)
 - Enable or disable dots progress tap, by adding `isProgressTap: false` parameter. (Default `true`)
 - Freeze the scroll, by adding `freeze: true` parameter. (Default `false`)
@@ -225,7 +246,7 @@ This is all parameters you can add :
   - You can customize container that contain controls.
 - Duration of scrolling animation, by adding `animationDuration: 400` parameter. (Default `350`)
 - Initial page, by adding `initialPage: 2` parameter. (Default `0`)
-- Skip button flex, by adding `skipFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
+- Skip/Back button flex, by adding `skipFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
 - Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
 - Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
 - Animation curve between pages, by adding `curve: Curves.elasticIn` parameter. (Default `Curves.easeIn`)
@@ -233,6 +254,7 @@ This is all parameters you can add :
 - Change skip button color, by adding `skipColor: Colors.red` parameter.
 - Change next button color, by adding `nextColor: Colors.green` parameter.
 - Change done button color, by adding `doneColor: Colors.blue` parameter.
+- Change back button color, by adding `backColor: Colors.blue` parameter.
 - Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
 - Change next button style, by adding `nextStyle: TextButton.styleFrom(alignment: Alignment.centerRight)` parameter.
 - Change done button style, by adding `doneStyle: TextButton.styleFrom(splashFactory: NoSplash.splashFactory)` parameter.
