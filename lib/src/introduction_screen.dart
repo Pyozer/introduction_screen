@@ -307,11 +307,14 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       onPressed: isSkipBtn ? _onSkip : null,
     );
 
-    final nextBtn = IntroButton(
-      child: widget.next,
-      color: widget.nextColor ?? widget.color,
-      style: widget.nextStyle,
-      onPressed: widget.showNextButton && !_isScrolling ? next : null,
+    final nextBtn = Semantics(
+      child: IntroButton(
+        child: widget.next,
+        color: widget.nextColor ?? widget.color,
+        style: widget.nextStyle,
+        onPressed: widget.showNextButton && !_isScrolling ? next : null,
+      ),
+      label: "Next Button",
     );
 
     final doneBtn = IntroButton(
@@ -376,14 +379,18 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         flex: widget.dotsFlex,
                         child: Center(
                           child: widget.isProgress
-                              ? DotsIndicator(
-                                  reversed: widget.rtl,
-                                  dotsCount: getPagesLength(),
-                                  position: _currentPage,
-                                  decorator: widget.dotsDecorator,
-                                  onTap: widget.isProgressTap && !widget.freeze
-                                      ? (pos) => animateScroll(pos.toInt())
-                                      : null,
+                              ? Semantics(
+                                  label: "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                  excludeSemantics: true,
+                                  child: DotsIndicator(
+                                    reversed: widget.rtl,
+                                    dotsCount: getPagesLength(),
+                                    position: _currentPage,
+                                    decorator: widget.dotsDecorator,
+                                    onTap: widget.isProgressTap && !widget.freeze
+                                        ? (pos) => animateScroll(pos.toInt())
+                                        : null,
+                                  ),
                                 )
                               : const SizedBox(),
                         ),
