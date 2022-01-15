@@ -233,6 +233,9 @@ This is all parameters you can add :
 - Change skip button color, by adding `skipColor: Colors.red` parameter.
 - Change next button color, by adding `nextColor: Colors.green` parameter.
 - Change done button color, by adding `doneColor: Colors.blue` parameter.
+- Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
+- Change next button style, by adding `nextStyle: TextButton.styleFrom(alignment: Alignment.centerRight)` parameter.
+- Change done button style, by adding `doneStyle: TextButton.styleFrom(splashFactory: NoSplash.splashFactory)` parameter.
 - Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter (Default `false`).
 - Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter. (Default `false`)
 - Customize margin of controls's container, by adding `controlsMargin: EdgeInsets.all(16.0)` parameter. (Default `EdgeInsets.zero`)
