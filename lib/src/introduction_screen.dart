@@ -20,14 +20,14 @@ class IntroductionScreen extends StatefulWidget {
   /// Callback when Done button is pressed
   final VoidCallback? onDone;
 
-  /// Done button
-  final Widget? done;
-
   /// Callback when Skip button is pressed
   final VoidCallback? onSkip;
 
   /// Callback when page change
   final ValueChanged<int>? onChange;
+
+  /// Done button
+  final Widget? done;
 
   /// Skip button
   final Widget? skip;
@@ -128,6 +128,18 @@ class IntroductionScreen extends StatefulWidget {
   /// Back button style
   final ButtonStyle? backStyle;
 
+  /// Done button semantic label
+  final String? doneSemantic;
+
+  /// Skip button semantic label
+  final String? skipSemantic;
+
+  /// Next button semantic label
+  final String? nextSemantic;
+
+  /// Back button semantic label
+  final String? backSemantic;
+
   /// Enable or disabled top SafeArea
   ///
   /// @Default `false`
@@ -177,9 +189,9 @@ class IntroductionScreen extends StatefulWidget {
     this.pages,
     this.rawPages,
     this.onDone,
-    this.done,
     this.onSkip,
     this.onChange,
+    this.done,
     this.skip,
     this.next,
     this.back,
@@ -204,6 +216,10 @@ class IntroductionScreen extends StatefulWidget {
     this.nextStyle,
     this.doneStyle,
     this.backStyle,
+    this.skipSemantic,
+    this.nextSemantic,
+    this.doneSemantic,
+    this.backSemantic,
     this.isTopSafeArea = false,
     this.isBottomSafeArea = false,
     this.controlsMargin = EdgeInsets.zero,
@@ -221,12 +237,11 @@ class IntroductionScreen extends StatefulWidget {
           "You provide at least one page on introduction screen !",
         ),
         assert(!showDoneButton || (done != null && onDone != null)),
-        assert((showSkipButton == true && skip != null) || !showSkipButton),
+        assert((showSkipButton && skip != null) || !showSkipButton),
         assert((showNextButton && next != null) || !showNextButton),
-        assert((showBackButton == true && back != null) || !showBackButton),
-        assert((showBackButton == true && showSkipButton == false) ||
-            (showBackButton == false && showSkipButton == true) ||
-            (showBackButton == false && showSkipButton == false)),
+        assert((showBackButton && back != null) || !showBackButton),
+        assert((showBackButton != showSkipButton) ||
+            (!showBackButton && !showSkipButton)),
         assert(skipOrBackFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
         assert(initialPage >= 0),
         super(key: key);
@@ -304,14 +319,16 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     Widget? leftBtn;
     if (widget.showSkipButton && !_isSkipPressed && !isLastPage) {
       leftBtn = IntroButton(
-        child: widget.skip,
+        child: widget.skip!,
         style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
+        semanticLabel: widget.skipSemantic,
         onPressed: _onSkip,
       );
     } else if (widget.showBackButton && _currentPage.round() > 0) {
       leftBtn = IntroButton(
-        child: widget.back,
+        child: widget.back!,
         style: widget.baseBtnStyle?.merge(widget.backStyle) ?? widget.backStyle,
+        semanticLabel: widget.backSemantic,
         onPressed: !_isScrolling ? previous : null,
       );
     }
@@ -319,19 +336,17 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     Widget? rightBtn;
     if (isLastPage && widget.showDoneButton) {
       rightBtn = IntroButton(
-        child: widget.done,
+        child: widget.done!,
         style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
+        semanticLabel: widget.doneSemantic,
         onPressed: !_isScrolling ? widget.onDone : null,
       );
     } else if (!isLastPage && widget.showNextButton) {
-      rightBtn = Semantics(
-        child: IntroButton(
-          child: widget.next,
-          style:
-              widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
-          onPressed: !_isScrolling ? next : null,
-        ),
-        label: "Next Button",
+      rightBtn = IntroButton(
+        child: widget.next!,
+        style: widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
+        semanticLabel: widget.nextSemantic,
+        onPressed: !_isScrolling ? next : null,
       );
     }
 
