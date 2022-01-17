@@ -13,7 +13,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^2.1.0
+  introduction_screen: ^3.0.0
 ```
 
 ## Example
@@ -192,21 +192,45 @@ IntroductionScreen(
 );
 ```
 
-### Intro screen with custom button colors
+### Intro screen with custom button style
 
-When one of the colors such as `skipColor` is defined, `color` will be ignored.
+You can provide a `baseBtnStyle`, that will apply a style on all buttons (back, next, skip, done).
+You provide also a specific button style (`backStyle`, `nextStyle`, `skipStyle`, `doneStyle`).
+If you set a `baseBtnStyle` and a specific button style, the `baseBtnStyle` will be merge with specific style.
+
+By default buttons has a style applied:
+```dart
+TextButton.styleFrom(
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8.0),
+  ),
+)
+```
+You can override this using the `baseBtnStyle` or with specific button style.
+The exemple below will display :
+- All buttons with 25px circular border
+- Skip button with red color
+- Done button with green color
+- Next button with blue color
+
 
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
+  showSkipButton: true,
+  skip: const Text("Skip"),
   done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
-  color: Colors.orange,  
-  skipColor: Colors.red,  
-  doneColor: Colors.green,  
-  nextColor: Colors.blue,
   onDone: () {
     // When done button is press
   },
+  baseBtnStyle: TextButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(25.0),
+    ),
+  ),  
+  skipStyle: TextButton.styleFrom(primary: Colors.red),  
+  doneColor: TextButton.styleFrom(primary: Colors.green),  
+  nextColor: TextButton.styleFrom(primary: Colors.blue),
 ); 
 ```
 
@@ -218,57 +242,70 @@ This is all parameters you can add :
 - Page that will be display (`PageViewModel`), by adding `pages: [..]` parameter.
 - Use your own pages (Widget) without using those predefined, by adding `rawPages: [..]` parameter.
   - If you provide both `rawPages` and `pages` parameter, `pages` will be used.
+
 - Set a custom callback when done button is pressed, by adding `onDone: () {}` parameter.
-  - This param is required, except if you set `showDoneButton: false`
-- Define Done button (Widget), by adding `done: Text('Done')`
   - This param is required, except if you set `showDoneButton: false`
 - Set a custom callback when skip button is pressed, by adding `onSkip: () {}` parameter.
   - By default, it will go to the last page
 - Add callback to listen page changes, by adding `onChange: (page) {}` parameter.
+ 
+- Define Done button (Widget), by adding `done: Text('Done')`
+  - This param is required, EXCEPT if you set `showDoneButton: false`
+- Define Next button (Widget), by adding `next: Text('Next')`
+  - This param is required, EXCEPT if you set `showNextButton: false`
 - Define Skip button (Widget), by adding `skip: Text('Skip')`
   - This param is required if you set `showSkipButton: true`
-- Define Next button (Widget), by adding `next: Text('Next')`
-  - This param is required, except if you set `showNextButton: false`
-  Define Back button (Widget), by adding `back: Text('Next')`
-  - This param is required if you set `showNextButton: true`
+  Define Back button (Widget), by adding `back: Text('Back')`
+  - This param is required if you set `showBackButton: true`
+
 - Hide/show Skip button, by adding `showSkipButton: false` parameter. (Default `false`)
 - Hide/show Next button, by adding `showNextButton: false` parameter. (Default `true`)
 - Hide/show Done button, by adding `showDoneButton: false` parameter. (Default `true`)
 - Hide/show Back button, by adding `showBackButton: false` parameter. (Default `false`)
+
 - Display or not the progress dots, by adding `isProgress: false` parameter. (Default `true`)
 - Enable or disable dots progress tap, by adding `isProgressTap: false` parameter. (Default `true`)
+
 - Freeze the scroll, by adding `freeze: true` parameter. (Default `false`)
+- Duration of scrolling animation, by adding `animationDuration: 400` parameter. (Default `350`)
+- Initial page, by adding `initialPage: 2` parameter. (Default `0`)
+
 - Global background color, by adding `globalBackgroundColor: Colors.blue` parameter.
   - Tips: use `Colors.transparent` to display an image as background (using Stack with IntroductionScreen inside for example)
 - Customize dots (progression) by adding `dotsDecorator: DotsDecorator(...)`
   - You can customize dots size, shape, colors, spacing.
 - Customize dots container by adding `dotsContainerDecorator: BoxDecorator(...)`
   - You can customize container that contain controls.
-- Duration of scrolling animation, by adding `animationDuration: 400` parameter. (Default `350`)
-- Initial page, by adding `initialPage: 2` parameter. (Default `0`)
-- Skip/Back button flex, by adding `skipFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
+- Skip/Back button flex, by adding `skipOrBackFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
 - Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
 - Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
 - Animation curve between pages, by adding `curve: Curves.elasticIn` parameter. (Default `Curves.easeIn`)
-- Change global color of buttons (skip, next, done), by adding `color: Colors.yellow` parameter.
-- Change skip button color, by adding `skipColor: Colors.red` parameter.
-- Change next button color, by adding `nextColor: Colors.green` parameter.
-- Change done button color, by adding `doneColor: Colors.blue` parameter.
-- Change back button color, by adding `backColor: Colors.blue` parameter.
+
+- Change global style of buttons (for skip, next, done, back), by adding `baseBtnStyle` parameter.
 - Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
 - Change next button style, by adding `nextStyle: TextButton.styleFrom(alignment: Alignment.centerRight)` parameter.
 - Change done button style, by adding `doneStyle: TextButton.styleFrom(splashFactory: NoSplash.splashFactory)` parameter.
+- Change back button style, by adding `backStyle: TextButton.styleFrom(primary: Colors.red)` parameter.
+
+- Change skip button semantic label, by adding `skipSemantic: 'Skip introduction'` parameter.
+- Change next button semantic label, by adding `nextSemantic: 'Go to next page'` parameter.
+- Change done button semantic label, by adding `doneSemantic: 'Exit introduction'` parameter.
+- Change back button semantic label, by adding `backSemantic: 'Go to previous page'` parameter.
+
 - Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter (Default `false`).
 - Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter. (Default `false`)
 - Customize margin of controls's container, by adding `controlsMargin: EdgeInsets.all(16.0)` parameter. (Default `EdgeInsets.zero`)
 - Customize padding of controls's container, by adding `controlsPadding: EdgeInsets.all(8.0)` parameter. (Default `EdgeInsets.all(16.0`)
 - Add global header (top), static and displayed above pages, by adding `globalHeader: Image.asset(...)` parameter.
 - Add global footer below controls/dots, by adding `globalFooter: ElevatedButton(...)` parameter.
-- Provide a scrollController for scrollView inside pages, by adding `scrollController` parameter.
-  - Will be ignored for page(s) if `useScrollView` is set to false in PageViewModel(s)
 - Change axis of scroll by adding `pagesAxis: Axis.vertical`. (Default `Axis.horizontal`)
 - Change default scroll physics of PageView by adding `scrollPhysics: ClampingScrollPhysics()`. (Default `BouncingScrollPhysics()`)
 - You can also enable right-to-left behavious by adding `rtl: true`. (Default `false`)
+- You can provide a ScrollController for each page by adding `scrollControllers: [..]` parameter.
+  - If you have 5 pages, you can provide 5 differents ScrollController.
+  - If you want to have only one ScrollController for page **1**, you can provide: `scrollControllers: [controller1]`
+  - If you want to have only one ScrollController for page **3**, you can provide: `scrollControllers: [null, null, controller1]`
+  - Will be ignored for page(s) if `useScrollView` is set to `false` in PageViewModel(s)
 
 ### Parameters of PageViewModel (each pages)
 

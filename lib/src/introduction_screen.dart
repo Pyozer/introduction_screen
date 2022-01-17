@@ -167,7 +167,7 @@ class IntroductionScreen extends StatefulWidget {
   final Widget? globalFooter;
 
   /// ScrollController of vertical SingleChildScrollView for every single page
-  final List<ScrollController?>? scrollController;
+  final List<ScrollController?>? scrollControllers;
 
   /// Scroll/Axis direction of pages, can he horizontal or vertical
   ///
@@ -226,7 +226,7 @@ class IntroductionScreen extends StatefulWidget {
     this.controlsPadding = const EdgeInsets.all(16.0),
     this.globalHeader,
     this.globalFooter,
-    this.scrollController,
+    this.scrollControllers,
     this.pagesAxis = Axis.horizontal,
     this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
@@ -369,8 +369,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         ?.mapIndexed(
                           (index, page) => IntroPage(
                             page: page,
-                            scrollController:
-                                widget.scrollController?.elementAtOrNull(index),
+                            scrollController: widget.scrollControllers
+                                ?.elementAtOrNull(index),
                             isTopSafeArea: widget.isTopSafeArea,
                             isBottomSafeArea: widget.isBottomSafeArea,
                           ),

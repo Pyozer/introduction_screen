@@ -1,6 +1,6 @@
 name: introduction_screen
 description: Introduction/Onboarding package for flutter app with some customizations possibilities
-version: 2.1.0
+version: 3.0.0
 homepage: https://github.com/pyozer/introduction_screen
 
 environment:
