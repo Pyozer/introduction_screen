@@ -258,17 +258,26 @@ This is all parameters you can add :
   Define Back button (Widget), by adding `back: Text('Back')`
   - This param is required if you set `showBackButton: true`
 
-- Hide/show Skip button, by adding `showSkipButton: false` parameter. (Default `false`)
-- Hide/show Next button, by adding `showNextButton: false` parameter. (Default `true`)
-- Hide/show Done button, by adding `showDoneButton: false` parameter. (Default `true`)
-- Hide/show Back button, by adding `showBackButton: false` parameter. (Default `false`)
+- Hide/show Skip button, by adding `showSkipButton: false` parameter.
+  - Default `false`
+- Hide/show Next button, by adding `showNextButton: false` parameter.
+  - Default `true`
+- Hide/show Done button, by adding `showDoneButton: false` parameter.
+  - Default `true`
+- Hide/show Back button, by adding `showBackButton: false` parameter.
+  - Default `false`
 
-- Display or not the progress dots, by adding `isProgress: false` parameter. (Default `true`)
-- Enable or disable dots progress tap, by adding `isProgressTap: false` parameter. (Default `true`)
+- Display or not the progress dots, by adding `isProgress: false` parameter.
+  - Default `true`
+- Enable or disable dots progress tap, by adding `isProgressTap: false` parameter.
+  - Default `true`
 
-- Freeze the scroll, by adding `freeze: true` parameter. (Default `false`)
-- Duration of scrolling animation, by adding `animationDuration: 400` parameter. (Default `350`)
-- Initial page, by adding `initialPage: 2` parameter. (Default `0`)
+- Freeze the scroll, by adding `freeze: true` parameter.
+  - Default `false`
+- Duration of scrolling animation, by adding `animationDuration: 400` parameter.
+  - Default `350`
+- Initial page, by adding `initialPage: 2` parameter.
+  - Default `0`
 
 - Global background color, by adding `globalBackgroundColor: Colors.blue` parameter.
   - Tips: use `Colors.transparent` to display an image as background (using Stack with IntroductionScreen inside for example)
@@ -276,10 +285,14 @@ This is all parameters you can add :
   - You can customize dots size, shape, colors, spacing.
 - Customize dots container by adding `dotsContainerDecorator: BoxDecorator(...)`
   - You can customize container that contain controls.
-- Skip/Back button flex, by adding `skipOrBackFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
-- Dots indicator flex, by adding `dotsFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
-- Next/Done button flex, by adding `nextFlex: 1` parameter. (Set 0 to disable Expanded behaviour, default `1`)
-- Animation curve between pages, by adding `curve: Curves.elasticIn` parameter. (Default `Curves.easeIn`)
+- Skip/Back button flex, by adding `skipOrBackFlex: 1` parameter.
+  - Set 0 to disable Expanded behaviour, default `1`
+- Dots indicator flex, by adding `dotsFlex: 1` parameter.
+  - Set 0 to disable Expanded behaviour, default `1`
+- Next/Done button flex, by adding `nextFlex: 1` parameter.
+  - Set 0 to disable Expanded behaviour, default `1`
+- Animation curve between pages, by adding `curve: Curves.elasticIn` parameter.
+  - Default `Curves.easeIn`
 
 - Change global style of buttons (for skip, next, done, back), by adding `baseBtnStyle` parameter.
 - Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
@@ -292,15 +305,24 @@ This is all parameters you can add :
 - Change done button semantic label, by adding `doneSemantic: 'Exit introduction'` parameter.
 - Change back button semantic label, by adding `backSemantic: 'Go to previous page'` parameter.
 
-- Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter (Default `false`).
-- Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter. (Default `false`)
-- Customize margin of controls's container, by adding `controlsMargin: EdgeInsets.all(16.0)` parameter. (Default `EdgeInsets.zero`)
-- Customize padding of controls's container, by adding `controlsPadding: EdgeInsets.all(8.0)` parameter. (Default `EdgeInsets.all(16.0`)
+- Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter
+  - Default `false`
+- Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter.
+  - Default `false`
+- Customize controls position on screen, by adding `controlsPosition: const Position(left: 0, right: 0, bottom: 100)` parameter.
+  - Default `const Position(left: 0, right: 0, bottom: 0)`
+- Customize margin of controls's container, by adding `controlsMargin: EdgeInsets.all(16.0)` parameter.
+  - Default `EdgeInsets.zero`
+- Customize padding of controls's container, by adding `controlsPadding: EdgeInsets.all(8.0)` parameter.
+  - Default `EdgeInsets.all(16.0)`
 - Add global header (top), static and displayed above pages, by adding `globalHeader: Image.asset(...)` parameter.
 - Add global footer below controls/dots, by adding `globalFooter: ElevatedButton(...)` parameter.
-- Change axis of scroll by adding `pagesAxis: Axis.vertical`. (Default `Axis.horizontal`)
-- Change default scroll physics of PageView by adding `scrollPhysics: ClampingScrollPhysics()`. (Default `BouncingScrollPhysics()`)
-- You can also enable right-to-left behavious by adding `rtl: true`. (Default `false`)
+- Change axis of scroll by adding `pagesAxis: Axis.vertical`.
+  - Default `Axis.horizontal`
+- Change default scroll physics of PageView by adding `scrollPhysics: ClampingScrollPhysics()`.
+  - Default `BouncingScrollPhysics()`
+- You can also enable right-to-left behavious by adding `rtl: true`.
+  - Default `false`
 - You can provide a ScrollController for each page by adding `scrollControllers: [..]` parameter.
   - If you have 5 pages, you can provide 5 differents ScrollController.
   - If you want to have only one ScrollController for page **1**, you can provide: `scrollControllers: [controller1]`

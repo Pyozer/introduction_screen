@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:introduction_screen/src/helper.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
+import 'package:introduction_screen/src/model/position.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
 
@@ -150,6 +151,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool isBottomSafeArea;
 
+  /// Controls position
+  ///
+  /// @Default `Position(left: 0, right: 0, bottom: 0)`
+  final Position controlsPosition;
+
   /// Margin for controls
   ///
   /// @Default `EdgeInsets.zero`
@@ -222,6 +228,7 @@ class IntroductionScreen extends StatefulWidget {
     this.backSemantic,
     this.isTopSafeArea = false,
     this.isBottomSafeArea = false,
+    this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
     this.controlsMargin = EdgeInsets.zero,
     this.controlsPadding = const EdgeInsets.all(16.0),
     this.globalHeader,
@@ -388,9 +395,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               child: widget.globalHeader!,
             ),
           Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
+            left: widget.controlsPosition.left,
+            top: widget.controlsPosition.top,
+            right: widget.controlsPosition.right,
+            bottom: widget.controlsPosition.bottom,
             child: Column(
               children: [
                 Container(
