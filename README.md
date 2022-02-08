@@ -239,24 +239,49 @@ IntroductionScreen(
 Many parameters can be used to customized Intro like you want !
 This is all parameters you can add :
 
+#### **Pages**
 - Page that will be display (`PageViewModel`), by adding `pages: [..]` parameter.
 - Use your own pages (Widget) without using those predefined, by adding `rawPages: [..]` parameter.
   - If you provide both `rawPages` and `pages` parameter, `pages` will be used.
 
+#### **Callbacks**
 - Set a custom callback when done button is pressed, by adding `onDone: () {}` parameter.
-  - This param is required, except if you set `showDoneButton: false`
+  - This param is required if you define `done` param, EXCEPT if you set `showDoneButton: false`
+  - If you set `overrideDone` param, it will be ignored.
 - Set a custom callback when skip button is pressed, by adding `onSkip: () {}` parameter.
   - By default, it will go to the last page
+  - If you set `overrideSkip` param, it will be ignored.
 - Add callback to listen page changes, by adding `onChange: (page) {}` parameter.
- 
-- Define Done button (Widget), by adding `done: Text('Done')`
-  - This param is required, EXCEPT if you set `showDoneButton: false`
-- Define Next button (Widget), by adding `next: Text('Next')`
+
+#### **Use pre-made buttons**
+- Define pre-made Done button child (Widget), by adding `done: Text('Done')`
+  - This param or `overrideDone` are required, EXCEPT if you set `showDoneButton: false`
+  - By providing `done`, the parameter `onDone` is also required.
+- Define pre-made Next button child (Widget), by adding `next: Text('Next')`
   - This param is required, EXCEPT if you set `showNextButton: false`
-- Define Skip button (Widget), by adding `skip: Text('Skip')`
+- Define pre-made Skip button child (Widget), by adding `skip: Text('Skip')`
   - This param is required if you set `showSkipButton: true`
-  Define Back button (Widget), by adding `back: Text('Back')`
+  Define pre-made Back button child (Widget), by adding `back: Text('Back')`
   - This param is required if you set `showBackButton: true`
+
+#### **Use custom buttons**
+
+*If you want to control pages, you can use `key` param. Search in issues of this repo to have more detailed informations.* 
+
+- Define your custom Done button (Widget), by using `overrideDone`
+  - This param or `done` are required, EXCEPT if you set `showDoneButton: false`
+  - This parameter has priority over the `done` parameter.
+- Define your custom Next button (Widget), by using `overrideNext`
+  - This param or `next` are required, EXCEPT if you set `showNextButton: false`
+  - This parameter has priority over the `next` parameter.
+- Define your custom Skip button (Widget), by using `overrideSkip`
+  - This param or `skip` are required if you set `showSkipButton: true`
+  - This parameter has priority over the `skip` parameter.
+- Define your custom Back button (Widget), by using `overrideBack`
+  - This param or `back` are required if you set `showBackButton: true`
+  - This parameter has priority over the `skip` parameter.
+
+#### **Manage display of pre-made or custom buttons**
 
 - Hide/show Skip button, by adding `showSkipButton: false` parameter.
   - Default `false`
@@ -267,10 +292,14 @@ This is all parameters you can add :
 - Hide/show Back button, by adding `showBackButton: false` parameter.
   - Default `false`
 
+#### **Controls**
+
 - Display or not the progress dots, by adding `isProgress: false` parameter.
   - Default `true`
 - Enable or disable dots progress tap, by adding `isProgressTap: false` parameter.
   - Default `true`
+
+#### **Page**
 
 - Freeze the scroll, by adding `freeze: true` parameter.
   - Default `false`
@@ -278,7 +307,13 @@ This is all parameters you can add :
   - Default `350`
 - Initial page, by adding `initialPage: 2` parameter.
   - Default `0`
+- You can provide a ScrollController for each page by adding `scrollControllers: [..]` parameter.
+  - If you have 5 pages, you can provide 5 differents ScrollController.
+  - If you want to have only one ScrollController for page **1**, you can provide: `scrollControllers: [controller1]`
+  - If you want to have only one ScrollController for page **3**, you can provide: `scrollControllers: [null, null, controller1]`
+  - Will be ignored for page(s) if `useScrollView` is set to `false` in PageViewModel(s)
 
+#### **Pages style**
 - Global background color, by adding `globalBackgroundColor: Colors.blue` parameter.
   - Tips: use `Colors.transparent` to display an image as background (using Stack with IntroductionScreen inside for example)
 - Customize dots (progression) by adding `dotsDecorator: DotsDecorator(...)`
@@ -294,17 +329,20 @@ This is all parameters you can add :
 - Animation curve between pages, by adding `curve: Curves.elasticIn` parameter.
   - Default `Curves.easeIn`
 
+#### **Buttons styles**
 - Change global style of buttons (for skip, next, done, back), by adding `baseBtnStyle` parameter.
 - Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
 - Change next button style, by adding `nextStyle: TextButton.styleFrom(alignment: Alignment.centerRight)` parameter.
 - Change done button style, by adding `doneStyle: TextButton.styleFrom(splashFactory: NoSplash.splashFactory)` parameter.
 - Change back button style, by adding `backStyle: TextButton.styleFrom(primary: Colors.red)` parameter.
 
+#### **Semantic**
 - Change skip button semantic label, by adding `skipSemantic: 'Skip introduction'` parameter.
 - Change next button semantic label, by adding `nextSemantic: 'Go to next page'` parameter.
 - Change done button semantic label, by adding `doneSemantic: 'Exit introduction'` parameter.
 - Change back button semantic label, by adding `backSemantic: 'Go to previous page'` parameter.
 
+#### **Layout**
 - Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter
   - Default `false`
 - Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter.
@@ -323,11 +361,6 @@ This is all parameters you can add :
   - Default `BouncingScrollPhysics()`
 - You can also enable right-to-left behavious by adding `rtl: true`.
   - Default `false`
-- You can provide a ScrollController for each page by adding `scrollControllers: [..]` parameter.
-  - If you have 5 pages, you can provide 5 differents ScrollController.
-  - If you want to have only one ScrollController for page **1**, you can provide: `scrollControllers: [controller1]`
-  - If you want to have only one ScrollController for page **3**, you can provide: `scrollControllers: [null, null, controller1]`
-  - Will be ignored for page(s) if `useScrollView` is set to `false` in PageViewModel(s)
 
 ### Parameters of PageViewModel (each pages)
 

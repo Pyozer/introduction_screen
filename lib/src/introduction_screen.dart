@@ -27,17 +27,33 @@ class IntroductionScreen extends StatefulWidget {
   /// Callback when page change
   final ValueChanged<int>? onChange;
 
-  /// Done button
+  /// Done button child for the pre-made TextButton
   final Widget? done;
 
-  /// Skip button
+  /// Override pre-made done button.
+  /// You can what you want (button, text, image, ...)
+  final Widget? overrideDone;
+
+  /// Skip button child for the pre-made TextButton
   final Widget? skip;
 
-  /// Next button
+  /// Override pre-made skip button.
+  /// You can what you want (button, text, image, ...)
+  final Widget? overrideSkip;
+
+  /// Next button child for the pre-made TextButton
   final Widget? next;
 
-  /// Back button
+  /// Override pre-made next button.
+  /// You can what you want (button, text, image, ...)
+  final Widget? overrideNext;
+
+  /// Back button child for the pre-made TextButton
   final Widget? back;
+
+  /// Override pre-made back button.
+  /// You can what you want (button, text, image, ...)
+  final Widget? overrideBack;
 
   /// Is the Skip button should be display
   ///
@@ -198,9 +214,13 @@ class IntroductionScreen extends StatefulWidget {
     this.onSkip,
     this.onChange,
     this.done,
+    this.overrideDone,
     this.skip,
+    this.overrideSkip,
     this.next,
+    this.overrideNext,
     this.back,
+    this.overrideBack,
     this.showSkipButton = false,
     this.showNextButton = true,
     this.showDoneButton = true,
@@ -237,20 +257,46 @@ class IntroductionScreen extends StatefulWidget {
     this.pagesAxis = Axis.horizontal,
     this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
-  })  : assert(pages != null || rawPages != null),
-        assert(
-          (pages != null && pages.length > 0) ||
-              (rawPages != null && rawPages.length > 0),
-          "You provide at least one page on introduction screen !",
+  })  : assert(
+          pages != null || rawPages != null,
+          "You must set either 'pages' or 'rawPages' parameter",
         ),
-        assert(!showDoneButton || (done != null && onDone != null)),
-        assert((showSkipButton && skip != null) || !showSkipButton),
-        assert((showNextButton && next != null) || !showNextButton),
-        assert((showBackButton && back != null) || !showBackButton),
-        assert((showBackButton != showSkipButton) ||
-            (!showBackButton && !showSkipButton)),
-        assert(skipOrBackFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0),
-        assert(initialPage >= 0),
+        assert(
+          (pages?.length ?? rawPages?.length ?? 0) > 0,
+          "You must provide at least one page using 'pages' or 'rawPages' parameter !",
+        ),
+        assert(
+          !showDoneButton || done != null || overrideDone != null,
+          "You must set 'done' or 'overrideDone' parameter, or set 'showDoneButton' to false",
+        ),
+        assert(
+          done == null || onDone != null,
+          "If you set 'done' parameter, you must also set 'onDone' parameter",
+        ),
+        assert(
+          !showSkipButton || skip != null || overrideSkip != null,
+          "You must set 'skip' or 'overrideSkip' parameter, or set 'showSkipButton' to false",
+        ),
+        assert(
+          !showNextButton || next != null || overrideNext != null,
+          "You must set 'next' or 'overrideNext' parameter, or set 'showNextButton' to false",
+        ),
+        assert(
+          !showBackButton || back != null || overrideBack != null,
+          "You must set 'back' or 'overrideBack' parameter, or set 'showBackButton' to false",
+        ),
+        assert(
+          !(showBackButton && showSkipButton),
+          "You cannot set 'showBackButton' and 'showSkipButton' to true. Only one, or both false.",
+        ),
+        assert(
+          skipOrBackFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0,
+          'Flex parameters must be >= 0',
+        ),
+        assert(
+          initialPage >= 0,
+          'Initial page parameter must by a positive number, >= 0.',
+        ),
         super(key: key);
 
   @override
@@ -325,36 +371,44 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     Widget? leftBtn;
     if (widget.showSkipButton && !_isSkipPressed && !isLastPage) {
-      leftBtn = IntroButton(
-        child: widget.skip!,
-        style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
-        semanticLabel: widget.skipSemantic,
-        onPressed: _onSkip,
-      );
+      leftBtn = widget.overrideSkip ??
+          IntroButton(
+            child: widget.skip!,
+            style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
+                widget.skipStyle,
+            semanticLabel: widget.skipSemantic,
+            onPressed: _onSkip,
+          );
     } else if (widget.showBackButton && _currentPage.round() > 0) {
-      leftBtn = IntroButton(
-        child: widget.back!,
-        style: widget.baseBtnStyle?.merge(widget.backStyle) ?? widget.backStyle,
-        semanticLabel: widget.backSemantic,
-        onPressed: !_isScrolling ? previous : null,
-      );
+      leftBtn = widget.overrideBack ??
+          IntroButton(
+            child: widget.back!,
+            style: widget.baseBtnStyle?.merge(widget.backStyle) ??
+                widget.backStyle,
+            semanticLabel: widget.backSemantic,
+            onPressed: !_isScrolling ? previous : null,
+          );
     }
 
     Widget? rightBtn;
     if (isLastPage && widget.showDoneButton) {
-      rightBtn = IntroButton(
-        child: widget.done!,
-        style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
-        semanticLabel: widget.doneSemantic,
-        onPressed: !_isScrolling ? widget.onDone : null,
-      );
+      rightBtn = widget.overrideDone ??
+          IntroButton(
+            child: widget.done!,
+            style: widget.baseBtnStyle?.merge(widget.doneStyle) ??
+                widget.doneStyle,
+            semanticLabel: widget.doneSemantic,
+            onPressed: !_isScrolling ? widget.onDone : null,
+          );
     } else if (!isLastPage && widget.showNextButton) {
-      rightBtn = IntroButton(
-        child: widget.next!,
-        style: widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
-        semanticLabel: widget.nextSemantic,
-        onPressed: !_isScrolling ? next : null,
-      );
+      rightBtn = widget.overrideNext ??
+          IntroButton(
+            child: widget.next!,
+            style: widget.baseBtnStyle?.merge(widget.nextStyle) ??
+                widget.nextStyle,
+            semanticLabel: widget.nextSemantic,
+            onPressed: !_isScrolling ? next : null,
+          );
     }
 
     return Scaffold(
