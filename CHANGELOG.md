@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0
+
+**SOME BREAKING CHANGE, please check your code and UI render**
+* Add back button (Thanks to [PR#90](https://github.com/Pyozer/introduction_screen/pull/90))
+* Add buttons parameters to override pre-built buttons
+* Add `controlsPosition` parameter
+* Add semantic labels parameters for buttons (Thanks to [PR#80](https://github.com/Pyozer/introduction_screen/pull/80))
+* Replace buttons color parameters by styles (Thanks to [PR#101](https://github.com/Pyozer/introduction_screen/pull/101))
+* Add option to put image next to content in landscape (Thanks to [PR#74](https://github.com/Pyozer/introduction_screen/pull/74))
+* Allow body widget to be built without padding (Thanks to [PR#73](https://github.com/Pyozer/introduction_screen/pull/73))
+* Replace single scrollController parameter by a list (Thanks to [PR#71](https://github.com/Pyozer/introduction_screen/pull/71))
+
 ## 2.1.0
 
 * **Some UI changes has been made, please check your app to be sure nothing has been changed**
