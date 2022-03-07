@@ -206,7 +206,7 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool rtl;
 
-  const IntroductionScreen({
+  IntroductionScreen({
     Key? key,
     this.pages,
     this.rawPages,
