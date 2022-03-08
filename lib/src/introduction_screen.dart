@@ -78,7 +78,7 @@ class IntroductionScreen extends StatefulWidget {
   /// Is the progress indicator should be display
   ///
   /// @Default `true`
-  final bool isProgress;
+  bool isProgress;
 
   /// Enable or not onTap feature on progress indicator
   ///
@@ -206,7 +206,7 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool rtl;
 
-  const IntroductionScreen({
+  IntroductionScreen({
     Key? key,
     this.pages,
     this.rawPages,
