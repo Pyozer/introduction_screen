@@ -18,6 +18,7 @@ class IntroButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label: semanticLabel,
+      button: true,
       child: TextButton(
         onPressed: onPressed,
         child: child,
