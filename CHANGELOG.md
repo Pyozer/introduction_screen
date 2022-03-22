@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.1
+
+* Fix missing Position export (Thanks to [PR#111](https://github.com/Pyozer/introduction_screen/pull/111))
+* Fix semantics to avoid double button (Thanks to [PR#110](https://github.com/Pyozer/introduction_screen/pull/110))
+* Allow params to be updated (**Can be a breaking change** Thanks to [PR#108](https://github.com/Pyozer/introduction_screen/pull/108))
+* Set button type for semantics (Thanks to [PR#107](https://github.com/Pyozer/introduction_screen/pull/107))
+
 ## 3.0.0
 
 **SOME BREAKING CHANGE, please check your code and UI render**

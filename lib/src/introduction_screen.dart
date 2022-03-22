@@ -78,7 +78,7 @@ class IntroductionScreen extends StatefulWidget {
   /// Is the progress indicator should be display
   ///
   /// @Default `true`
-  bool isProgress;
+  final bool isProgress;
 
   /// Enable or not onTap feature on progress indicator
   ///
