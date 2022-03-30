@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.2
+
+* Downgrade collection lib to 1.15.0 ([IS#113](https://github.com/Pyozer/introduction_screen/issues/113))
+
 ## 3.0.1
 
 * Fix missing Position export (Thanks to [PR#111](https://github.com/Pyozer/introduction_screen/pull/111))
