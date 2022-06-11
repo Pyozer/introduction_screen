@@ -370,15 +370,21 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
 
     Widget? leftBtn;
-    if (widget.showSkipButton && !_isSkipPressed && !isLastPage) {
-      leftBtn = widget.overrideSkip ??
-          IntroButton(
-            child: widget.skip!,
-            style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
-                widget.skipStyle,
-            semanticLabel: widget.skipSemantic,
-            onPressed: _onSkip,
-          );
+    if (widget.showSkipButton && !_isSkipPressed) {
+      leftBtn = Visibility(
+        visible: !isLastPage,
+        maintainState: true, // Needs to be true to maintain animation
+        maintainAnimation: true, // Needs to be true to maintain size
+        maintainSize: true,
+        child: widget.overrideSkip ??
+            IntroButton(
+              child: widget.skip!,
+              style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
+                  widget.skipStyle,
+              semanticLabel: widget.skipSemantic,
+              onPressed: _onSkip,
+            ),
+      );
     } else if (widget.showBackButton && _currentPage.round() > 0) {
       leftBtn = widget.overrideBack ??
           IntroButton(
