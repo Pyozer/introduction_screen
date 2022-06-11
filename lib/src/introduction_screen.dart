@@ -370,9 +370,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
 
     Widget? leftBtn;
-    if (widget.showSkipButton && !_isSkipPressed) {
+    if (widget.showSkipButton) {
       leftBtn = Visibility(
-        visible: !isLastPage,
+        visible: !isLastPage && !_isSkipPressed,
         maintainState: true, // Needs to be true to maintain animation
         maintainAnimation: true, // Needs to be true to maintain size
         maintainSize: true,
