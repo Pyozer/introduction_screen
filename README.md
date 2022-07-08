@@ -33,7 +33,7 @@ This example only defines title, body and an image (you can define any widget)
 ```dart
 PageViewModel(
   title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
+  body: "Here you can write the description of the page, to explain something...",
   image: Center(
     child: Image.network("https://domaine.com/image.png", height: 175.0),
   ),
@@ -47,7 +47,7 @@ This example shows you how to define the color of the page
 ```dart
 PageViewModel(
   title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
+  body: "Here you can write the description of the page, to explain something...",
   image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
   decoration: const PageDecoration(
     pageColor: Colors.blue,
@@ -62,7 +62,7 @@ This example shows you how to define another TextStyle for the title and the bod
 ```dart
 PageViewModel(
   title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
+  body: "Here you can write the description of the page, to explain something...",
   image: const Center(child: Icon(Icons.android)),
   decoration: const PageDecoration(
     titleTextStyle: TextStyle(color: Colors.orange),
@@ -78,7 +78,7 @@ This example shows you how to define a page with a footer, like a Button
 ```dart
 PageViewModel(
   title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
+  body: "Here you can write the description of the page, to explain something...",
   image: const Center(child: Icon(Icons.android)),
   footer: ElevatedButton(
     onPressed: () {
