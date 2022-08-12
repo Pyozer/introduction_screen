@@ -105,6 +105,9 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `350`
   final int animationDuration;
 
+  /// Auto scroll duration in millisecondes
+  final int? autoScrollDuration;
+
   /// Index of the initial page
   ///
   /// @Default `0`
@@ -232,6 +235,7 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsDecorator = const DotsDecorator(),
     this.dotsContainerDecorator,
     this.animationDuration = 350,
+    this.autoScrollDuration,
     this.initialPage = 0,
     this.skipOrBackFlex = 1,
     this.dotsFlex = 1,
@@ -317,10 +321,23 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
+    widget.autoScrollDuration != null
+        ? _autoScroll(widget.autoScrollDuration)
+        : null;
   }
 
   int getPagesLength() {
     return (widget.pages ?? widget.rawPages!).length;
+  }
+
+  Future<void> _autoScroll(_duration) async {
+    for (int i = 0; i < widget.pages!.length; i++) {
+      await Future.delayed(Duration(milliseconds: _duration), () {
+        _pageController.animateToPage(i,
+            duration: Duration(milliseconds: widget.animationDuration),
+            curve: widget.curve);
+      });
+    }
   }
 
   void next() => animateScroll(_currentPage.round() + 1);
