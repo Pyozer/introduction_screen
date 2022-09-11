@@ -206,6 +206,13 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool rtl;
 
+  /// Corresponds to PageView's parameter of the same name.
+  /// More details can be found
+  /// [here](https://api.flutter.dev/flutter/widgets/PageView/PageView.html).
+  ///
+  /// @Default `false`
+  final bool allowImplicitScrolling;
+
   IntroductionScreen({
     Key? key,
     this.pages,
@@ -257,6 +264,7 @@ class IntroductionScreen extends StatefulWidget {
     this.pagesAxis = Axis.horizontal,
     this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
+    this.allowImplicitScrolling = false,
   })  : assert(
           pages != null || rawPages != null,
           "You must set either 'pages' or 'rawPages' parameter",
@@ -423,6 +431,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 scrollDirection: widget.pagesAxis,
                 controller: _pageController,
                 onPageChanged: widget.onChange,
+                allowImplicitScrolling: widget.allowImplicitScrolling,
                 physics: widget.freeze
                     ? const NeverScrollableScrollPhysics()
                     : widget.scrollPhysics,
