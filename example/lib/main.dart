@@ -64,6 +64,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     return IntroductionScreen(
       key: introKey,
       globalBackgroundColor: Colors.white,
+      allowImplicitScrolling: true,
       globalHeader: Align(
         alignment: Alignment.topRight,
         child: SafeArea(
