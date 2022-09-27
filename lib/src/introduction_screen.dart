@@ -167,6 +167,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool isBottomSafeArea;
 
+  /// Enable or disable content resizing for bottom inset (e.g. keyboard)
+  ///
+  /// @Default `true`
+  final bool resizeToAvoidBottomInset;
+
   /// Controls position
   ///
   /// @Default `Position(left: 0, right: 0, bottom: 0)`
@@ -248,6 +253,7 @@ class IntroductionScreen extends StatefulWidget {
     this.backSemantic,
     this.isTopSafeArea = false,
     this.isBottomSafeArea = false,
+    this.resizeToAvoidBottomInset = true,
     this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
     this.controlsMargin = EdgeInsets.zero,
     this.controlsPadding = const EdgeInsets.all(16.0),
@@ -413,6 +419,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     return Scaffold(
       backgroundColor: widget.globalBackgroundColor,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       body: Stack(
         children: [
           Positioned.fill(
