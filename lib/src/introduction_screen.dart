@@ -393,15 +393,15 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> animateScroll(int page) async {
     bool isValidToProgress = widget.canProgress(_currentPage);
     if (isValidToProgress) {
-    setState(() => _isScrolling = true);
-    await _pageController.animateToPage(
-      max(min(page, getPagesLength() - 1), 0),
-      duration: Duration(milliseconds: widget.animationDuration),
-      curve: widget.curve,
-    );
-    if (mounted) {
-      setState(() => _isScrolling = false);
-    }
+      setState(() => _isScrolling = true);
+      await _pageController.animateToPage(
+        max(min(page, getPagesLength() - 1), 0),
+        duration: Duration(milliseconds: widget.animationDuration),
+        curve: widget.curve,
+      );
+      if (mounted) {
+        setState(() => _isScrolling = false);
+      }
     }
   }
 
@@ -423,8 +423,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     if (widget.showSkipButton) {
       leftBtn = Visibility(
         visible: !isLastPage && !_isSkipPressed,
-        maintainState: true, // Needs to be true to maintain animation
-        maintainAnimation: true, // Needs to be true to maintain size
+        maintainState: true,
+        // Needs to be true to maintain animation
+        maintainAnimation: true,
+        // Needs to be true to maintain size
         maintainSize: true,
         child: widget.overrideSkip ??
             IntroButton(
