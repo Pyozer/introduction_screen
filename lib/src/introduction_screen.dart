@@ -11,6 +11,10 @@ import 'package:introduction_screen/src/model/position.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
 
+bool defaultCanProgressFunction(double page) {
+  return true;
+}
+
 class IntroductionScreen extends StatefulWidget {
   /// All pages of the onboarding
   final List<PageViewModel>? pages;
@@ -206,6 +210,25 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool rtl;
 
+  /// A handler to check if the user is allowed to progress to the next page.
+  /// If returned value is true, the page will progress to the next page, otherwise the page will not progress.
+  /// In order to make it work properly with TextFormField, you should place setState in the onChanged callback of the TextFormField.
+  ///
+  /// @Default `true`
+  /// ```dart
+  /// canProgress: (page) {
+  ///     int _currentPage = page.round();
+  ///     if (_currentPage == 0 && _textFieldController1.text.isEmpty) {
+  ///       return false;
+  ///     } else if (_currentPage == 1 && _textFieldController2.text.isEmpty) {
+  ///       return false;
+  ///     } else {
+  ///       return true;
+  ///    }
+  /// }
+  /// ```
+  final Function canProgress;
+
   IntroductionScreen({
     Key? key,
     this.pages,
@@ -257,6 +280,7 @@ class IntroductionScreen extends StatefulWidget {
     this.pagesAxis = Axis.horizontal,
     this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
+    this.canProgress = defaultCanProgressFunction,
   })  : assert(
           pages != null || rawPages != null,
           "You must set either 'pages' or 'rawPages' parameter",
@@ -344,6 +368,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   Future<void> animateScroll(int page) async {
+    bool isValidToProgress = widget.canProgress(_currentPage);
+    if (isValidToProgress) {
     setState(() => _isScrolling = true);
     await _pageController.animateToPage(
       max(min(page, getPagesLength() - 1), 0),
@@ -352,6 +378,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     );
     if (mounted) {
       setState(() => _isScrolling = false);
+    }
     }
   }
 
@@ -425,7 +452,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 onPageChanged: widget.onChange,
                 physics: widget.freeze
                     ? const NeverScrollableScrollPhysics()
-                    : widget.scrollPhysics,
+                    : !widget.canProgress(_currentPage)
+                        ? const NeverScrollableScrollPhysics()
+                        : widget.scrollPhysics,
                 children: widget.pages
                         ?.mapIndexed(
                           (index, page) => IntroPage(
