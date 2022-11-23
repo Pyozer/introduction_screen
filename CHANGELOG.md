@@ -7,16 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `resizeToAvoidBottomInset` to for better keyboard support
-- `canProgress` parameter to check if it is valid to progress to the next page
-- autoscroll method
+- `resizeToAvoidBottomInset` to for better keyboard support - [PR#141](https://github.com/Pyozer/introduction_screen/pull/141)
+- `canProgress` parameter to check if it is valid to progress to the next page - [PR#137](https://github.com/Pyozer/introduction_screen/pull/137)
+- autoscroll method - [PR#136](https://github.com/Pyozer/introduction_screen/pull/136)
 
 ### Fixed 
-- Visibility system now also works with `_isSkipPressed`
+- Hiding Of Skip Button Is Now Handled By A Visibility Widget So It Doesn't Jump Around - [PR#127](https://github.com/Pyozer/introduction_screen/pull/127)
 
 ### Changed 
-- README.md improvements
-- Update Gradle and Kotlin versions in example app
+- README.md improvements - [PR#120](https://github.com/Pyozer/introduction_screen/pull/120)
+- Update Gradle and Kotlin versions in example app - [PR#145](https://github.com/Pyozer/introduction_screen/pull/145)
 - Fix deprecated warnings in example app
 
 
