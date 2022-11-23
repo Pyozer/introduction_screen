@@ -1,9 +1,9 @@
 # IntroductionScreen [![pub package](https://img.shields.io/pub/v/introduction_screen.svg)](https://pub.dartlang.org/packages/introduction_screen)
 
-Introduction screen allow you to have a screen at launcher for example, where you can explain your app.
-This Widget is very customizable with a great design.
+Introduction Screen allows you to have a screen on an app's first launch to, for example, explain your app.
+This widget is very customizable with a great design.
 
-Introduction_screen use another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
+`introduction_screen` uses another package, [dots_indicator](https://github.com/Pyozer/dots_indicator), that I also created.
 
 <img src="https://raw.githubusercontent.com/Pyozer/introduction_screen/master/demo/example.gif" width="270">
 
@@ -16,54 +16,64 @@ dependencies:
   introduction_screen: ^3.0.1
 ```
 
-## Example
+## Examples
 
-Many parameters are available, in next section of example all are not listed. To see all parameters available please check end of README.
-If you want to display IntroductionScreen only once (e.g: first start of your app), use SharedPreferences (or similar) to save status (already display or not). It's not responsability of this package to handle this.
+Not all of the many parameters in each class are used in these examples.
+See [Parameter Lists](#parameter-lists) for the complete documentation for each class.
 
+*Note: if you want to display `IntroductionScreen` only once, like on the first start of your app, use
+[shared_preferences](https://pub.dev/packages/shared_preferences) (or a similar strategy)
+to save the status of whether it has been already displayed or not.
+It's not responsibility of this package to handle this.*
 
-In these example, `listPagesViewModel` is the **list of pages**. A page is base on `PageViewModel`. See example of a `PageViewModel` below.
+### PageViewModel
 
-## PageViewModel
+A list of `PageViewModel`s is used for `IntroductionScreen`'s `pages` parameter.
 
-### Simple page
+#### Simple page
 
-This example only defines title, body and an image (you can define any widget)
+This example only defines the `title`, `body`, and `image` parameters.
+(You can define `image` as any widget.)
 
 ```dart
 PageViewModel(
-  title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
-  image: Center(
-    child: Image.network("https://domaine.com/image.png", height: 175.0),
+  title: "Title of introduction page",
+  body: "Welcome to the app! This is a description of how it works.",
+  image: const Center(
+    child: Icon(Icons.waving_hand, size: 50.0),
   ),
 )
 ```
 
-### Page with custom colors
+#### Page with custom colors
 
-This example shows you how to define the color of the page
+This example defines the color of the page using the `decoration` parameter.
+The image link does not exist and is only for example.
 
 ```dart
 PageViewModel(
-  title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
-  image: Center(child: Image.asset("res/images/logo.png", height: 175.0)),
+  title: "Title of blue page",
+  body: "Welcome to the app! This is a description on a page with a blue background.",
+  image: Center(
+    child: Image.network("https://example.com/image.png", height: 175.0),
+  ),
   decoration: const PageDecoration(
     pageColor: Colors.blue,
   ),
 )
 ```
 
-### Page with custom text style
+#### Page with custom text style
 
-This example shows you how to define another TextStyle for the title and the body
+This example defines custom TextStyles in the `decoration` parameter for the title and body.
 
 ```dart
 PageViewModel(
-  title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
-  image: const Center(child: Icon(Icons.android)),
+  title: "Title of orange text and bold page",
+  body: "This is a description on a page with an orange title and bold, big body.",
+  image: const Center(
+    child: Text("👋", style: TextStyle(fontSize: 100.0)),
+  ),
   decoration: const PageDecoration(
     titleTextStyle: TextStyle(color: Colors.orange),
     bodyTextStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
@@ -71,32 +81,34 @@ PageViewModel(
 )
 ```
 
-### Page with a footer, like a button
+#### Page with a footer (button)
 
-This example shows you how to define a page with a footer, like a Button
+This example defines a `footer` for the page with a button.
+The image does not exist and is only for example.
 
 ```dart
 PageViewModel(
-  title: "Title of first page",
-  body: "Here you can write the description of the page, to explain someting...",
-  image: const Center(child: Icon(Icons.android)),
+  title: "Title of custom button page",
+  body: "This is a description on a page with a custom button below.",
+  image: Image.asset("res/images/logo.png", height: 175.0),
   footer: ElevatedButton(
     onPressed: () {
-      // On button presed
+      // On button pressed
     },
-    child: const Text("Let's Go !"),
+    child: const Text("Let's Go!"),
   ),
-);
+)
 ```
 
-### Page with widget body
+#### Page with widget body
 
-This example shows you how to define a page with a body as Widget and not a simple String
-You can to the same this for title, with `titleWidget` parameter.
+This example defines the page body using `bodyWidget` and a Widget, rather than with `body` and a String.
+Only use `body` **or** `bodyWidget`.
+The `titleWidget` parameter does the same thing for the title.
 
 ```dart
 PageViewModel(
-  title: "Title of first page",
+  title: "Title of custom body page",
   bodyWidget: Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: const [
@@ -106,99 +118,110 @@ PageViewModel(
     ],
   ),
   image: const Center(child: Icon(Icons.android)),
-);
+)
 ```
 
-## IntroductionScreen
+### IntroductionScreen
 
-**Note :**
+The `IntroductionScreen` Widget is the single object that holds all `pages` and related navigation and settings.
+In these examples, `listPagesViewModel` is a **list of pages**.
+A page is a `PageViewModel` object, like the examples in the previous section.
 
-If you not provide `next` parameter, the Next button will be not displayed.
-If you want to display a skip button, you must add `skip` parameter and `showSkipButton: true`.
+**Note:**
 
-The `done` parameter is required only if `showDoneButton: true`.
+* If you not provide the `next` parameter, the "Next" button will be not displayed. The parameter `showNextButton` must then be set to `false`.
+* If you want to display the "Skip" button, you must add a `skip` parameter **and** set `showSkipButton` to `true`.
+* The `done` parameter is only required if `showDoneButton` is `true`.
 
-### Simple intro screen
+#### Simple intro screen
 
-Simple intro screen
+This example only defines the `pages`, `showNextButton`, `done`, and `onDone` parameters.
 
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+  showNextButton: false,
+  done: const Text("Done"),
   onDone: () {
-    // When done button is press
+    // On button pressed
   },
-); //Material App
+)
 ```
 
-### Intro screen with skip button
+#### Intro screen with skip button
+
+This example defines `showSkipButton` and `skip` to show the "Skip" button on all pages *except the last one*.
 
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
-  onDone: () {
-    // When done button is press
-  },
-  showBackButton: false,
   showSkipButton: true,
+  showNextButton: false,
   skip: const Text("Skip"),
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
-);
+  done: const Text("Done"),
+  onDone: () {
+    // On button pressed
+  },
+)
 ```
 
-### Intro screen with back button
-`note: back button is not visible on first page for better UX`
+#### Intro screen with back button
+
+This example defines `showBackButton` and `back` to show the "Back" button on all pages *except the first one*.
 
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
-  onDone: () {
-    // When done button is press
-  },
   showBackButton: true,
-  showSkipButton: false,
+  showNextButton: false,
   back: const Icon(Icons.arrow_back),
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
-);
+  done: const Text("Done"),
+  onDone: () {
+    // On button pressed
+  },
+)
 ```
 
-### Intro screen with custom button text and dots indicators
+#### Intro screen with custom button text and dots indicators
+
+This example defines `dotsDecorator` to show a custom implementation of the page progress dots.
+This example also uses a custom style for the "Done" button, bolding it.
 
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
-  onDone: () {
-    // When done button is press
-  },
-  onSkip: () {
-    // You can also override onSkip callback
-  },
-  showBackButton: false
   showSkipButton: true,
   skip: const Icon(Icons.skip_next),
-  next: const Icon(Icons.next),
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+  next: const Text("Next"),
+  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w700)),
+  onDone: () {
+    // On Done button pressed
+  },
+  onSkip: () {
+    // On Skip button pressed
+  },
   dotsDecorator: DotsDecorator(
     size: const Size.square(10.0),
     activeSize: const Size(20.0, 10.0),
-    activeColor: theme.accentColor,
+    activeColor: Theme.of(context).colorScheme.secondary,
     color: Colors.black26,
     spacing: const EdgeInsets.symmetric(horizontal: 3.0),
     activeShape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25.0)
-    )
+        borderRadius: BorderRadius.circular(25.0)
+    ),
   ),
-);
+)
 ```
 
-### Intro screen with custom button style
+#### Intro screen with custom button style
 
-You can provide a `baseBtnStyle`, that will apply a style on all buttons (back, next, skip, done).
-You provide also a specific button style (`backStyle`, `nextStyle`, `skipStyle`, `doneStyle`).
-If you set a `baseBtnStyle` and a specific button style, the `baseBtnStyle` will be merge with specific style.
+A custom style will be applied to all buttons using the `baseBtnStyle` parameter ("Back", "Skip", "Next", "Done").
+Specific button style parameters may also be used: `backStyle`, `skipStyle`, `nextStyle`, `doneStyle`.
 
-By default buttons has a style applied:
+If both `baseBtnStyle` and a specific button style are defined, the `baseBtnStyle` will be merge with specific style.
+
+The following is the default button style:
+
 ```dart
 TextButton.styleFrom(
   shape: RoundedRectangleBorder(
@@ -206,45 +229,48 @@ TextButton.styleFrom(
   ),
 )
 ```
-You can override this using the `baseBtnStyle` or with specific button style.
-The exemple below will display :
-- All buttons with 25px circular border
-- Skip button with red color
-- Done button with green color
-- Next button with blue color
 
+This example will override the default in the following ways:
+
+- All buttons have a light grey background
+- The "Skip" button is red
+- The "Done" button is green
+- The "Next" button is blue
 
 ```dart
 IntroductionScreen(
   pages: listPagesViewModel,
   showSkipButton: true,
   skip: const Text("Skip"),
-  done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+  next: const Text("Next"),
+  done: const Text("Done"),
   onDone: () {
     // When done button is press
   },
   baseBtnStyle: TextButton.styleFrom(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25.0),
-    ),
+    backgroundColor: Colors.grey.shade200,
   ),  
   skipStyle: TextButton.styleFrom(primary: Colors.red),  
-  doneColor: TextButton.styleFrom(primary: Colors.green),  
-  nextColor: TextButton.styleFrom(primary: Colors.blue),
-); 
+  doneStyle: TextButton.styleFrom(primary: Colors.green),  
+  nextStyle: TextButton.styleFrom(primary: Colors.blue),
+)
 ```
 
-### Parameters of IntroductionScreen widget
+## Parameter Lists
 
-Many parameters can be used to customized Intro like you want !
-This is all parameters you can add :
+### IntroductionScreen parameters
 
-#### **Pages**
+Many parameters can be used to customize your app introduction like you want!
+This is the full list:
+
+#### Pages
+
 - Page that will be display (`PageViewModel`), by adding `pages: [..]` parameter.
 - Use your own pages (Widget) without using those predefined, by adding `rawPages: [..]` parameter.
   - If you provide both `rawPages` and `pages` parameter, `pages` will be used.
 
-#### **Callbacks**
+#### Callbacks
+
 - Set a custom callback when done button is pressed, by adding `onDone: () {}` parameter.
   - This param is required if you define `done` param, EXCEPT if you set `showDoneButton: false`
   - If you set `overrideDone` param, it will be ignored.
@@ -253,7 +279,8 @@ This is all parameters you can add :
   - If you set `overrideSkip` param, it will be ignored.
 - Add callback to listen page changes, by adding `onChange: (page) {}` parameter.
 
-#### **Use pre-made buttons**
+#### Use pre-made buttons
+
 - Define pre-made Done button child (Widget), by adding `done: Text('Done')`
   - This param or `overrideDone` are required, EXCEPT if you set `showDoneButton: false`
   - By providing `done`, the parameter `onDone` is also required.
@@ -264,9 +291,9 @@ This is all parameters you can add :
   Define pre-made Back button child (Widget), by adding `back: Text('Back')`
   - This param is required if you set `showBackButton: true`
 
-#### **Use custom buttons**
+#### Use custom buttons
 
-*If you want to control pages, you can use `key` param. Search in issues of this repo to have more detailed informations.* 
+*If you want to control pages, you can use `key` param. Search this repo's Issues for more detailed information.* 
 
 - Define your custom Done button (Widget), by using `overrideDone`
   - This param or `done` are required, EXCEPT if you set `showDoneButton: false`
@@ -281,7 +308,7 @@ This is all parameters you can add :
   - This param or `back` are required if you set `showBackButton: true`
   - This parameter has priority over the `skip` parameter.
 
-#### **Manage display of pre-made or custom buttons**
+#### Manage display of pre-made or custom buttons
 
 - Hide/show Skip button, by adding `showSkipButton: false` parameter.
   - Default `false`
@@ -292,14 +319,14 @@ This is all parameters you can add :
 - Hide/show Back button, by adding `showBackButton: false` parameter.
   - Default `false`
 
-#### **Controls**
+#### Controls
 
 - Display or not the progress dots, by adding `isProgress: false` parameter.
   - Default `true`
 - Enable or disable dots progress tap, by adding `isProgressTap: false` parameter.
   - Default `true`
 
-#### **Page**
+#### Page
 
 - Freeze the scroll, by adding `freeze: true` parameter.
   - Default `false`
@@ -313,7 +340,8 @@ This is all parameters you can add :
   - If you want to have only one ScrollController for page **3**, you can provide: `scrollControllers: [null, null, controller1]`
   - Will be ignored for page(s) if `useScrollView` is set to `false` in PageViewModel(s)
 
-#### **Pages style**
+#### Pages style
+
 - Global background color, by adding `globalBackgroundColor: Colors.blue` parameter.
   - Tips: use `Colors.transparent` to display an image as background (using Stack with IntroductionScreen inside for example)
 - Customize dots (progression) by adding `dotsDecorator: DotsDecorator(...)`
@@ -329,20 +357,23 @@ This is all parameters you can add :
 - Animation curve between pages, by adding `curve: Curves.elasticIn` parameter.
   - Default `Curves.easeIn`
 
-#### **Buttons styles**
+#### Buttons style
+
 - Change global style of buttons (for skip, next, done, back), by adding `baseBtnStyle` parameter.
 - Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
 - Change next button style, by adding `nextStyle: TextButton.styleFrom(alignment: Alignment.centerRight)` parameter.
 - Change done button style, by adding `doneStyle: TextButton.styleFrom(splashFactory: NoSplash.splashFactory)` parameter.
 - Change back button style, by adding `backStyle: TextButton.styleFrom(primary: Colors.red)` parameter.
 
-#### **Semantic**
+#### Semantic
+
 - Change skip button semantic label, by adding `skipSemantic: 'Skip introduction'` parameter.
 - Change next button semantic label, by adding `nextSemantic: 'Go to next page'` parameter.
 - Change done button semantic label, by adding `doneSemantic: 'Exit introduction'` parameter.
 - Change back button semantic label, by adding `backSemantic: 'Go to previous page'` parameter.
 
-#### **Layout**
+#### Layout
+
 - Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter
   - Default `false`
 - Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter.
@@ -362,9 +393,9 @@ This is all parameters you can add :
 - You can also enable right-to-left behavious by adding `rtl: true`.
   - Default `false`
 
-### Parameters of PageViewModel (each pages)
+### PageViewModel parameters
 
-You can also provide many parameter to customize each pages :
+You can provide many parameters to customize each pages:
 
 - `title: "Title of the page"` or `titleWidget: Text("Custom widget for title")`
 - `body: "Body of the page"` or `bodyWidget: Text("Custom widget for body")`
@@ -377,7 +408,7 @@ You can also provide many parameter to customize each pages :
 - `reverse: true`, reverse order of image and content (title/body). (Default: `false`)
 - `useScrollView: false`, by default pages use a Scrollview to handle small screen or long body text. You can remove ScrollView by setting to false.
 
-### Parameters of PageDecoration (decoration of a page)
+### PageDecoration parameters
 
 - `pageColor: Colors.white`, background color of the page
   - You cannot use both pageColor and boxDecoration params
