@@ -23,6 +23,9 @@ jobs:
       - run: flutter --version
       - run: flutter analyze
       #- run: flutter test
-      - run: cd example && flutter pub get
-      - run: flutter build appbundle --debug --no-shrink
-      - run: flutter build ios --release --no-codesign
+      - name: Build example app
+        working-directory: ./example
+      - run: | 
+          flutter pub get
+          flutter build appbundle --debug --no-shrink
+          flutter build ios --release --no-codesign
