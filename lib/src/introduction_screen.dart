@@ -104,12 +104,12 @@ class IntroductionScreen extends StatefulWidget {
   /// This is useful when the background image is full screen.
   final Decoration? dotsContainerDecorator;
 
-  /// Animation duration in millisecondes
+  /// Animation duration in milliseconds
   ///
   /// @Default `350`
   final int animationDuration;
 
-  /// Auto scroll duration in millisecondes
+  /// Auto scroll duration in milliseconds
   final int? autoScrollDuration;
 
   /// Index of the initial page
@@ -351,22 +351,26 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
-    widget.autoScrollDuration != null
-        ? _autoScroll(widget.autoScrollDuration)
-        : null;
+    _autoScroll(widget.autoScrollDuration);
   }
 
   int getPagesLength() {
     return (widget.pages ?? widget.rawPages!).length;
   }
 
-  Future<void> _autoScroll(_duration) async {
-    for (int i = 0; i < widget.pages!.length; i++) {
-      await Future.delayed(Duration(milliseconds: _duration), () {
-        _pageController.animateToPage(i,
+  Future<void> _autoScroll(_durationInt) async {
+    if (widget.autoScrollDuration != null) {
+      Duration _duration = Duration(milliseconds: _durationInt);
+
+      for (int i = 0; i < widget.pages!.length; i++) {
+        await Future.delayed(_duration);
+        if (!_isSkipPressed && !_isScrolling) {
+          _pageController.nextPage(
             duration: Duration(milliseconds: widget.animationDuration),
-            curve: widget.curve);
-      });
+            curve: widget.curve,
+          );
+        }
+      }
     }
   }
 
