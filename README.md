@@ -1,6 +1,8 @@
 # IntroductionScreen [![pub package](https://img.shields.io/pub/v/introduction_screen.svg)](https://pub.dartlang.org/packages/introduction_screen)
 
-[![Build and Test](https://github.com/Pyozer/introduction_screen/actions/workflows/main.yml/badge.svg)](https://github.com/Pyozer/introduction_screen/actions/workflows/main.yml)
+[![Build Example App](https://github.com/Pyozer/introduction_screen/actions/workflows/example_app.yml/badge.svg)](https://github.com/Pyozer/introduction_screen/actions/workflows/example_app.yml)
+[![Run Project Tests](https://github.com/Pyozer/introduction_screen/actions/workflows/main.yml/badge.svg)](https://github.com/Pyozer/introduction_screen/actions/workflows/main.yml)
+
 
 Introduction Screen allows you to have a screen on an app's first launch to, for example, explain your app.
 This widget is very customizable with a great design.
