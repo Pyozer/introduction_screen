@@ -1,0 +1,31 @@
+#The name of your workflow.
+name:  build
+# Trigger the workflow on push or pull request
+on: [push,pull_request]
+#A workflow run is made up of one or more jobs. Jobs run in parallel by default.
+jobs:
+  tests:
+    # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes
+    timeout-minutes: 40
+    #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
+    runs-on: macos-latest
+    #sequence of tasks called
+    steps:
+      # The branch or tag ref that triggered the workflow will be checked out.
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v2
+          # Make sure the @v0.4.1 matches the current version of the action
+        # https://github.com/webfactory/ssh-agent
+      # Setup a flutter environment.
+      # https://github.com/marketplace/actions/flutter-action
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - run: dart --version
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter analyze
+      #- run: flutter test
+      #- run: flutter drive --target=test_driver/app.dart
+      - run: flutter build appbundle --debug --no-shrink
+      - run: flutter build ios --release --no-codesign
