@@ -13,12 +13,10 @@ jobs:
     steps:
       # The branch or tag ref that triggered the workflow will be checked out.
       # https://github.com/actions/checkout
-      - uses: actions/checkout@v2
-          # Make sure the @v0.4.1 matches the current version of the action
-        # https://github.com/webfactory/ssh-agent
+      - uses: actions/checkout@v3
       # Setup a flutter environment.
       # https://github.com/marketplace/actions/flutter-action
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v3
         with:
           channel: 'stable'
       - run: dart --version
