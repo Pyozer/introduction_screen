@@ -1,5 +1,5 @@
 #The name of your workflow.
-name:  build
+name: build and test
 # Trigger the workflow on push or pull request
 on: [push,pull_request]
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
@@ -21,9 +21,8 @@ jobs:
           channel: 'stable'
       - run: dart --version
       - run: flutter --version
-      - run: flutter pub get
       - run: flutter analyze
       #- run: flutter test
-      #- run: flutter drive --target=test_driver/app.dart
+      - run: cd example && flutter pub get
       - run: flutter build appbundle --debug --no-shrink
       - run: flutter build ios --release --no-codesign
