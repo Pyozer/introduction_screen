@@ -110,6 +110,12 @@ class IntroductionScreen extends StatefulWidget {
   final int animationDuration;
 
   /// Auto scroll duration in milliseconds
+  ///
+  /// @Default `null`
+  /// 
+  /// @Note `null` means no auto scroll
+  /// 
+  /// Once the value of `autoScrollDuration` is set, auto scroll will be activated and it will scroll to the next page automatically after the specified duration.
   final int? autoScrollDuration;
 
   /// Index of the initial page
@@ -358,15 +364,15 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     return (widget.pages ?? widget.rawPages!).length;
   }
 
-  Future<void> _autoScroll(_durationInt) async {
-    if (widget.autoScrollDuration != null) {
+  Future<void> _autoScroll(int? _durationInt) async {
+    if (_durationInt != null) {
       Duration _duration = Duration(milliseconds: _durationInt);
 
       for (int i = 0; i < widget.pages!.length; i++) {
         await Future.delayed(_duration);
         if (!_isSkipPressed && !_isScrolling) {
           _pageController.nextPage(
-            duration: Duration(milliseconds: widget.animationDuration),
+            duration: _duration,
             curve: widget.curve,
           );
         }
