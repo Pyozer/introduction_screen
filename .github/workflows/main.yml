@@ -16,4 +16,4 @@ jobs:
       - run: dart --version
       - run: flutter --version
       - run: flutter analyze
-      #- run: flutter test
+      - run: flutter test

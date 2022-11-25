@@ -12,3 +12,8 @@ dependencies:
 
   dots_indicator: ^2.1.0
   collection: ^1.15.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_screenutil: ^5.6.0
