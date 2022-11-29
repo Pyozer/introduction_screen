@@ -112,9 +112,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Auto scroll duration in milliseconds
   ///
   /// @Default `null`
-  /// 
+  ///
   /// @Note `null` means no auto scroll
-  /// 
+  ///
   /// Once the value of `autoScrollDuration` is set, auto scroll will be activated and it will scroll to the next page automatically after the specified duration.
   final int? autoScrollDuration;
 
@@ -501,8 +501,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         ?.mapIndexed(
                           (index, page) => IntroPage(
                             page: page,
-                            scrollController: widget.scrollControllers
-                                ?.elementAtOrNull(index),
+                            scrollController:
+                                (CustomList(widget.scrollControllers)
+                                    ?.elementAtOrNull(index)),
                             isTopSafeArea: widget.isTopSafeArea,
                             isBottomSafeArea: widget.isBottomSafeArea,
                           ),
