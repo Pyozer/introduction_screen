@@ -18,17 +18,17 @@ class IntroButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: Semantics(
-          label: semanticLabel,
-          button: true,
-          child: TextButton(
-            onPressed: onPressed,
-            child: child,
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ).merge(style),
-          ),
+        label: semanticLabel,
+        button: true,
+        child: TextButton(
+          onPressed: onPressed,
+          child: child,
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ).merge(style),
+        ),
       ),
     );
   }

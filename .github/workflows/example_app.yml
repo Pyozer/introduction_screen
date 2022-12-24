@@ -1,0 +1,24 @@
+name: Build Example App
+on: [push,pull_request]
+jobs:
+  build:
+    timeout-minutes: 40
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./example
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - run: dart --version
+      - run: flutter --version
+      - run: flutter analyze
+      - run: flutter pub get
+      - run: flutter build appbundle --debug --no-shrink
+      - run: flutter build ios --release --no-codesign

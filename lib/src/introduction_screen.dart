@@ -11,6 +11,10 @@ import 'package:introduction_screen/src/model/position.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
 
+bool defaultCanProgressFunction(double page) {
+  return true;
+}
+
 class IntroductionScreen extends StatefulWidget {
   /// All pages of the onboarding
   final List<PageViewModel>? pages;
@@ -100,10 +104,19 @@ class IntroductionScreen extends StatefulWidget {
   /// This is useful when the background image is full screen.
   final Decoration? dotsContainerDecorator;
 
-  /// Animation duration in millisecondes
+  /// Animation duration in milliseconds
   ///
   /// @Default `350`
   final int animationDuration;
+
+  /// Auto scroll duration in milliseconds
+  ///
+  /// @Default `null`
+  ///
+  /// @Note `null` means no auto scroll
+  ///
+  /// Once the value of `autoScrollDuration` is set, auto scroll will be activated and it will scroll to the next page automatically after the specified duration.
+  final int? autoScrollDuration;
 
   /// Index of the initial page
   ///
@@ -167,6 +180,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool isBottomSafeArea;
 
+  /// Enable or disable content resizing for bottom inset (e.g. keyboard)
+  ///
+  /// @Default `true`
+  final bool resizeToAvoidBottomInset;
+
   /// Controls position
   ///
   /// @Default `Position(left: 0, right: 0, bottom: 0)`
@@ -213,6 +231,25 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool allowImplicitScrolling;
 
+  /// A handler to check if the user is allowed to progress to the next page.
+  /// If returned value is true, the page will progress to the next page, otherwise the page will not progress.
+  /// In order to make it work properly with TextFormField, you should place setState in the onChanged callback of the TextFormField.
+  ///
+  /// @Default `true`
+  /// ```dart
+  /// canProgress: (page) {
+  ///     int _currentPage = page.round();
+  ///     if (_currentPage == 0 && _textFieldController1.text.isEmpty) {
+  ///       return false;
+  ///     } else if (_currentPage == 1 && _textFieldController2.text.isEmpty) {
+  ///       return false;
+  ///     } else {
+  ///       return true;
+  ///    }
+  /// }
+  /// ```
+  final Function canProgress;
+
   IntroductionScreen({
     Key? key,
     this.pages,
@@ -239,6 +276,7 @@ class IntroductionScreen extends StatefulWidget {
     this.dotsDecorator = const DotsDecorator(),
     this.dotsContainerDecorator,
     this.animationDuration = 350,
+    this.autoScrollDuration,
     this.initialPage = 0,
     this.skipOrBackFlex = 1,
     this.dotsFlex = 1,
@@ -255,6 +293,7 @@ class IntroductionScreen extends StatefulWidget {
     this.backSemantic,
     this.isTopSafeArea = false,
     this.isBottomSafeArea = false,
+    this.resizeToAvoidBottomInset = true,
     this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
     this.controlsMargin = EdgeInsets.zero,
     this.controlsPadding = const EdgeInsets.all(16.0),
@@ -265,6 +304,7 @@ class IntroductionScreen extends StatefulWidget {
     this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
     this.allowImplicitScrolling = false,
+    this.canProgress = defaultCanProgressFunction,
   })  : assert(
           pages != null || rawPages != null,
           "You must set either 'pages' or 'rawPages' parameter",
@@ -325,10 +365,27 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
+    _autoScroll(widget.autoScrollDuration);
   }
 
   int getPagesLength() {
     return (widget.pages ?? widget.rawPages!).length;
+  }
+
+  Future<void> _autoScroll(int? _durationInt) async {
+    if (_durationInt != null) {
+      Duration _duration = Duration(milliseconds: _durationInt);
+
+      for (int i = 0; i < widget.pages!.length; i++) {
+        await Future.delayed(_duration);
+        if (!_isSkipPressed && !_isScrolling) {
+          _pageController.nextPage(
+            duration: _duration,
+            curve: widget.curve,
+          );
+        }
+      }
+    }
   }
 
   void next() => animateScroll(_currentPage.round() + 1);
@@ -352,14 +409,17 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   Future<void> animateScroll(int page) async {
-    setState(() => _isScrolling = true);
-    await _pageController.animateToPage(
-      max(min(page, getPagesLength() - 1), 0),
-      duration: Duration(milliseconds: widget.animationDuration),
-      curve: widget.curve,
-    );
-    if (mounted) {
-      setState(() => _isScrolling = false);
+    bool isValidToProgress = widget.canProgress(_currentPage);
+    if (isValidToProgress) {
+      setState(() => _isScrolling = true);
+      await _pageController.animateToPage(
+        max(min(page, getPagesLength() - 1), 0),
+        duration: Duration(milliseconds: widget.animationDuration),
+        curve: widget.curve,
+      );
+      if (mounted) {
+        setState(() => _isScrolling = false);
+      }
     }
   }
 
@@ -378,15 +438,23 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final isLastPage = (_currentPage.round() == getPagesLength() - 1);
 
     Widget? leftBtn;
-    if (widget.showSkipButton && !_isSkipPressed && !isLastPage) {
-      leftBtn = widget.overrideSkip ??
-          IntroButton(
-            child: widget.skip!,
-            style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
-                widget.skipStyle,
-            semanticLabel: widget.skipSemantic,
-            onPressed: _onSkip,
-          );
+    if (widget.showSkipButton) {
+      leftBtn = Visibility(
+        visible: !isLastPage && !_isSkipPressed,
+        maintainState: true,
+        // Needs to be true to maintain animation
+        maintainAnimation: true,
+        // Needs to be true to maintain size
+        maintainSize: true,
+        child: widget.overrideSkip ??
+            IntroButton(
+              child: widget.skip!,
+              style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
+                  widget.skipStyle,
+              semanticLabel: widget.skipSemantic,
+              onPressed: _onSkip,
+            ),
+      );
     } else if (widget.showBackButton && _currentPage.round() > 0) {
       leftBtn = widget.overrideBack ??
           IntroButton(
@@ -421,6 +489,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
     return Scaffold(
       backgroundColor: widget.globalBackgroundColor,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       body: Stack(
         children: [
           Positioned.fill(
@@ -434,13 +503,16 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 allowImplicitScrolling: widget.allowImplicitScrolling,
                 physics: widget.freeze
                     ? const NeverScrollableScrollPhysics()
-                    : widget.scrollPhysics,
+                    : !widget.canProgress(_currentPage)
+                        ? const NeverScrollableScrollPhysics()
+                        : widget.scrollPhysics,
                 children: widget.pages
                         ?.mapIndexed(
                           (index, page) => IntroPage(
                             page: page,
-                            scrollController: widget.scrollControllers
-                                ?.elementAtOrNull(index),
+                            scrollController:
+                                (CustomList(widget.scrollControllers)
+                                    ?.elementAtOrNull(index)),
                             isTopSafeArea: widget.isTopSafeArea,
                             isBottomSafeArea: widget.isBottomSafeArea,
                           ),

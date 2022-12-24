@@ -1,6 +1,31 @@
 # Changelog
+All notable changes to this project will be documented in this file.
 
-## 3.0.2
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.1.1] - 2022-11-29
+
+### Fixed 
+- Explicitly select `elementAtOrNull` from our `CustomList` helper by using an extension override. [#151](https://github.com/Pyozer/introduction_screen/issues/151)
+
+## [3.1.0] - 2022-11-26
+
+### Added
+- `resizeToAvoidBottomInset` to for better keyboard support - [PR#141](https://github.com/Pyozer/introduction_screen/pull/141)
+- `canProgress` parameter to check if it is valid to progress to the next page - [PR#137](https://github.com/Pyozer/introduction_screen/pull/137)
+- autoscroll method - [PR#136](https://github.com/Pyozer/introduction_screen/pull/136)
+
+### Fixed 
+- Hiding Of Skip Button Is Now Handled By A Visibility Widget So It Doesn't Jump Around - [PR#127](https://github.com/Pyozer/introduction_screen/pull/127)
+
+### Changed 
+- README.md improvements - [PR#120](https://github.com/Pyozer/introduction_screen/pull/120)
+- Update Gradle and Kotlin versions in example app - [PR#145](https://github.com/Pyozer/introduction_screen/pull/145)
+- Fix deprecated warnings in example app
+
+
+## [3.0.2] - 2022-03-30
 
 * Downgrade collection lib to 1.15.0 ([IS#113](https://github.com/Pyozer/introduction_screen/issues/113))
 
