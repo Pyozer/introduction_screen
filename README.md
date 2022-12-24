@@ -394,8 +394,11 @@ This is the full list:
   - Default `Axis.horizontal`
 - Change default scroll physics of PageView by adding `scrollPhysics: ClampingScrollPhysics()`.
   - Default `BouncingScrollPhysics()`
-- You can also enable right-to-left behavious by adding `rtl: true`.
+- You can also enable right-to-left behavior by adding `rtl: true`.
   - Default `false`
+- Change default implicit scrolling behavior by adding `allowImplicitScrolling: true`
+  - Default `false`
+  - Reference: [PageView's `allowImplicitScrolling` parameter](https://api.flutter.dev/flutter/widgets/PageView/PageView.html)
 
 ### PageViewModel parameters
 

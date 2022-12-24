@@ -224,6 +224,13 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool rtl;
 
+  /// Corresponds to PageView's parameter of the same name.
+  /// More details can be found
+  /// [here](https://api.flutter.dev/flutter/widgets/PageView/PageView.html).
+  ///
+  /// @Default `false`
+  final bool allowImplicitScrolling;
+
   /// A handler to check if the user is allowed to progress to the next page.
   /// If returned value is true, the page will progress to the next page, otherwise the page will not progress.
   /// In order to make it work properly with TextFormField, you should place setState in the onChanged callback of the TextFormField.
@@ -296,6 +303,7 @@ class IntroductionScreen extends StatefulWidget {
     this.pagesAxis = Axis.horizontal,
     this.scrollPhysics = const BouncingScrollPhysics(),
     this.rtl = false,
+    this.allowImplicitScrolling = false,
     this.canProgress = defaultCanProgressFunction,
   })  : assert(
           pages != null || rawPages != null,
@@ -492,6 +500,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 scrollDirection: widget.pagesAxis,
                 controller: _pageController,
                 onPageChanged: widget.onChange,
+                allowImplicitScrolling: widget.allowImplicitScrolling,
                 physics: widget.freeze
                     ? const NeverScrollableScrollPhysics()
                     : !widget.canProgress(_currentPage)
