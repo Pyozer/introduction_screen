@@ -388,9 +388,15 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     }
   }
 
-  void next() => animateScroll(_currentPage.round() + 1);
+  void next() => {
+        animateScroll(_currentPage.round() + 1),
+        FocusScope.of(context).unfocus()
+      };
 
-  void previous() => animateScroll(_currentPage.round() - 1);
+  void previous() => {
+        animateScroll(_currentPage.round() - 1),
+        FocusScope.of(context).unfocus()
+      };
 
   Future<void> _onSkip() async {
     if (widget.onSkip != null) {
