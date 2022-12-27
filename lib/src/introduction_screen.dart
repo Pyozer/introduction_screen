@@ -2,9 +2,9 @@ library introduction_screen;
 
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/helper.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/model/position.dart';
@@ -195,6 +195,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `EdgeInsets.zero`
   final EdgeInsets controlsMargin;
 
+  /// Margin for controls
+  ///
+  /// @Default `EdgeInsets.zero`
+  final EdgeInsets bodyPadding;
+
   /// Padding for controls
   ///
   /// @Default `EdgeInsets.all(16.0)`
@@ -297,6 +302,7 @@ class IntroductionScreen extends StatefulWidget {
     this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
     this.controlsMargin = EdgeInsets.zero,
     this.controlsPadding = const EdgeInsets.all(16.0),
+    this.bodyPadding = EdgeInsets.zero,
     this.globalHeader,
     this.globalFooter,
     this.scrollControllers,
@@ -449,8 +455,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         child: widget.overrideSkip ??
             IntroButton(
               child: widget.skip!,
-              style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
-                  widget.skipStyle,
+              style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
               semanticLabel: widget.skipSemantic,
               onPressed: _onSkip,
             ),
@@ -459,8 +464,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       leftBtn = widget.overrideBack ??
           IntroButton(
             child: widget.back!,
-            style: widget.baseBtnStyle?.merge(widget.backStyle) ??
-                widget.backStyle,
+            style: widget.baseBtnStyle?.merge(widget.backStyle) ?? widget.backStyle,
             semanticLabel: widget.backSemantic,
             onPressed: !_isScrolling ? previous : null,
           );
@@ -471,8 +475,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       rightBtn = widget.overrideDone ??
           IntroButton(
             child: widget.done!,
-            style: widget.baseBtnStyle?.merge(widget.doneStyle) ??
-                widget.doneStyle,
+            style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
             semanticLabel: widget.doneSemantic,
             onPressed: !_isScrolling ? widget.onDone : null,
           );
@@ -480,8 +483,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       rightBtn = widget.overrideNext ??
           IntroButton(
             child: widget.next!,
-            style: widget.baseBtnStyle?.merge(widget.nextStyle) ??
-                widget.nextStyle,
+            style: widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
             semanticLabel: widget.nextSemantic,
             onPressed: !_isScrolling ? next : null,
           );
@@ -493,6 +495,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       body: Stack(
         children: [
           Positioned.fill(
+            top: widget.bodyPadding.top,
+            left: widget.bodyPadding.left,
+            right: widget.bodyPadding.right,
+            bottom: widget.bodyPadding.bottom,
             child: NotificationListener<ScrollNotification>(
               onNotification: _onScroll,
               child: PageView(
@@ -510,9 +516,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         ?.mapIndexed(
                           (index, page) => IntroPage(
                             page: page,
-                            scrollController:
-                                (CustomList(widget.scrollControllers)
-                                    ?.elementAtOrNull(index)),
+                            scrollController: (CustomList(widget.scrollControllers)?.elementAtOrNull(index)),
                             isTopSafeArea: widget.isTopSafeArea,
                             isBottomSafeArea: widget.isBottomSafeArea,
                           ),
@@ -551,18 +555,14 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         child: Center(
                           child: widget.isProgress
                               ? Semantics(
-                                  label:
-                                      "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                  label: "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
                                   excludeSemantics: true,
                                   child: DotsIndicator(
                                     reversed: widget.rtl,
                                     dotsCount: getPagesLength(),
                                     position: _currentPage,
                                     decorator: widget.dotsDecorator,
-                                    onTap: widget.isProgressTap &&
-                                            !widget.freeze
-                                        ? (pos) => animateScroll(pos.toInt())
-                                        : null,
+                                    onTap: widget.isProgressTap && !widget.freeze ? (pos) => animateScroll(pos.toInt()) : null,
                                   ),
                                 )
                               : const SizedBox(),
