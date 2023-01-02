@@ -260,6 +260,63 @@ IntroductionScreen(
 )
 ```
 
+#### Intro screen with `key` param to change page manually
+
+To change page manually / programatically, in response to user input or another event:
+
+1. Define a `GlobalKey` as part of the parent widget's state
+1. Pass that key to the `IntroductionScreen` `key` param
+1. Use the `currentState` member to access functions defined in `IntroductionScreenState` e.g.
+    1. `next()`
+    1. `previous()`
+    1. `skipToEnd()`
+    1. `animateScroll()`
+
+This example moves to the next page after a delay:
+
+```dart
+class IntroScreenDemo extends StatefulWidget {
+  @override
+  State<IntroScreenDemo> createState() => _IntroScreenDemoState();
+}
+
+class _IntroScreenDemoState extends State<IntroScreenDemo> {
+  // 1. Define a `GlobalKey` as part of the parent widget's state
+  final _introKey = GlobalKey<IntroductionScreenState>();
+  String _status = 'Waiting...';
+
+  @override
+  Widget build(BuildContext context) {
+    return IntroductionScreen(
+      // 2. Pass that key to the `IntroductionScreen` `key` param
+      key: _introKey,
+      pages: [
+        PageViewModel(
+            title: 'Page One',
+            bodyWidget: Column(
+              children: [
+                Text(_status),
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() => _status = 'Going to the next page...');
+
+                      // 3. Use the `currentState` member to access functions defined in `IntroductionScreenState`
+                      Future.delayed(const Duration(seconds: 3),
+                          () => _introKey.currentState?.next());
+                    },
+                    child: const Text('Start'))
+              ],
+            )),
+        PageViewModel(
+            title: 'Page Two', bodyWidget: const Text('That\'s all folks'))
+      ],
+      showNextButton: false,
+      showDoneButton: false,
+    );
+  }
+}
+```
+
 ## Parameter Lists
 
 ### IntroductionScreen parameters
