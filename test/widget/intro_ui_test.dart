@@ -35,7 +35,7 @@ void main() {
 
       expect(titleFinder, findsOneWidget);
       expect(bodyFinder, findsOneWidget);
-      expect(footerFinder, findsOneWidget);
+      expect(footerFinder, findsNothing);
     });
 
     testWidgets('IntroPage is rendered', (tester) async {
