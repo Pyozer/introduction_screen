@@ -55,7 +55,7 @@ class _IntroPageState extends State<IntroPage>
                   child: page.footer!,
                   flex: page.decoration.footerFlex,
                 ),
-              SafeArea(top: false, child: const SizedBox(height: 60.0)),
+              SafeArea(top: false, child: SizedBox(height: page.decoration.safeArea)),
             ],
           ),
         ),
@@ -109,7 +109,8 @@ class _IntroPageState extends State<IntroPage>
                 child: page.footer!,
                 flex: page.decoration.footerFlex,
               ),
-          ]),
+              SizedBox(height: page.decoration.safeArea)
+          ],),
     );
   }
 
