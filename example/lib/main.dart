@@ -118,6 +118,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             fullScreen: true,
             bodyFlex: 2,
             imageFlex: 3,
+            safeArea: 100
           ),
         ),
         PageViewModel(
@@ -139,7 +140,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               ),
             ),
           ),
-          decoration: pageDecoration,
+          decoration: pageDecoration.copyWith(bodyFlex: 6,imageFlex: 6,safeArea: 80),
         ),
         PageViewModel(
           title: "Title of last page - reversed",

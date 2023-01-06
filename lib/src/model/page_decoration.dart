@@ -64,6 +64,11 @@ class PageDecoration {
   /// @Default: `false`
   final bool fullScreen;
 
+  /// Safe area of the content. Change to avoid the overlap between the dots and the content 
+  ///
+  /// @Default 60
+  final double safeArea;
+
   const PageDecoration({
     this.pageColor,
     this.titleTextStyle = const TextStyle(
@@ -86,6 +91,7 @@ class PageDecoration {
     this.bodyAlignment = Alignment.topCenter,
     this.imageAlignment = Alignment.bottomCenter,
     this.fullScreen = false,
+    this.safeArea = 60,
   }) : assert(pageColor == null || boxDecoration == null,
             'Cannot provide both a Color and a BoxDecoration\n');
 
@@ -105,6 +111,7 @@ class PageDecoration {
     Alignment? bodyAlignment,
     Alignment? imageAlignment,
     bool? fullScreen,
+    double? safeArea,
   }) {
     assert(
       pageColor == null || boxDecoration == null,
@@ -127,6 +134,7 @@ class PageDecoration {
       imageAlignment: imageAlignment ?? this.imageAlignment,
       fullScreen: fullScreen ?? this.fullScreen,
       footerFlex: footerFlex ?? this.footerFlex,
+      safeArea: safeArea ?? this.safeArea,
     );
   }
 }
