@@ -41,11 +41,6 @@ class IntroContent extends StatelessWidget {
               page.decoration.bodyTextStyle,
             ),
           ),
-          if (page.footer != null)
-            Padding(
-              padding: page.decoration.footerPadding,
-              child: page.footer,
-            ),
         ],
       ),
     );
