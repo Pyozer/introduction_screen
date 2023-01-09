@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Added a README section demoing IntroductionScreen key param - [PR#154](https://github.com/Pyozer/introduction_screen/pull/154)
+- Added dynamic safeArea - [PR#158](https://github.com/Pyozer/introduction_screen/pull/158)
+
+### Fixed
+-  fix sample visual - [PR#158](https://github.com/Pyozer/introduction_screen/pull/158)
+
+### Changed
+- remove footer from body - [PR#157](https://github.com/Pyozer/introduction_screen/pull/157)
+
 ## [3.1.2] - 2022-12-28
 
 ### Added
