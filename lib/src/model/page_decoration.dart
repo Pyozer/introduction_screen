@@ -26,6 +26,9 @@ class PageDecoration {
   /// Flex ratio of the footer
   final int footerFlex;
 
+  /// FlexFit of the footer
+  final FlexFit footerFit;
+
   /// Padding of image
   ///
   /// @Default `EdgeInsets.only(bottom: 24.0)`
@@ -83,6 +86,7 @@ class PageDecoration {
     this.imageFlex = 1,
     this.bodyFlex = 1,
     this.footerFlex = 1,
+    this.footerFit = FlexFit.loose,
     this.imagePadding = const EdgeInsets.only(bottom: 24.0),
     this.contentMargin = const EdgeInsets.all(16.0),
     this.titlePadding = const EdgeInsets.only(top: 16.0, bottom: 24.0),
@@ -103,6 +107,7 @@ class PageDecoration {
     int? imageFlex,
     int? bodyFlex,
     int? footerFlex,
+    FlexFit? footerFit,
     EdgeInsets? imagePadding,
     EdgeInsets? contentMargin,
     EdgeInsets? titlePadding,
@@ -125,6 +130,8 @@ class PageDecoration {
       boxDecoration: boxDecoration ?? this.boxDecoration,
       imageFlex: imageFlex ?? this.imageFlex,
       bodyFlex: bodyFlex ?? this.bodyFlex,
+      footerFlex: footerFlex ?? this.footerFlex,
+      footerFit: footerFit ?? this.footerFit,
       imagePadding: imagePadding ?? this.imagePadding,
       contentMargin: contentMargin ?? this.contentMargin,
       titlePadding: titlePadding ?? this.titlePadding,
@@ -133,7 +140,6 @@ class PageDecoration {
       bodyAlignment: bodyAlignment ?? this.bodyAlignment,
       imageAlignment: imageAlignment ?? this.imageAlignment,
       fullScreen: fullScreen ?? this.fullScreen,
-      footerFlex: footerFlex ?? this.footerFlex,
       safeArea: safeArea ?? this.safeArea,
     );
   }
