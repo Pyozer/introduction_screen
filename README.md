@@ -482,6 +482,8 @@ You can provide many parameters to customize each pages:
   - You cannot use both pageColor and boxDecoration params
 - `imageFlex: 2`, flex ratio of the image
 - `bodyFlex: 3`, flex ratio of the content (title/body)
+- `footerFlex: 1`, flex ratio of the content (title/body)
+- `footerFit: FlexFit.loose`, flex ratio of the content (title/body)
 - `imagePadding: EdgeInsets.only(bottom: 12.0)`, padding of the image Widget. (Default `EdgeInsets.only(bottom: 24.0)`)
 - `contentPadding: EdgeInsets.only(all: 24.0)`, padding of the content (title/body/footer) Widget. (Default `EdgeInsets.all(16)`)
 - `titlePadding: EdgeInsets.only(bottom: 24.0)`, padding of the title text/Widget. (Default `EdgeInsets.only(top: 16.0, bottom: 24.0)`)

@@ -51,9 +51,10 @@ class _IntroPageState extends State<IntroPage>
                 ),
               ].asReversed(page.reverse),
               if (page.footer != null)
-                Expanded(
+                Flexible(
                   child: page.footer!,
                   flex: page.decoration.footerFlex,
+                  fit: page.decoration.footerFit,
                 ),
               SafeArea(top: false, child: SizedBox(height: page.decoration.safeArea)),
             ],
@@ -105,9 +106,10 @@ class _IntroPageState extends State<IntroPage>
               ),
             ].asReversed(page.reverse),
             if (page.footer != null)
-              Expanded(
+              Flexible(
                 child: page.footer!,
                 flex: page.decoration.footerFlex,
+                fit: page.decoration.footerFit,
               ),
               SizedBox(height: page.decoration.safeArea)
           ],),
