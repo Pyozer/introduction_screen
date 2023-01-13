@@ -382,7 +382,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     if (_durationInt != null) {
       Duration _duration = Duration(milliseconds: _durationInt);
 
-      for (int i = 0; i < widget.pages!.length; i++) {
+      for (int i = 0; i < widget.pages!.length - 1; i++) {
         await Future.delayed(_duration);
         if (!_isSkipPressed && !_isScrolling) {
           _pageController.nextPage(
