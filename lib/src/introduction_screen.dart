@@ -74,6 +74,12 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `true`
   final bool showDoneButton;
 
+  /// Show the bottom part of the page, that's include skip, next, done buttons
+  /// as well as dotsDecorator.
+  ///
+  /// @Default `true`
+  final bool showBottomPart;
+
   /// Is the Back button should be display
   ///
   /// @Default `false`
@@ -273,6 +279,7 @@ class IntroductionScreen extends StatefulWidget {
     this.showSkipButton = false,
     this.showNextButton = true,
     this.showDoneButton = true,
+    this.showBottomPart = true,
     this.showBackButton = false,
     this.isProgress = true,
     this.isProgressTap = true,
@@ -461,7 +468,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         child: widget.overrideSkip ??
             IntroButton(
               child: widget.skip!,
-              style: widget.baseBtnStyle?.merge(widget.skipStyle) ?? widget.skipStyle,
+              style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
+                  widget.skipStyle,
               semanticLabel: widget.skipSemantic,
               onPressed: _onSkip,
             ),
@@ -470,7 +478,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       leftBtn = widget.overrideBack ??
           IntroButton(
             child: widget.back!,
-            style: widget.baseBtnStyle?.merge(widget.backStyle) ?? widget.backStyle,
+            style: widget.baseBtnStyle?.merge(widget.backStyle) ??
+                widget.backStyle,
             semanticLabel: widget.backSemantic,
             onPressed: !_isScrolling ? previous : null,
           );
@@ -481,7 +490,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       rightBtn = widget.overrideDone ??
           IntroButton(
             child: widget.done!,
-            style: widget.baseBtnStyle?.merge(widget.doneStyle) ?? widget.doneStyle,
+            style: widget.baseBtnStyle?.merge(widget.doneStyle) ??
+                widget.doneStyle,
             semanticLabel: widget.doneSemantic,
             onPressed: !_isScrolling ? widget.onDone : null,
           );
@@ -489,7 +499,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       rightBtn = widget.overrideNext ??
           IntroButton(
             child: widget.next!,
-            style: widget.baseBtnStyle?.merge(widget.nextStyle) ?? widget.nextStyle,
+            style: widget.baseBtnStyle?.merge(widget.nextStyle) ??
+                widget.nextStyle,
             semanticLabel: widget.nextSemantic,
             onPressed: !_isScrolling ? next : null,
           );
@@ -522,7 +533,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         ?.mapIndexed(
                           (index, page) => IntroPage(
                             page: page,
-                            scrollController: (CustomList(widget.scrollControllers)?.elementAtOrNull(index)),
+                            scrollController:
+                                (CustomList(widget.scrollControllers)
+                                    ?.elementAtOrNull(index)),
                             isTopSafeArea: widget.isTopSafeArea,
                             isBottomSafeArea: widget.isBottomSafeArea,
                           ),
@@ -539,52 +552,57 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               right: 0,
               child: widget.globalHeader!,
             ),
-          Positioned(
-            left: widget.controlsPosition.left,
-            top: widget.controlsPosition.top,
-            right: widget.controlsPosition.right,
-            bottom: widget.controlsPosition.bottom,
-            child: Column(
-              children: [
-                Container(
-                  padding: widget.controlsPadding,
-                  margin: widget.controlsMargin,
-                  decoration: widget.dotsContainerDecorator,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: widget.skipOrBackFlex,
-                        child: leftBtn ?? const SizedBox(),
-                      ),
-                      Expanded(
-                        flex: widget.dotsFlex,
-                        child: Center(
-                          child: widget.isProgress
-                              ? Semantics(
-                                  label: "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
-                                  excludeSemantics: true,
-                                  child: DotsIndicator(
-                                    reversed: widget.rtl,
-                                    dotsCount: getPagesLength(),
-                                    position: _currentPage,
-                                    decorator: widget.dotsDecorator,
-                                    onTap: widget.isProgressTap && !widget.freeze ? (pos) => animateScroll(pos.toInt()) : null,
-                                  ),
-                                )
-                              : const SizedBox(),
+          if (widget.showBottomPart)
+            Positioned(
+              left: widget.controlsPosition.left,
+              top: widget.controlsPosition.top,
+              right: widget.controlsPosition.right,
+              bottom: widget.controlsPosition.bottom,
+              child: Column(
+                children: [
+                  Container(
+                    padding: widget.controlsPadding,
+                    margin: widget.controlsMargin,
+                    decoration: widget.dotsContainerDecorator,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: widget.skipOrBackFlex,
+                          child: leftBtn ?? const SizedBox(),
                         ),
-                      ),
-                      Expanded(
-                        flex: widget.nextFlex,
-                        child: rightBtn ?? const SizedBox(),
-                      ),
-                    ].asReversed(widget.rtl),
+                        Expanded(
+                          flex: widget.dotsFlex,
+                          child: Center(
+                            child: widget.isProgress
+                                ? Semantics(
+                                    label:
+                                        "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                    excludeSemantics: true,
+                                    child: DotsIndicator(
+                                      reversed: widget.rtl,
+                                      dotsCount: getPagesLength(),
+                                      position: _currentPage,
+                                      decorator: widget.dotsDecorator,
+                                      onTap: widget.isProgressTap &&
+                                              !widget.freeze
+                                          ? (pos) => animateScroll(pos.toInt())
+                                          : null,
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ),
+                        Expanded(
+                          flex: widget.nextFlex,
+                          child: rightBtn ?? const SizedBox(),
+                        ),
+                      ].asReversed(widget.rtl),
+                    ),
                   ),
-                ),
-                if (widget.globalFooter != null) widget.globalFooter!
-              ],
+                  if (widget.globalFooter != null) widget.globalFooter!
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
