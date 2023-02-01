@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-void main() => runApp(App());
+void main() => runApp(const App());
 
 class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -16,22 +18,24 @@ class App extends StatelessWidget {
       title: 'Introduction screen',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: OnBoardingPage(),
+      home: const OnBoardingPage(),
     );
   }
 }
 
 class OnBoardingPage extends StatefulWidget {
+  const OnBoardingPage({Key? key}) : super(key: key);
+
   @override
-  _OnBoardingPageState createState() => _OnBoardingPageState();
+  OnBoardingPageState createState() => OnBoardingPageState();
 }
 
-class _OnBoardingPageState extends State<OnBoardingPage> {
+class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomePage()),
+      MaterialPageRoute(builder: (_) => const HomePage()),
     );
   }
 
@@ -53,7 +57,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
 
-    const pageDecoration = const PageDecoration(
+    const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
@@ -129,15 +133,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             onPressed: () {
               introKey.currentState?.animateScroll(0);
             },
-            child: const Text(
-              'FooButton',
-              style: TextStyle(color: Colors.white),
-            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.lightBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
+            ),
+            child: const Text(
+              'FooButton',
+              style: TextStyle(color: Colors.white),
             ),
           ),
           decoration: pageDecoration.copyWith(
@@ -201,6 +205,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
