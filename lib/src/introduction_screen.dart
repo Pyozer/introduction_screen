@@ -377,6 +377,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   int getPagesLength() {
     return (widget.pages ?? widget.rawPages!).length;
   }
+  
+  int getCurrentPageNumber() => _currentPage.round();
 
   Future<void> _autoScroll(int? _durationInt) async {
     if (_durationInt != null) {
