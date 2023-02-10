@@ -368,6 +368,7 @@ This is the full list:
 - Define your custom Back button (Widget), by using `overrideBack`
   - This param or `back` are required if you set `showBackButton: true`
   - This parameter has priority over the `skip` parameter.
+- Define your custom dots widget (or the widget that you want on that position), by using `customProgress`
 
 #### Manage display of pre-made or custom buttons
 

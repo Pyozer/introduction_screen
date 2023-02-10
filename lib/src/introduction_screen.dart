@@ -80,12 +80,17 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `true`
   final bool showBottomPart;
 
-  /// Is the Back button should be display
+  /// If the Back button should be display
   ///
   /// @Default `false`
   final bool showBackButton;
 
-  /// Is the progress indicator should be display
+  /// If a custom Widget should be used instead of the default progress indicator
+  ///
+  /// @Default `null`
+  final Widget? customProgress;
+
+  /// If the progress indicator should be display
   ///
   /// @Default `true`
   final bool isProgress;
@@ -95,7 +100,7 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `true`
   final bool isProgressTap;
 
-  /// Is the user is allow to change page
+  /// If the user is allow to change page
   ///
   /// @Default `false`
   final bool freeze;
@@ -230,7 +235,7 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `BouncingScrollPhysics()`
   final ScrollPhysics scrollPhysics;
 
-  /// Is right to left behaviour
+  /// If is right to left behaviour
   ///
   /// @Default `false`
   final bool rtl;
@@ -281,6 +286,7 @@ class IntroductionScreen extends StatefulWidget {
     this.showDoneButton = true,
     this.showBottomPart = true,
     this.showBackButton = false,
+    this.customProgress,
     this.isProgress = true,
     this.isProgressTap = true,
     this.freeze = false,
@@ -384,7 +390,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   int getPagesLength() {
     return (widget.pages ?? widget.rawPages!).length;
   }
-  
+
   int getCurrentPageNumber() => _currentPage.round();
 
   Future<void> _autoScroll(int? _durationInt) async {
@@ -575,23 +581,25 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         Expanded(
                           flex: widget.dotsFlex,
                           child: Center(
-                            child: widget.isProgress
-                                ? Semantics(
-                                    label:
-                                        "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
-                                    excludeSemantics: true,
-                                    child: DotsIndicator(
-                                      reversed: widget.rtl,
-                                      dotsCount: getPagesLength(),
-                                      position: _currentPage,
-                                      decorator: widget.dotsDecorator,
-                                      onTap: widget.isProgressTap &&
-                                              !widget.freeze
-                                          ? (pos) => animateScroll(pos.toInt())
-                                          : null,
-                                    ),
-                                  )
-                                : const SizedBox(),
+                            child: widget.customProgress ??
+                                (widget.isProgress
+                                    ? Semantics(
+                                        label:
+                                            "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                        excludeSemantics: true,
+                                        child: DotsIndicator(
+                                          reversed: widget.rtl,
+                                          dotsCount: getPagesLength(),
+                                          position: _currentPage,
+                                          decorator: widget.dotsDecorator,
+                                          onTap: widget.isProgressTap &&
+                                                  !widget.freeze
+                                              ? (pos) =>
+                                                  animateScroll(pos.toInt())
+                                              : null,
+                                        ),
+                                      )
+                                    : const SizedBox()),
                           ),
                         ),
                         Expanded(
