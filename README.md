@@ -436,8 +436,8 @@ This is the full list:
 
 #### Layout
 
-- Show the bottom part of the page, that's include skip, next, done buttons by setting `showBottomPart: true` parameter.
-- Hide the part of the page when the keyboard is open with `hideBottomOnKeyboard` parameter.
+- Show the bottom part of the page, that include skip, next, done buttons by setting `showBottomPart: true` parameter.
+- Hide the bottom part of the page when the keyboard is open with `hideBottomOnKeyboard` parameter.
 - Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter
   - Default `false`
 - Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter.
