@@ -1,9 +1,11 @@
 library introduction_screen;
 
 import 'dart:math';
+import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/helper.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
@@ -79,6 +81,11 @@ class IntroductionScreen extends StatefulWidget {
   ///
   /// @Default `true`
   final bool showBottomPart;
+
+  /// If the bottom part of the page should be displayed when the keyboard is opened
+  ///
+  /// @Default `false`
+  final bool hideBottomOnKeyboard;
 
   /// If the Back button should be display
   ///
@@ -288,6 +295,7 @@ class IntroductionScreen extends StatefulWidget {
     this.showBackButton = false,
     this.customProgress,
     this.isProgress = true,
+    this.hideBottomOnKeyboard = false,
     this.isProgressTap = true,
     this.freeze = false,
     this.globalBackgroundColor,
@@ -364,6 +372,14 @@ class IntroductionScreen extends StatefulWidget {
           initialPage >= 0,
           'Initial page parameter must by a positive number, >= 0.',
         ),
+        assert(
+          hideBottomOnKeyboard == isProgress || !hideBottomOnKeyboard,
+          'hideBottomOnKeyboard can only be true if isProgress = true',
+        ),
+        assert(
+          customProgress != null && isProgress || customProgress == null,
+          'customProgress can only be used if isProgress = true',
+        ),
         super(key: key);
 
   @override
@@ -375,16 +391,37 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   double _currentPage = 0.0;
   bool _isSkipPressed = false;
   bool _isScrolling = false;
+  late bool _showBottom;
+  StreamSubscription<bool>? keyboardSubscription;
 
   PageController get controller => _pageController;
 
   @override
   void initState() {
     super.initState();
-    int initialPage = min(widget.initialPage, getPagesLength() - 1);
+    _showBottom = widget.showBottomPart;
+    final int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
     _autoScroll(widget.autoScrollDuration);
+    if (widget.hideBottomOnKeyboard) {
+      final keyboardVisibilityController = KeyboardVisibilityController();
+      keyboardSubscription =
+          keyboardVisibilityController.onChange.listen((bool visible) {
+        setState(() {
+          _showBottom = !visible;
+        });
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    if (keyboardSubscription != null) {
+      keyboardSubscription!.cancel();
+    }
+    super.dispose();
   }
 
   int getPagesLength() {
@@ -560,7 +597,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               right: 0,
               child: widget.globalHeader!,
             ),
-          if (widget.showBottomPart)
+          if (_showBottom)
             Positioned(
               left: widget.controlsPosition.left,
               top: widget.controlsPosition.top,
@@ -581,25 +618,25 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                         Expanded(
                           flex: widget.dotsFlex,
                           child: Center(
-                            child: widget.customProgress ??
-                                (widget.isProgress
-                                    ? Semantics(
-                                        label:
-                                            "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
-                                        excludeSemantics: true,
-                                        child: DotsIndicator(
-                                          reversed: widget.rtl,
-                                          dotsCount: getPagesLength(),
-                                          position: _currentPage,
-                                          decorator: widget.dotsDecorator,
-                                          onTap: widget.isProgressTap &&
-                                                  !widget.freeze
-                                              ? (pos) =>
-                                                  animateScroll(pos.toInt())
-                                              : null,
-                                        ),
-                                      )
-                                    : const SizedBox()),
+                            child: widget.isProgress
+                                ? widget.customProgress ??
+                                    Semantics(
+                                      label:
+                                          "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                      excludeSemantics: true,
+                                      child: DotsIndicator(
+                                        reversed: widget.rtl,
+                                        dotsCount: getPagesLength(),
+                                        position: _currentPage,
+                                        decorator: widget.dotsDecorator,
+                                        onTap: widget.isProgressTap &&
+                                                !widget.freeze
+                                            ? (pos) =>
+                                                animateScroll(pos.toInt())
+                                            : null,
+                                      ),
+                                    )
+                                : const SizedBox(),
                           ),
                         ),
                         Expanded(
