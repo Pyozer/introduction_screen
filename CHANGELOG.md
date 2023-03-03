@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+- Added hideBottomOnKeyboard parameter [PR#171](https://github.com/Pyozer/introduction_screen/pull/171)
+
 ## [3.1.6] - 2023-02-15
 - Added customProgress parameter [PR#167](https://github.com/Pyozer/introduction_screen/pull/167)
 
