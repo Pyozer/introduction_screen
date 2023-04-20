@@ -17,7 +17,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^3.1.7
+  introduction_screen: ^3.1.8
 ```
 
 ## Examples
@@ -459,6 +459,7 @@ This is the full list:
 - Change default implicit scrolling behavior by adding `allowImplicitScrolling: true`
   - Default `false`
   - Reference: [PageView's `allowImplicitScrolling` parameter](https://api.flutter.dev/flutter/widgets/PageView/PageView.html)
+- Activate the SafeArea by setting `safeAreaList: [true,true,true,true]` parameter.
 
 ### PageViewModel parameters
 

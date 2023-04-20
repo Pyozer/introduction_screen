@@ -254,6 +254,12 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool allowImplicitScrolling;
 
+  /// PageView's bool safe area list.
+  /// the list defines if the safe area will be active on left,right,top and bottom, respectively.
+  ///
+  /// @Default `[false,false,false,false]`
+  final List<bool> safeAreaList;
+
   /// A handler to check if the user is allowed to progress to the next page.
   /// If returned value is true, the page will progress to the next page, otherwise the page will not progress.
   /// In order to make it work properly with TextFormField, you should place setState in the onChanged callback of the TextFormField.
@@ -332,6 +338,7 @@ class IntroductionScreen extends StatefulWidget {
     this.rtl = false,
     this.allowImplicitScrolling = false,
     this.canProgress = defaultCanProgressFunction,
+    this.safeAreaList = const [false,false,false,false]
   })  : assert(
           pages != null || rawPages != null,
           "You must set either 'pages' or 'rawPages' parameter",
@@ -551,106 +558,112 @@ class IntroductionScreenState extends State<IntroductionScreen> {
           );
     }
 
-    return Scaffold(
-      backgroundColor: widget.globalBackgroundColor,
-      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            top: widget.bodyPadding.top,
-            left: widget.bodyPadding.left,
-            right: widget.bodyPadding.right,
-            bottom: widget.bodyPadding.bottom,
-            child: NotificationListener<ScrollNotification>(
-              onNotification: _onScroll,
-              child: PageView(
-                reverse: widget.rtl,
-                scrollDirection: widget.pagesAxis,
-                controller: _pageController,
-                onPageChanged: widget.onChange,
-                allowImplicitScrolling: widget.allowImplicitScrolling,
-                physics: widget.freeze
-                    ? const NeverScrollableScrollPhysics()
-                    : !widget.canProgress(_currentPage)
-                        ? const NeverScrollableScrollPhysics()
-                        : widget.scrollPhysics,
-                children: widget.pages
-                        ?.mapIndexed(
-                          (index, page) => IntroPage(
-                            page: page,
-                            scrollController:
-                                (CustomList(widget.scrollControllers)
-                                    ?.elementAtOrNull(index)),
-                            isTopSafeArea: widget.isTopSafeArea,
-                            isBottomSafeArea: widget.isBottomSafeArea,
-                          ),
-                        )
-                        .toList() ??
-                    widget.rawPages!,
+    return SafeArea(
+      left: widget.safeAreaList[0],
+      right: widget.safeAreaList[1],
+      top: widget.safeAreaList[2],
+      bottom: widget.safeAreaList[3],
+      child: Scaffold(
+        backgroundColor: widget.globalBackgroundColor,
+        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+        body: Stack(
+          children: [
+            Positioned.fill(
+              top: widget.bodyPadding.top,
+              left: widget.bodyPadding.left,
+              right: widget.bodyPadding.right,
+              bottom: widget.bodyPadding.bottom,
+              child: NotificationListener<ScrollNotification>(
+                onNotification: _onScroll,
+                child: PageView(
+                  reverse: widget.rtl,
+                  scrollDirection: widget.pagesAxis,
+                  controller: _pageController,
+                  onPageChanged: widget.onChange,
+                  allowImplicitScrolling: widget.allowImplicitScrolling,
+                  physics: widget.freeze
+                      ? const NeverScrollableScrollPhysics()
+                      : !widget.canProgress(_currentPage)
+                          ? const NeverScrollableScrollPhysics()
+                          : widget.scrollPhysics,
+                  children: widget.pages
+                          ?.mapIndexed(
+                            (index, page) => IntroPage(
+                              page: page,
+                              scrollController:
+                                  (CustomList(widget.scrollControllers)
+                                      ?.elementAtOrNull(index)),
+                              isTopSafeArea: widget.isTopSafeArea,
+                              isBottomSafeArea: widget.isBottomSafeArea,
+                            ),
+                          )
+                          .toList() ??
+                      widget.rawPages!,
+                ),
               ),
             ),
-          ),
-          if (widget.globalHeader != null)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: widget.globalHeader!,
-            ),
-          if (_showBottom)
-            Positioned(
-              left: widget.controlsPosition.left,
-              top: widget.controlsPosition.top,
-              right: widget.controlsPosition.right,
-              bottom: widget.controlsPosition.bottom,
-              child: Column(
-                children: [
-                  Container(
-                    padding: widget.controlsPadding,
-                    margin: widget.controlsMargin,
-                    decoration: widget.dotsContainerDecorator,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: widget.skipOrBackFlex,
-                          child: leftBtn ?? const SizedBox(),
-                        ),
-                        Expanded(
-                          flex: widget.dotsFlex,
-                          child: Center(
-                            child: widget.isProgress
-                                ? widget.customProgress ??
-                                    Semantics(
-                                      label:
-                                          "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
-                                      excludeSemantics: true,
-                                      child: DotsIndicator(
-                                        reversed: widget.rtl,
-                                        dotsCount: getPagesLength(),
-                                        position: _currentPage,
-                                        decorator: widget.dotsDecorator,
-                                        onTap: widget.isProgressTap &&
-                                                !widget.freeze
-                                            ? (pos) =>
-                                                animateScroll(pos.toInt())
-                                            : null,
-                                      ),
-                                    )
-                                : const SizedBox(),
+            if (widget.globalHeader != null)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: widget.globalHeader!,
+              ),
+            if (_showBottom)
+              Positioned(
+                left: widget.controlsPosition.left,
+                top: widget.controlsPosition.top,
+                right: widget.controlsPosition.right,
+                bottom: widget.controlsPosition.bottom,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: widget.controlsPadding,
+                      margin: widget.controlsMargin,
+                      decoration: widget.dotsContainerDecorator,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: widget.skipOrBackFlex,
+                            child: leftBtn ?? const SizedBox(),
                           ),
-                        ),
-                        Expanded(
-                          flex: widget.nextFlex,
-                          child: rightBtn ?? const SizedBox(),
-                        ),
-                      ].asReversed(widget.rtl),
+                          Expanded(
+                            flex: widget.dotsFlex,
+                            child: Center(
+                              child: widget.isProgress
+                                  ? widget.customProgress ??
+                                      Semantics(
+                                        label:
+                                            "Page ${_currentPage.round() + 1} of ${getPagesLength()}",
+                                        excludeSemantics: true,
+                                        child: DotsIndicator(
+                                          reversed: widget.rtl,
+                                          dotsCount: getPagesLength(),
+                                          position: _currentPage,
+                                          decorator: widget.dotsDecorator,
+                                          onTap: widget.isProgressTap &&
+                                                  !widget.freeze
+                                              ? (pos) =>
+                                                  animateScroll(pos.toInt())
+                                              : null,
+                                        ),
+                                      )
+                                  : const SizedBox(),
+                            ),
+                          ),
+                          Expanded(
+                            flex: widget.nextFlex,
+                            child: rightBtn ?? const SizedBox(),
+                          ),
+                        ].asReversed(widget.rtl),
+                      ),
                     ),
-                  ),
-                  if (widget.globalFooter != null) widget.globalFooter!
-                ],
+                    if (widget.globalFooter != null) widget.globalFooter!
+                  ],
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
