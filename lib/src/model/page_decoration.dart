@@ -67,7 +67,7 @@ class PageDecoration {
   /// @Default: `false`
   final bool fullScreen;
 
-  /// Safe area of the content. Change to avoid the overlap between the dots and the content 
+  /// Safe area of the content. Change to avoid the overlap between the dots and the content
   ///
   /// @Default 60
   final double safeArea;
