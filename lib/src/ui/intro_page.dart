@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/src/helper.dart';
-import 'package:introduction_screen/src/model/page_view_model.dart';
-import 'package:introduction_screen/src/ui/intro_content.dart';
+import '/src/helper.dart';
+import '/src/model/page_view_model.dart';
+import '/src/ui/intro_content.dart';
 
 class IntroPage extends StatefulWidget {
   final PageViewModel page;
@@ -56,7 +56,12 @@ class _IntroPageState extends State<IntroPage>
                   flex: page.decoration.footerFlex,
                   fit: page.decoration.footerFit,
                 ),
-              SafeArea(top: false, child: SizedBox(height: page.decoration.safeArea)),
+              SafeArea(
+                top: false,
+                child: SizedBox(
+                  height: page.decoration.safeArea,
+                ),
+              ),
             ],
           ),
         ),
@@ -73,46 +78,47 @@ class _IntroPageState extends State<IntroPage>
       decoration: page.decoration.boxDecoration,
       margin: const EdgeInsets.only(bottom: 60.0),
       child: Flex(
-          direction: page.useRowInLandscape &&
-                  orientation == Orientation.landscape
-              ? Axis.horizontal
-              : Axis.vertical,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ...[
-              if (page.image != null)
-                Expanded(
-                  flex: page.decoration.imageFlex,
-                  child: Align(
-                    alignment: page.decoration.imageAlignment,
-                    child: Padding(
-                      padding: page.decoration.imagePadding,
-                      child: page.image,
-                    ),
+        direction:
+            page.useRowInLandscape && orientation == Orientation.landscape
+                ? Axis.horizontal
+                : Axis.vertical,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ...[
+            if (page.image != null)
+              Expanded(
+                flex: page.decoration.imageFlex,
+                child: Align(
+                  alignment: page.decoration.imageAlignment,
+                  child: Padding(
+                    padding: page.decoration.imagePadding,
+                    child: page.image,
                   ),
                 ),
-              Expanded(
-                flex: page.decoration.bodyFlex,
-                child: Align(
-                  alignment: page.decoration.bodyAlignment,
-                  child: page.useScrollView
-                      ? SingleChildScrollView(
-                          controller: widget.scrollController,
-                          physics: const BouncingScrollPhysics(),
-                          child: IntroContent(page: page),
-                        )
-                      : IntroContent(page: page),
-                ),
               ),
-            ].asReversed(page.reverse),
-            if (page.footer != null)
-              Flexible(
-                child: page.footer!,
-                flex: page.decoration.footerFlex,
-                fit: page.decoration.footerFit,
+            Expanded(
+              flex: page.decoration.bodyFlex,
+              child: Align(
+                alignment: page.decoration.bodyAlignment,
+                child: page.useScrollView
+                    ? SingleChildScrollView(
+                        controller: widget.scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        child: IntroContent(page: page),
+                      )
+                    : IntroContent(page: page),
               ),
-              SizedBox(height: page.decoration.safeArea)
-          ],),
+            ),
+          ].asReversed(page.reverse),
+          if (page.footer != null)
+            Flexible(
+              child: page.footer!,
+              flex: page.decoration.footerFlex,
+              fit: page.decoration.footerFit,
+            ),
+          SizedBox(height: page.decoration.safeArea)
+        ],
+      ),
     );
   }
 

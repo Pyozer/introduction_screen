@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
+import '/introduction_screen.dart';
 
 class FooterContent extends StatelessWidget {
   final PageViewModel page;
@@ -20,9 +20,9 @@ class FooterContent extends StatelessWidget {
               )
           : null,
       child: Padding(
-              padding: page.decoration.footerPadding,
-              child: page.footer,
-            ),
+        padding: page.decoration.footerPadding,
+        child: page.footer,
+      ),
     );
   }
 }
