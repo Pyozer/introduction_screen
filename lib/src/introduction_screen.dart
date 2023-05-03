@@ -444,8 +444,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> _autoScroll(int? _durationInt) async {
     if (_durationInt != null) {
       final Duration _duration = Duration(milliseconds: _durationInt);
-
-      for (int i = 0; i < widget.pages!.length - 1; i++) {
+      final int pagesLenght = widget.pages!.length - 1;
+      for (int i = 0; i < pagesLenght; i++) {
+        if (getCurrentPageNumber() == pagesLenght) {
+          break;
+        }
         await Future.delayed(_duration);
         if (!_isSkipPressed && !_isScrolling) {
           _pageController.nextPage(
@@ -458,12 +461,12 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   void next() => {
-        animateScroll(_currentPage.round() + 1),
+        animateScroll(getCurrentPageNumber() + 1),
         FocusScope.of(context).unfocus()
       };
 
   void previous() => {
-        animateScroll(_currentPage.round() - 1),
+        animateScroll(getCurrentPageNumber() - 1),
         FocusScope.of(context).unfocus()
       };
 
@@ -510,7 +513,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (_currentPage.round() == getPagesLength() - 1);
+    final isLastPage = (getCurrentPageNumber() == getPagesLength() - 1);
 
     Widget? leftBtn;
     if (widget.showSkipButton) {
