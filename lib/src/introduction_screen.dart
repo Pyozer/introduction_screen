@@ -14,7 +14,7 @@ import '/src/model/position.dart';
 import '/src/ui/intro_button.dart';
 import '/src/ui/intro_page.dart';
 
-bool defaultCanProgressFunction(double page) {
+bool defaultCanProgressFunction(int page) {
   return true;
 }
 
@@ -396,7 +396,7 @@ class IntroductionScreen extends StatefulWidget {
 
 class IntroductionScreenState extends State<IntroductionScreen> {
   late PageController _pageController;
-  double _currentPage = 0.0;
+  int _currentPage = 0;
   bool _isSkipPressed = false;
   bool _isScrolling = false;
   late bool _showBottom;
@@ -410,7 +410,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     super.initState();
     _showBottom = widget.showBottomPart;
     final int initialPage = min(widget.initialPage, getPagesLength() - 1);
-    _currentPage = initialPage.toDouble();
+    _currentPage = initialPage;
     _pageController = PageController(initialPage: initialPage);
     _autoScrollOperation =
         CancelableOperation.fromFuture(_autoScroll(widget.autoScrollDuration));
@@ -439,16 +439,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     return (widget.pages ?? widget.rawPages!).length;
   }
 
-  int getCurrentPageNumber() => _currentPage.round();
-
   Future<void> _autoScroll(int? _durationInt) async {
     if (_durationInt != null) {
       final Duration _duration = Duration(milliseconds: _durationInt);
       final int pagesLenght = widget.pages!.length - 1;
-      for (int i = 0; i < pagesLenght; i++) {
-        if (getCurrentPageNumber() == pagesLenght) {
-          break;
-        }
+      while (_currentPage < pagesLenght) {
         await Future.delayed(_duration);
         if (!_isSkipPressed && !_isScrolling) {
           _pageController.nextPage(
@@ -460,15 +455,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     }
   }
 
-  void next() => {
-        animateScroll(getCurrentPageNumber() + 1),
-        FocusScope.of(context).unfocus()
-      };
+  void next() =>
+      {animateScroll(_currentPage + 1), FocusScope.of(context).unfocus()};
 
-  void previous() => {
-        animateScroll(getCurrentPageNumber() - 1),
-        FocusScope.of(context).unfocus()
-      };
+  void previous() =>
+      {animateScroll(_currentPage - 1), FocusScope.of(context).unfocus()};
 
   Future<void> _onSkip() async {
     if (widget.onSkip != null) {
@@ -489,14 +480,14 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> animateScroll(int page) async {
     bool isValidToProgress = widget.canProgress(_currentPage);
     if (isValidToProgress) {
-      setState(() => _isScrolling = true);
+      _isScrolling = true;
       await _pageController.animateToPage(
         max(min(page, getPagesLength() - 1), 0),
         duration: Duration(milliseconds: widget.animationDuration),
         curve: widget.curve,
       );
       if (mounted) {
-        setState(() => _isScrolling = false);
+        _isScrolling = false;
       }
     }
   }
@@ -505,7 +496,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final metrics = notification.metrics;
     if (metrics is PageMetrics && metrics.page != null) {
       if (mounted) {
-        setState(() => _currentPage = metrics.page!);
+        setState(() => _currentPage = metrics.page!.round());
       }
     }
     return false;
@@ -513,7 +504,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (getCurrentPageNumber() == getPagesLength() - 1);
+    final isLastPage = (_currentPage == getPagesLength() - 1);
 
     Widget? leftBtn;
     if (widget.showSkipButton) {
