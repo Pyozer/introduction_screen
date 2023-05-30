@@ -3,7 +3,6 @@ library introduction_screen;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -400,7 +399,6 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   bool _isSkipPressed = false;
   bool _isScrolling = false;
   late bool _showBottom;
-  late CancelableOperation _autoScrollOperation;
   StreamSubscription<bool>? keyboardSubscription;
 
   PageController get controller => _pageController;
@@ -412,8 +410,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _currentPage = initialPage;
     _pageController = PageController(initialPage: initialPage);
-    _autoScrollOperation =
-        CancelableOperation.fromFuture(_autoScroll(widget.autoScrollDuration));
+    _autoScroll(widget.autoScrollDuration);
     if (widget.hideBottomOnKeyboard) {
       final keyboardVisibilityController = KeyboardVisibilityController();
       keyboardSubscription =
@@ -427,7 +424,6 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   void dispose() {
-    _autoScrollOperation.cancel();
     _pageController.dispose();
     if (keyboardSubscription != null) {
       keyboardSubscription!.cancel();
@@ -445,6 +441,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       final int pagesLenght = widget.pages!.length - 1;
       while (_currentPage < pagesLenght) {
         await Future.delayed(_duration);
+        if (!mounted) {
+          break;
+        }
         if (!_isSkipPressed && !_isScrolling) {
           _pageController.nextPage(
             duration: _duration,
