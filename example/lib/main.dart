@@ -152,9 +152,9 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         ),
         PageViewModel(
           title: "Title of last page - reversed",
-          bodyWidget: Row(
+          bodyWidget: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text("Click on ", style: bodyStyle),
               Icon(Icons.edit),
               Text(" to edit a post", style: bodyStyle),
