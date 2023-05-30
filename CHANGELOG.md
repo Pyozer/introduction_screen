@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix auto scroll error [PR#177](https://github.com/Pyozer/introduction_screen/pull/177)
 - Fix breaking -> turn _currentpage into an int instead of double [PR#180](https://github.com/Pyozer/introduction_screen/pull/180)
+- Fix PageController.page cannot be accessed before a PageView is built with it [PR#178](https://github.com/Pyozer/introduction_screen/pull/178)
 
 ## [3.1.8] - 2023-04-19
 - Added safeAreaList parameter [PR#174](https://github.com/Pyozer/introduction_screen/pull/174)
