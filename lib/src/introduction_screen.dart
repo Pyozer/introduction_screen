@@ -447,20 +447,29 @@ class IntroductionScreenState extends State<IntroductionScreen> {
           if (!mounted) {
             break;
           }
-          await _movePage(_autoscrollDuration,_animationDuration, _currentPage < pagesLenght,);
+          await _movePage(
+            _autoscrollDuration,
+            _animationDuration,
+            _currentPage < pagesLenght,
+          );
         }
       } else {
         while (_currentPage < pagesLenght) {
           if (!mounted) {
             break;
           }
-          await _movePage(_autoscrollDuration,_animationDuration, true,);
+          await _movePage(
+            _autoscrollDuration,
+            _animationDuration,
+            true,
+          );
         }
       }
     }
   }
 
-  Future<void> _movePage(Duration autoscrollDuration,Duration animationDuration, bool forward) async {
+  Future<void> _movePage(Duration autoscrollDuration,
+      Duration animationDuration, bool forward) async {
     await Future.delayed(autoscrollDuration);
     if (!_isSkipPressed && !_isScrolling) {
       if (forward) {
