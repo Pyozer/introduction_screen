@@ -406,10 +406,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
-    _showBottom = widget.showBottomPart;
     final int initialPage = min(widget.initialPage, getPagesLength() - 1);
-    _currentPage = initialPage;
     _pageController = PageController(initialPage: initialPage);
+    _showBottom = widget.showBottomPart;
+    _currentPage = initialPage;
     _autoScroll(widget.autoScrollDuration);
     if (widget.hideBottomOnKeyboard) {
       final keyboardVisibilityController = KeyboardVisibilityController();
