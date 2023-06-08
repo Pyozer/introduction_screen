@@ -70,6 +70,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       globalBackgroundColor: Colors.white,
       allowImplicitScrolling: true,
       autoScrollDuration: 3000,
+      infiniteAutoScroll: true,
       globalHeader: Align(
         alignment: Alignment.topRight,
         child: SafeArea(

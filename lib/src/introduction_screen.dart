@@ -136,6 +136,13 @@ class IntroductionScreen extends StatefulWidget {
   /// Once the value of `autoScrollDuration` is set, auto scroll will be activated and it will scroll to the next page automatically after the specified duration.
   final int? autoScrollDuration;
 
+  /// Defines if the autoScroll should be infinite, returning to the first page after it reaches the last one.
+  ///
+  /// @Default `false`
+  ///
+  /// it can only be `true` if `autoScrollDuration` is not `null`
+  final bool infiniteAutoScroll;
+
   /// Index of the initial page
   ///
   /// @Default `0`
@@ -187,16 +194,6 @@ class IntroductionScreen extends StatefulWidget {
 
   /// Back button semantic label
   final String? backSemantic;
-
-  /// Enable or disabled top SafeArea
-  ///
-  /// @Default `false`
-  final bool isTopSafeArea;
-
-  /// Enable or disabled bottom SafeArea
-  ///
-  /// @Default `false`
-  final bool isBottomSafeArea;
 
   /// Enable or disable content resizing for bottom inset (e.g. keyboard)
   ///
@@ -255,7 +252,7 @@ class IntroductionScreen extends StatefulWidget {
   final bool allowImplicitScrolling;
 
   /// PageView's bool safe area list.
-  /// the list defines if the safe area will be active on left,right,top and bottom, respectively.
+  /// the list defines if the safe area will be active on left, right, top and bottom, respectively.
   ///
   /// @Default `[false,false,false,false]`
   final List<bool> safeAreaList;
@@ -309,6 +306,7 @@ class IntroductionScreen extends StatefulWidget {
       this.dotsContainerDecorator,
       this.animationDuration = 350,
       this.autoScrollDuration,
+      this.infiniteAutoScroll = false,
       this.initialPage = 0,
       this.skipOrBackFlex = 1,
       this.dotsFlex = 1,
@@ -323,8 +321,6 @@ class IntroductionScreen extends StatefulWidget {
       this.nextSemantic,
       this.doneSemantic,
       this.backSemantic,
-      this.isTopSafeArea = false,
-      this.isBottomSafeArea = false,
       this.resizeToAvoidBottomInset = true,
       this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
       this.controlsMargin = EdgeInsets.zero,
@@ -387,6 +383,11 @@ class IntroductionScreen extends StatefulWidget {
           customProgress != null && isProgress || customProgress == null,
           'customProgress can only be used if isProgress = true',
         ),
+        assert(
+          (infiniteAutoScroll && autoScrollDuration != null) ||
+              !infiniteAutoScroll,
+          'infiniteAutoScroll can only be true if autoScrollDuration != null',
+        ),
         super(key: key);
 
   @override
@@ -406,10 +407,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
-    _showBottom = widget.showBottomPart;
     final int initialPage = min(widget.initialPage, getPagesLength() - 1);
-    _currentPage = initialPage;
     _pageController = PageController(initialPage: initialPage);
+    _showBottom = widget.showBottomPart;
+    _currentPage = initialPage;
     _autoScroll(widget.autoScrollDuration);
     if (widget.hideBottomOnKeyboard) {
       final keyboardVisibilityController = KeyboardVisibilityController();
@@ -437,19 +438,51 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   Future<void> _autoScroll(int? _durationInt) async {
     if (_durationInt != null) {
-      final Duration _duration = Duration(milliseconds: _durationInt);
+      final Duration _autoscrollDuration = Duration(milliseconds: _durationInt);
+      final _animationDuration =
+          Duration(milliseconds: widget.animationDuration);
       final int pagesLenght = widget.pages!.length - 1;
-      while (_currentPage < pagesLenght) {
-        await Future.delayed(_duration);
-        if (!mounted) {
-          break;
-        }
-        if (!_isSkipPressed && !_isScrolling) {
-          _pageController.nextPage(
-            duration: _duration,
-            curve: widget.curve,
+      if (widget.infiniteAutoScroll) {
+        while (true) {
+          if (!mounted) {
+            break;
+          }
+          await _movePage(
+            _autoscrollDuration,
+            _animationDuration,
+            _currentPage < pagesLenght,
           );
         }
+      } else {
+        while (_currentPage < pagesLenght) {
+          if (!mounted) {
+            break;
+          }
+          await _movePage(
+            _autoscrollDuration,
+            _animationDuration,
+            true,
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _movePage(Duration autoscrollDuration,
+      Duration animationDuration, bool forward) async {
+    await Future.delayed(autoscrollDuration);
+    if (!_isSkipPressed && !_isScrolling) {
+      if (forward) {
+        await _pageController.nextPage(
+          duration: animationDuration,
+          curve: widget.curve,
+        );
+      } else {
+        await _pageController.animateToPage(
+          0,
+          duration: animationDuration,
+          curve: widget.curve,
+        );
       }
     }
   }
@@ -590,8 +623,6 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                               scrollController:
                                   (CustomList(widget.scrollControllers)
                                       ?.elementAtOrNull(index)),
-                              isTopSafeArea: widget.isTopSafeArea,
-                              isBottomSafeArea: widget.isBottomSafeArea,
                             ),
                           )
                           .toList() ??
