@@ -188,16 +188,6 @@ class IntroductionScreen extends StatefulWidget {
   /// Back button semantic label
   final String? backSemantic;
 
-  /// Enable or disabled top SafeArea
-  ///
-  /// @Default `false`
-  final bool isTopSafeArea;
-
-  /// Enable or disabled bottom SafeArea
-  ///
-  /// @Default `false`
-  final bool isBottomSafeArea;
-
   /// Enable or disable content resizing for bottom inset (e.g. keyboard)
   ///
   /// @Default `true`
@@ -255,7 +245,7 @@ class IntroductionScreen extends StatefulWidget {
   final bool allowImplicitScrolling;
 
   /// PageView's bool safe area list.
-  /// the list defines if the safe area will be active on left,right,top and bottom, respectively.
+  /// the list defines if the safe area will be active on left, right, top and bottom, respectively.
   ///
   /// @Default `[false,false,false,false]`
   final List<bool> safeAreaList;
@@ -323,8 +313,6 @@ class IntroductionScreen extends StatefulWidget {
       this.nextSemantic,
       this.doneSemantic,
       this.backSemantic,
-      this.isTopSafeArea = false,
-      this.isBottomSafeArea = false,
       this.resizeToAvoidBottomInset = true,
       this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
       this.controlsMargin = EdgeInsets.zero,
@@ -590,8 +578,6 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                               scrollController:
                                   (CustomList(widget.scrollControllers)
                                       ?.elementAtOrNull(index)),
-                              isTopSafeArea: widget.isTopSafeArea,
-                              isBottomSafeArea: widget.isBottomSafeArea,
                             ),
                           )
                           .toList() ??

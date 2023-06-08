@@ -6,15 +6,11 @@ import '/src/ui/intro_content.dart';
 class IntroPage extends StatefulWidget {
   final PageViewModel page;
   final ScrollController? scrollController;
-  final bool isTopSafeArea;
-  final bool isBottomSafeArea;
 
   const IntroPage({
     Key? key,
     required this.page,
     this.scrollController,
-    required this.isTopSafeArea,
-    required this.isBottomSafeArea,
   }) : super(key: key);
 
   @override
@@ -129,10 +125,6 @@ class _IntroPageState extends State<IntroPage>
     if (widget.page.decoration.fullScreen) {
       return _buildStack();
     }
-    return SafeArea(
-      top: widget.isTopSafeArea,
-      bottom: widget.isBottomSafeArea,
-      child: _buildFlex(context),
-    );
+    return _buildFlex(context);
   }
 }

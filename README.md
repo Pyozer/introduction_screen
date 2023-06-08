@@ -438,10 +438,6 @@ This is the full list:
 
 - Show the bottom part of the page, that include skip, next, done buttons by setting `showBottomPart: true` parameter.
 - Hide the bottom part of the page when the keyboard is open with `hideBottomOnKeyboard` parameter.
-- Enable or disable SafeArea on top, by adding `isTopSafeArea: true` parameter
-  - Default `false`
-- Enable or disable SafeArea on bottom, by adding `isBottomSafeArea: true` parameter.
-  - Default `false`
 - Customize controls position on screen, by adding `controlsPosition: const Position(left: 0, right: 0, bottom: 100)` parameter.
   - Default `const Position(left: 0, right: 0, bottom: 0)`
 - Customize margin of controls's container, by adding `controlsMargin: EdgeInsets.all(16.0)` parameter.

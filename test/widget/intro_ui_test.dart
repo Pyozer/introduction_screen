@@ -46,8 +46,6 @@ void main() {
             body: 'Test Body',
             footer: const Text('Test Footer'),
           ),
-          isTopSafeArea: true,
-          isBottomSafeArea: true,
         ),
       ));
 
