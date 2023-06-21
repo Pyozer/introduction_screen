@@ -444,29 +444,35 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       final int pagesLenght = widget.pages!.length - 1;
       if (widget.infiniteAutoScroll) {
         while (true) {
-          await _movePage(
+          final result = await _movePage(
             _autoscrollDuration,
             _animationDuration,
             _currentPage < pagesLenght,
           );
+          if (result) {
+            break;
+          }
         }
       } else {
         while (_currentPage < pagesLenght) {
-          await _movePage(
+          final result = await _movePage(
             _autoscrollDuration,
             _animationDuration,
             true,
           );
+          if (result) {
+            break;
+          }
         }
       }
     }
   }
 
-  Future<void> _movePage(Duration autoscrollDuration,
+  Future<bool> _movePage(Duration autoscrollDuration,
       Duration animationDuration, bool forward) async {
     await Future.delayed(autoscrollDuration);
     if (!mounted) {
-      break;
+      return true;
     }
     if (!_isSkipPressed && !_isScrolling) {
       if (forward) {
@@ -482,6 +488,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         );
       }
     }
+    return false;
   }
 
   void next() =>
