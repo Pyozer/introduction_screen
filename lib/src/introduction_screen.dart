@@ -444,9 +444,6 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       final int pagesLenght = widget.pages!.length - 1;
       if (widget.infiniteAutoScroll) {
         while (true) {
-          if (!mounted) {
-            break;
-          }
           await _movePage(
             _autoscrollDuration,
             _animationDuration,
@@ -455,9 +452,6 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         }
       } else {
         while (_currentPage < pagesLenght) {
-          if (!mounted) {
-            break;
-          }
           await _movePage(
             _autoscrollDuration,
             _animationDuration,
@@ -471,6 +465,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
   Future<void> _movePage(Duration autoscrollDuration,
       Duration animationDuration, bool forward) async {
     await Future.delayed(autoscrollDuration);
+    if (!mounted) {
+      break;
+    }
     if (!_isSkipPressed && !_isScrolling) {
       if (forward) {
         await _pageController.nextPage(
