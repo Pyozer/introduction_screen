@@ -438,7 +438,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     if (_durationInt != null) {
       final Duration _autoscrollDuration = Duration(milliseconds: _durationInt);
       final _animationDuration = Duration(milliseconds: widget.animationDuration);
-      final int pagesLength = getPagesLength();
+      final int pagesLength = getPagesLength() - 1;
       if (widget.infiniteAutoScroll) {
         while (true) {
           if (!mounted) {
