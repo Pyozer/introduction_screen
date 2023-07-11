@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.10] - 2023-07-11
+
+### Added
+- Add getter `getCurrentPage()` to get current page as an integer
+
+### Fixed
+- Fixed a bug on auto scroll using raw pages when initial launch [PR#189](https://github.com/Pyozer/introduction_screen/pull/189)
+- Revert _currentpage to a double instead of int to have the dots animation
+
 ## [3.1.9] - 2023-06-19
 
 ### Changed
