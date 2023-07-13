@@ -548,7 +548,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (_currentPage == getPagesLength() - 1);
+    final isLastPage = (_currentPage.round() == getPagesLength() - 1);
 
     Widget? leftBtn;
     if (widget.showSkipButton) {
