@@ -455,11 +455,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
           await _movePage(
             _autoscrollDuration,
             _animationDuration,
-            _currentPage < pagesLength,
+            getCurrentPage() < pagesLength,
           );
         }
       } else {
-        while (_currentPage < pagesLength) {
+        while (getCurrentPage() < pagesLength) {
           if (!mounted) {
             break;
           }
@@ -548,7 +548,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = (_currentPage.round() == getPagesLength() - 1);
+    final isLastPage = (getCurrentPage() == getPagesLength() - 1);
 
     Widget? leftBtn;
     if (widget.showSkipButton) {
@@ -568,7 +568,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               onPressed: _onSkip,
             ),
       );
-    } else if (widget.showBackButton && _currentPage.round() > 0) {
+    } else if (widget.showBackButton && getCurrentPage() > 0) {
       leftBtn = widget.overrideBack ??
           IntroButton(
             child: widget.back!,
