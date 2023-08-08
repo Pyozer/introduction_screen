@@ -72,7 +72,7 @@ class _IntroPageState extends State<IntroPage>
     return Container(
       color: page.decoration.pageColor,
       decoration: page.decoration.boxDecoration,
-      margin: const EdgeInsets.only(bottom: 60.0),
+      margin: page.decoration.pageMargin,
       child: Flex(
         direction:
             page.useRowInLandscape && orientation == Orientation.landscape
