@@ -39,6 +39,11 @@ class PageDecoration {
   /// @Default `EdgeInsets.all(16.0)`
   final EdgeInsets contentMargin;
 
+  /// Margin for page
+  ///
+  /// @Default `EdgeInsets.only(bottom: 60.0)`
+  final EdgeInsets? pageMargin;
+
   /// Padding of title
   ///
   /// @Default `EdgeInsets.only(top: 16.0, bottom: 24.0)`
@@ -89,6 +94,7 @@ class PageDecoration {
     this.footerFit = FlexFit.loose,
     this.imagePadding = const EdgeInsets.only(bottom: 24.0),
     this.contentMargin = const EdgeInsets.all(16.0),
+    this.pageMargin = const EdgeInsets.only(bottom: 60.0),
     this.titlePadding = const EdgeInsets.only(top: 16.0, bottom: 24.0),
     this.bodyPadding,
     this.footerPadding = const EdgeInsets.symmetric(vertical: 24.0),
@@ -110,6 +116,7 @@ class PageDecoration {
     FlexFit? footerFit,
     EdgeInsets? imagePadding,
     EdgeInsets? contentMargin,
+    EdgeInsets? pageMargin,
     EdgeInsets? titlePadding,
     EdgeInsets? descriptionPadding,
     EdgeInsets? footerPadding,
@@ -134,6 +141,7 @@ class PageDecoration {
       footerFit: footerFit ?? this.footerFit,
       imagePadding: imagePadding ?? this.imagePadding,
       contentMargin: contentMargin ?? this.contentMargin,
+      pageMargin: pageMargin ?? this.pageMargin,
       titlePadding: titlePadding ?? this.titlePadding,
       bodyPadding: descriptionPadding ?? this.bodyPadding,
       footerPadding: footerPadding ?? this.footerPadding,
