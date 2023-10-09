@@ -27,7 +27,6 @@ class _IntroPageState extends State<IntroPage>
     final content = IntroContent(page: page, isFullScreen: true);
 
     return Stack(
-      alignment: Alignment.bottomCenter,
       children: [
         if (page.image != null) page.image!,
         Positioned.fill(
@@ -37,13 +36,16 @@ class _IntroPageState extends State<IntroPage>
                 Spacer(flex: page.decoration.imageFlex),
                 Expanded(
                   flex: page.decoration.bodyFlex,
-                  child: page.useScrollView
-                      ? SingleChildScrollView(
-                          controller: widget.scrollController,
-                          physics: const BouncingScrollPhysics(),
-                          child: content,
-                        )
-                      : content,
+                  child: Align(
+                    alignment: page.decoration.bodyAlignment,
+                    child: page.useScrollView
+                        ? SingleChildScrollView(
+                            controller: widget.scrollController,
+                            physics: const BouncingScrollPhysics(),
+                            child: content,
+                          )
+                        : content,
+                  ),
                 ),
               ].asReversed(page.reverse),
               if (page.footer != null)
