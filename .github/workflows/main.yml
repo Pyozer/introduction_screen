@@ -1,7 +1,9 @@
 name: Tests
-on: []
+on: [push, pull_request]
 jobs:
     tests:
+        # Temporarily disable.
+        if: false
         timeout-minutes: 40
         runs-on: macos-latest
         steps:

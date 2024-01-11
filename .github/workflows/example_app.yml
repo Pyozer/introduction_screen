@@ -1,7 +1,9 @@
 name: Build Example App
-on: []
+on: [push, pull_request]
 jobs:
     build:
+        # Temporarily disable.
+        if: false
         timeout-minutes: 40
         runs-on: macos-latest
         defaults:
