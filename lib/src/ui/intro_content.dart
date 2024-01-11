@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import '/introduction_screen.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroContent extends StatelessWidget {
   final PageViewModel page;
   final bool isFullScreen;
 
-  const IntroContent({Key? key, required this.page, this.isFullScreen = false})
-      : super(key: key);
+  const IntroContent({
+    super.key,
+    required this.page,
+    this.isFullScreen = false,
+  });
 
   Widget _buildWidget(Widget? widget, String? text, TextStyle style) {
     return widget ?? Text(text!, style: style, textAlign: TextAlign.center);

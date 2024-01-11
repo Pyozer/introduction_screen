@@ -5,13 +5,13 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter/material.dart';
-import '/src/helper.dart';
-import '/src/model/page_view_model.dart';
-import '/src/model/position.dart';
-import '/src/ui/intro_button.dart';
-import '/src/ui/intro_page.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:introduction_screen/src/helper.dart';
+import 'package:introduction_screen/src/model/page_view_model.dart';
+import 'package:introduction_screen/src/model/position.dart';
+import 'package:introduction_screen/src/ui/intro_button.dart';
+import 'package:introduction_screen/src/ui/intro_page.dart';
 
 bool kDefaultCanProgressFunction(int page) {
   return true;
@@ -277,8 +277,8 @@ class IntroductionScreen extends StatefulWidget {
   /// ```
   final CanProgress canProgress;
 
-  IntroductionScreen(
-      {Key? key,
+  const IntroductionScreen(
+      {super.key,
       this.pages,
       this.rawPages,
       this.onDone,
@@ -388,8 +388,7 @@ class IntroductionScreen extends StatefulWidget {
           (infiniteAutoScroll && autoScrollDuration != null) ||
               !infiniteAutoScroll,
           'infiniteAutoScroll can only be true if autoScrollDuration != null',
-        ),
-        super(key: key);
+        );
 
   @override
   IntroductionScreenState createState() => IntroductionScreenState();
@@ -440,10 +439,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
 
   int getCurrentPage() => _currentPage.round();
 
-  Future<void> _autoScroll(int? _durationInt) async {
-    if (_durationInt != null) {
-      final Duration _autoscrollDuration = Duration(milliseconds: _durationInt);
-      final _animationDuration = Duration(
+  Future<void> _autoScroll(int? durationInt) async {
+    if (durationInt != null) {
+      final Duration autoscrollDuration = Duration(milliseconds: durationInt);
+      final animationDuration = Duration(
         milliseconds: widget.animationDuration,
       );
       final int pagesLength = getPagesLength() - 1;
@@ -453,8 +452,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             break;
           }
           await _movePage(
-            _autoscrollDuration,
-            _animationDuration,
+            autoscrollDuration,
+            animationDuration,
             getCurrentPage() < pagesLength,
           );
         }
@@ -464,8 +463,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             break;
           }
           await _movePage(
-            _autoscrollDuration,
-            _animationDuration,
+            autoscrollDuration,
+            animationDuration,
             true,
           );
         }
@@ -561,21 +560,21 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         maintainSize: true,
         child: widget.overrideSkip ??
             IntroButton(
-              child: widget.skip!,
               style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
                   widget.skipStyle,
               semanticLabel: widget.skipSemantic,
               onPressed: _onSkip,
+              child: widget.skip!,
             ),
       );
     } else if (widget.showBackButton && getCurrentPage() > 0) {
       leftBtn = widget.overrideBack ??
           IntroButton(
-            child: widget.back!,
             style: widget.baseBtnStyle?.merge(widget.backStyle) ??
                 widget.backStyle,
             semanticLabel: widget.backSemantic,
             onPressed: !_isScrolling ? previous : null,
+            child: widget.back!,
           );
     }
 
@@ -583,20 +582,20 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     if (isLastPage && widget.showDoneButton) {
       rightBtn = widget.overrideDone ??
           IntroButton(
-            child: widget.done!,
             style: widget.baseBtnStyle?.merge(widget.doneStyle) ??
                 widget.doneStyle,
             semanticLabel: widget.doneSemantic,
             onPressed: !_isScrolling ? widget.onDone : null,
+            child: widget.done!,
           );
     } else if (!isLastPage && widget.showNextButton) {
       rightBtn = widget.overrideNext ??
           IntroButton(
-            child: widget.next!,
             style: widget.baseBtnStyle?.merge(widget.nextStyle) ??
                 widget.nextStyle,
             semanticLabel: widget.nextSemantic,
             onPressed: !_isScrolling ? next : null,
+            child: widget.next!,
           );
     }
 
@@ -674,12 +673,12 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                                   ? widget.customProgress ??
                                       Semantics(
                                         label:
-                                            "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
+                                            'Page ${getCurrentPage() + 1} of ${getPagesLength()}',
                                         excludeSemantics: true,
                                         child: DotsIndicator(
                                           reversed: widget.rtl,
                                           dotsCount: getPagesLength(),
-                                          position: _currentPage,
+                                          position: _currentPage.round(),
                                           decorator: widget.dotsDecorator,
                                           onTap: widget.isProgressTap &&
                                                   !widget.freeze

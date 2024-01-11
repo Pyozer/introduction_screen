@@ -7,12 +7,12 @@ class IntroButton extends StatelessWidget {
   final String? semanticLabel;
 
   const IntroButton({
-    Key? key,
+    super.key,
     required this.child,
     this.onPressed,
     this.style,
     this.semanticLabel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class IntroButton extends StatelessWidget {
         button: true,
         child: TextButton(
           onPressed: onPressed,
-          child: child,
           style: TextButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ).merge(style),
+          child: child,
         ),
       ),
     );

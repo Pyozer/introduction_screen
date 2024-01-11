@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '/src/helper.dart';
-import '/src/model/page_view_model.dart';
-import '/src/ui/intro_content.dart';
+import 'package:introduction_screen/src/helper.dart';
+import 'package:introduction_screen/src/model/page_view_model.dart';
+import 'package:introduction_screen/src/ui/intro_content.dart';
 
 class IntroPage extends StatefulWidget {
   final PageViewModel page;
   final ScrollController? scrollController;
 
   const IntroPage({
-    Key? key,
+    super.key,
     required this.page,
     this.scrollController,
-  }) : super(key: key);
+  });
 
   @override
-  _IntroPageState createState() => _IntroPageState();
+  State<IntroPage> createState() => _IntroPageState();
 }
 
 class _IntroPageState extends State<IntroPage>
@@ -48,9 +48,9 @@ class _IntroPageState extends State<IntroPage>
               ].asReversed(page.reverse),
               if (page.footer != null)
                 Flexible(
-                  child: page.footer!,
                   flex: page.decoration.footerFlex,
                   fit: page.decoration.footerFit,
+                  child: page.footer!,
                 ),
               SafeArea(
                 top: false,
@@ -108,9 +108,9 @@ class _IntroPageState extends State<IntroPage>
           ].asReversed(page.reverse),
           if (page.footer != null)
             Flexible(
-              child: page.footer!,
               flex: page.decoration.footerFlex,
               fit: page.decoration.footerFit,
+              child: page.footer!,
             ),
           SizedBox(height: page.decoration.safeArea)
         ],

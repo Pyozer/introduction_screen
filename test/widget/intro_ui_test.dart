@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:introduction_screen/testable_widget.dart';
-
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_content.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
+import 'package:introduction_screen/testable_widget.dart';
 
 void main() {
-  group("Intro UI widget tests", () {
+  group('Intro UI widget tests', () {
     final titleFinder = find.text('Test Title');
     final bodyFinder = find.text('Test Body');
     final footerFinder = find.text('Test Footer');
 
     testWidgets('IntroButton has text', (tester) async {
       await tester.pumpWidget(testableWidget(
-        child: IntroButton(child: const Text('Test Text')),
+        child: const IntroButton(child: Text('Test Text')),
       ));
 
       final textFinder = find.text('Test Text');

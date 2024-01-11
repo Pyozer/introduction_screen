@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/src/model/page_decoration.dart';
+import 'package:introduction_screen/src/model/page_decoration.dart';
 
 class PageViewModel {
   /// Title of page
@@ -47,18 +47,18 @@ class PageViewModel {
     this.useRowInLandscape = false,
   })  : assert(
           title != null || titleWidget != null,
-          "You must provide either title (String) or titleWidget (Widget).",
+          'You must provide either title (String) or titleWidget (Widget).',
         ),
         assert(
           (title == null) != (titleWidget == null),
-          "You can not provide both title and titleWidget.",
+          'You can not provide both title and titleWidget.',
         ),
         assert(
           body != null || bodyWidget != null,
-          "You must provide either body (String) or bodyWidget (Widget).",
+          'You must provide either body (String) or bodyWidget (Widget).',
         ),
         assert(
           (body == null) != (bodyWidget == null),
-          "You can not provide both body and bodyWidget.",
+          'You can not provide both body and bodyWidget.',
         );
 }

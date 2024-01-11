@@ -10,11 +10,11 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  # Required to ignore auto-generated code as it will always hang using the
-  # analyzer. DCDG UML generation tool requires this line as it does use the
+  # Required to ignore auto-generated code as it will always hang using the 
+  # analyzer. DCDG UML generation tool requires this line as it does use the 
   # analyzer as a dependency.
   # per https://github.com/dart-lang/sdk/issues/25551
-  exclude:
+  exclude: 
     - "**/*.g.dart"
     - "**/*.freezed.dart"
   # Using json_serializable with freezed causes annotation warnings.
@@ -40,6 +40,7 @@ linter:
     cancel_subscriptions: true # To avoid memory leaks
     no_logic_in_create_state: true # Separate business logic from state mgmt
     valid_regexps: true # RegEx validator
+
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

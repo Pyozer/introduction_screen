@@ -6,7 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class App extends StatelessWidget {
 }
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+  const OnBoardingPage({super.key});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();
@@ -93,30 +93,30 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       ),
       pages: [
         PageViewModel(
-          title: "Fractional shares",
+          title: 'Fractional shares',
           body:
-              "Instead of having to buy an entire share, invest any amount you want.",
+              'Instead of having to buy an entire share, invest any amount you want.',
           image: _buildImage('img1.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Learn as you go",
+          title: 'Learn as you go',
           body:
-              "Download the Stockpile app and master the market with our mini-lesson.",
+              'Download the Stockpile app and master the market with our mini-lesson.',
           image: _buildImage('img2.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Kids and teens",
+          title: 'Kids and teens',
           body:
-              "Kids and teens can track their stocks 24/7 and place trades that you approve.",
+              'Kids and teens can track their stocks 24/7 and place trades that you approve.',
           image: _buildImage('img3.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Full Screen Page",
+          title: 'Full Screen Page',
           body:
-              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
+              'Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.',
           image: _buildFullscreenImage(),
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
@@ -127,8 +127,8 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           ),
         ),
         PageViewModel(
-          title: "Another title page",
-          body: "Another beautiful body text for this example onboarding",
+          title: 'Another title page',
+          body: 'Another beautiful body text for this example onboarding',
           image: _buildImage('img2.jpg'),
           footer: ElevatedButton(
             onPressed: () {
@@ -152,13 +152,13 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           ),
         ),
         PageViewModel(
-          title: "Title of last page - reversed",
+          title: 'Title of last page - reversed',
           bodyWidget: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Click on ", style: bodyStyle),
+              Text('Click on ', style: bodyStyle),
               Icon(Icons.edit),
-              Text(" to edit a post", style: bodyStyle),
+              Text(' to edit a post', style: bodyStyle),
             ],
           ),
           decoration: pageDecoration.copyWith(
@@ -206,13 +206,13 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text("This is the screen after Introduction")),
+      body: const Center(child: Text('This is the screen after Introduction')),
     );
   }
 }
