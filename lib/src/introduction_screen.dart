@@ -397,7 +397,7 @@ class IntroductionScreen extends StatefulWidget {
 
 class IntroductionScreenState extends State<IntroductionScreen> {
   late PageController _pageController;
-  double _currentPage = 0;
+  int _currentPage = 0;
   bool _isSkipPressed = false;
   bool _isScrolling = false;
   late bool _showBottom;
@@ -411,7 +411,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final int initialPage = min(widget.initialPage, getPagesLength() - 1);
     _pageController = PageController(initialPage: initialPage);
     _showBottom = widget.showBottomPart;
-    _currentPage = initialPage.toDouble();
+    _currentPage = initialPage;
     _autoScroll(widget.autoScrollDuration);
     if (widget.hideBottomOnKeyboard) {
       final keyboardVisibilityController = KeyboardVisibilityController();
@@ -540,7 +540,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final metrics = notification.metrics;
     if (metrics is PageMetrics && metrics.page != null) {
       if (mounted) {
-        setState(() => _currentPage = metrics.page!);
+        setState(() => _currentPage = metrics.page!.toInt());
       }
     }
     return false;
