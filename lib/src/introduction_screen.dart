@@ -3,10 +3,12 @@ library introduction_screen;
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter/material.dart';
+
 import '/src/helper.dart';
 import '/src/model/page_view_model.dart';
 import '/src/model/position.dart';
@@ -540,7 +542,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final metrics = notification.metrics;
     if (metrics is PageMetrics && metrics.page != null) {
       if (mounted) {
-        setState(() => _currentPage = metrics.page!.toInt());
+        setState(() => _currentPage = metrics.page!.round());
       }
     }
     return false;
@@ -568,7 +570,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               onPressed: _onSkip,
             ),
       );
-    } else if (widget.showBackButton && getCurrentPage() > 0 && widget.canProgress(getCurrentPage())) {
+    } else if (widget.showBackButton &&
+        getCurrentPage() > 0 &&
+        widget.canProgress(getCurrentPage())) {
       leftBtn = widget.overrideBack ??
           IntroButton(
             child: widget.back!,
@@ -589,7 +593,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             semanticLabel: widget.doneSemantic,
             onPressed: !_isScrolling ? widget.onDone : null,
           );
-    } else if (!isLastPage && widget.showNextButton && widget.canProgress(getCurrentPage())) {
+    } else if (!isLastPage &&
+        widget.showNextButton &&
+        widget.canProgress(getCurrentPage())) {
       rightBtn = widget.overrideNext ??
           IntroButton(
             child: widget.next!,
