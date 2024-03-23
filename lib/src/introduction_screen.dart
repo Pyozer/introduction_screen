@@ -433,6 +433,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     if (keyboardSubscription != null) {
       keyboardSubscription!.cancel();
     }
+    widget.scrollControllers?.forEach((controller) {
+      controller?.dispose();
+    });
     super.dispose();
   }
 
@@ -450,10 +453,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       );
       final int pagesLength = getPagesLength() - 1;
       if (widget.infiniteAutoScroll) {
-        while (true) {
-          if (!mounted) {
-            break;
-          }
+        while (mounted) {
           await _movePage(
             _autoscrollDuration,
             _animationDuration,
@@ -461,10 +461,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
           );
         }
       } else {
-        while (getCurrentPage() < pagesLength) {
-          if (!mounted) {
-            break;
-          }
+        while (mounted && getCurrentPage() < pagesLength) {
           await _movePage(
             _autoscrollDuration,
             _animationDuration,
@@ -481,7 +478,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     bool forward,
   ) async {
     await Future.delayed(autoscrollDuration);
-    if (!_isSkipPressed && !_isScrolling) {
+    if (mounted && !_isSkipPressed && !_isScrolling) {
       if (forward) {
         await _pageController.nextPage(
           duration: animationDuration,
