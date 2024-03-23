@@ -603,6 +603,16 @@ class IntroductionScreenState extends State<IntroductionScreen> {
           );
     }
 
+    final pages = widget.pages
+            ?.mapIndexed((index, page) => IntroPage(
+                  page: page,
+                  scrollController: CustomList(
+                    widget.scrollControllers,
+                  )?.elementAtOrNull(index),
+                ))
+            .toList() ??
+        widget.rawPages!;
+
     return SafeArea(
       left: widget.safeAreaList[0],
       right: widget.safeAreaList[1],
@@ -631,17 +641,12 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                       : !widget.canProgress(getCurrentPage())
                           ? const NeverScrollableScrollPhysics()
                           : widget.scrollPhysics,
-                  children: widget.pages
-                          ?.mapIndexed(
-                            (index, page) => IntroPage(
-                              page: page,
-                              scrollController: CustomList(
-                                widget.scrollControllers,
-                              )?.elementAtOrNull(index),
-                            ),
-                          )
-                          .toList() ??
-                      widget.rawPages!,
+                  children: pages
+                      .map((page) => NotificationListener(
+                            onNotification: (_) => true,
+                            child: page,
+                          ))
+                      .toList(),
                 ),
               ),
             ),
