@@ -31,6 +31,9 @@ class PageViewModel {
   /// Wrap content in scrollView
   final bool useScrollView;
 
+  /// Keyboard dismiss behavious for scrollView
+  final ScrollViewKeyboardDismissBehavior scrollViewKeyboardDismissBehavior;
+
   /// Use Row instead of Column when in landscape to place image next to the content.
   final bool useRowInLandscape;
 
@@ -44,6 +47,8 @@ class PageViewModel {
     this.reverse = false,
     this.decoration = const PageDecoration(),
     this.useScrollView = true,
+    this.scrollViewKeyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
     this.useRowInLandscape = false,
   })  : assert(
           title != null || titleWidget != null,

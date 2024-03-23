@@ -471,6 +471,8 @@ You can provide many parameters to customize each pages:
   - See next section for all parameters you can pass
 - `reverse: true`, reverse order of image and content (title/body). (Default: `false`)
 - `useScrollView: false`, by default pages use a Scrollview to handle small screen or long body text. You can remove ScrollView by setting to false.
+- `scrollViewKeyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual`, by default the keyboard dismiss behavious is manual, you can change it.
+  - Only used if useScrollView not set to false.
 
 ### PageDecoration parameters
 

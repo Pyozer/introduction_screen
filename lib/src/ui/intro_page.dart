@@ -42,6 +42,8 @@ class _IntroPageState extends State<IntroPage>
                         ? SingleChildScrollView(
                             controller: widget.scrollController,
                             physics: const BouncingScrollPhysics(),
+                            keyboardDismissBehavior:
+                                page.scrollViewKeyboardDismissBehavior,
                             child: content,
                           )
                         : content,
