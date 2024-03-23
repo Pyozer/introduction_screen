@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   collection: ^1.17.1
-  dots_indicator: ^3.0.0
+  dots_indicator: ^2.1.2
   flutter_keyboard_visibility: ^6.0.0
 
 dev_dependencies:
