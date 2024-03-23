@@ -6,7 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,14 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Introduction screen',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       home: const OnBoardingPage(),
     );
   }
 }
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+  const OnBoardingPage({super.key});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();
@@ -206,13 +206,31 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
+
+  void _onBackToIntro(context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const OnBoardingPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text("This is the screen after Introduction")),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("This is the screen after Introduction"),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () => _onBackToIntro(context),
+              child: const Text('Back to Introduction'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
