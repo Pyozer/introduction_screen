@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.13] - 2024-03-23
+
+### Added
+- Add scrollViewKeyboardDismissBehavior parameter on PageViewModel [#195](https://github.com/Pyozer/introduction_screen/pull/195) [#212](https://github.com/Pyozer/introduction_screen/pull/212)
+- Re-generate example app with latest flutter version
+- Update dependencies to latest version (flutter_keyboard_visibility to 6.0.0)
+
+### Fixed
+- Fix page controller used on autoScroll after introduction disposed [#191](https://github.com/Pyozer/introduction_screen/pull/191) [#196](https://github.com/Pyozer/introduction_screen/pull/196) [#199](https://github.com/Pyozer/introduction_screen/pull/199)
+
 ## [3.1.12] - 2023-10-03
 
 ### Fixed
