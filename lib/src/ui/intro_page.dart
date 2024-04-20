@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '/src/helper.dart';
 import '/src/model/page_view_model.dart';
 import '/src/ui/intro_content.dart';
@@ -28,6 +29,14 @@ class _IntroPageState extends State<IntroPage>
 
     return Stack(
       children: [
+        if (page.backgroundImage != null)
+          Image.asset(
+            page.backgroundImage!,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
         if (page.image != null) page.image!,
         Positioned.fill(
           child: Column(
@@ -126,7 +135,8 @@ class _IntroPageState extends State<IntroPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (widget.page.decoration.fullScreen) {
+    if (widget.page.decoration.fullScreen ||
+        widget.page.backgroundImage != null) {
       return _buildStack();
     }
     return _buildFlex(context);
