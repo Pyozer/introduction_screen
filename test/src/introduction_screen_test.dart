@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 void main() {
+  // Helper function to create the IntroductionScreen widget
   Widget createIntroductionScreen({
     required List<PageViewModel> pages,
     VoidCallback? onDone,
@@ -25,7 +26,6 @@ void main() {
         showDoneButton: showDoneButton,
         showNextButton: showNextButton,
         autoScrollDuration: autoScrollDuration,
-        // infiniteAutoScroll: autoScrollDuration != null,
       ),
     );
   }
@@ -77,9 +77,7 @@ void main() {
       await tester.pumpWidget(
         createIntroductionScreen(
           pages: pages,
-          onSkip: () {
-            skipTapped = true;
-          },
+          onSkip: () => skipTapped = true,
           showSkipButton: true,
         ),
       );
@@ -129,9 +127,7 @@ void main() {
       await tester.pumpWidget(
         createIntroductionScreen(
           pages: pages,
-          onDone: () {
-            doneTapped = true;
-          },
+          onDone: () => doneTapped = true,
           showDoneButton: true,
         ),
       );
