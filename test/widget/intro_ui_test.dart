@@ -40,16 +40,14 @@ void main() {
 
     testWidgets('Intro Content renders full screen with decoration',
         (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: IntroContent(
-              page: PageViewModel(
-                title: 'Test Title',
-                body: 'Test Body',
-                footer: const Text('Test Footer'),
-              ),
-              isFullScreen: true),
-        ),
+      await tester.pumpWidget(testableWidget(
+        child: IntroContent(
+            page: PageViewModel(
+              title: 'Test Title',
+              body: 'Test Body',
+              footer: const Text('Test Footer'),
+            ),
+            isFullScreen: true),
       ));
 
       // Find the IntroContent widget
@@ -63,16 +61,14 @@ void main() {
 
     testWidgets('renders IntroPage with full screen stack',
         (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: IntroPage(
-            page: PageViewModel(
-              title: 'Test Title',
-              body: 'Test Body',
-              footer: const Text('Test Footer'),
-              decoration: PageDecoration(fullScreen: true),
-              // useScrollView: false,
-            ),
+      await tester.pumpWidget(testableWidget(
+        child: IntroPage(
+          page: PageViewModel(
+            title: 'Test Title',
+            body: 'Test Body',
+            footer: const Text('Test Footer'),
+            decoration: PageDecoration(fullScreen: true),
+            // useScrollView: false,
           ),
         ),
       ));
@@ -86,15 +82,13 @@ void main() {
 
     testWidgets('renders IntroPage with Flex layout',
         (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: IntroPage(
-            page: PageViewModel(
-              title: 'Test Title',
-              body: 'Test Body',
-              footer: const Text('Test Footer'),
-              useScrollView: false,
-            ),
+      await tester.pumpWidget(testableWidget(
+        child: IntroPage(
+          page: PageViewModel(
+            title: 'Test Title',
+            body: 'Test Body',
+            footer: const Text('Test Footer'),
+            useScrollView: false,
           ),
         ),
       ));
@@ -115,16 +109,14 @@ void main() {
         height: 100,
       );
 
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: IntroPage(
-            page: PageViewModel(
-              title: 'Test Title',
-              body: 'Test Body',
-              image: mockImage, // Set the page image to the mock image
-              footer: const Text('Test Footer'),
-              useScrollView: false,
-            ),
+      await tester.pumpWidget(testableWidget(
+        child: IntroPage(
+          page: PageViewModel(
+            title: 'Test Title',
+            body: 'Test Body',
+            image: mockImage, // Set the page image to the mock image
+            footer: const Text('Test Footer'),
+            useScrollView: false,
           ),
         ),
       ));
