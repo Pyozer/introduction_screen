@@ -13,6 +13,24 @@ void main() {
     final bodyFinder = find.text('Test Body');
     final footerFinder = find.text('Test Footer');
 
+    // Helper function to create the IntroPage widget
+    Widget createIntroPage(
+        {bool isFullScreen = false,
+        PageDecoration? pageDecoration,
+        bool useScrollView = true,
+        Widget? image}) {
+      return IntroPage(
+        page: PageViewModel(
+          title: 'Test Title',
+          body: 'Test Body',
+          image: image,
+          footer: const Text('Test Footer'),
+          decoration: pageDecoration ?? const PageDecoration(),
+          useScrollView: useScrollView,
+        ),
+      );
+    }
+
     testWidgets('IntroButton has text', (tester) async {
       await tester.pumpWidget(testableWidget(
         child: IntroButton(child: const Text('Test Text')),
@@ -61,17 +79,13 @@ void main() {
 
     testWidgets('renders IntroPage with full screen stack',
         (WidgetTester tester) async {
-      await tester.pumpWidget(testableWidget(
-        child: IntroPage(
-          page: PageViewModel(
-            title: 'Test Title',
-            body: 'Test Body',
-            footer: const Text('Test Footer'),
-            decoration: PageDecoration(fullScreen: true),
-            // useScrollView: false,
+      await tester.pumpWidget(
+        testableWidget(
+          child: createIntroPage(
+            pageDecoration: PageDecoration(fullScreen: true),
           ),
         ),
-      ));
+      );
 
       // Check that the IntroContent is rendered in a Stack
       expect(find.byType(Stack), findsWidgets);
@@ -82,16 +96,8 @@ void main() {
 
     testWidgets('renders IntroPage with Flex layout',
         (WidgetTester tester) async {
-      await tester.pumpWidget(testableWidget(
-        child: IntroPage(
-          page: PageViewModel(
-            title: 'Test Title',
-            body: 'Test Body',
-            footer: const Text('Test Footer'),
-            useScrollView: false,
-          ),
-        ),
-      ));
+      await tester.pumpWidget(
+          testableWidget(child: createIntroPage(useScrollView: false)));
 
       // Check that the IntroContent is rendered in a Flex layout
       expect(find.byType(Flex), findsOneWidget);
@@ -110,14 +116,9 @@ void main() {
       );
 
       await tester.pumpWidget(testableWidget(
-        child: IntroPage(
-          page: PageViewModel(
-            title: 'Test Title',
-            body: 'Test Body',
-            image: mockImage, // Set the page image to the mock image
-            footer: const Text('Test Footer'),
-            useScrollView: false,
-          ),
+        child: createIntroPage(
+          useScrollView: false,
+          image: mockImage, // Set the page image to the mock image
         ),
       ));
 
