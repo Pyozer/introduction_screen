@@ -3,10 +3,9 @@ library introduction_screen;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '/src/helper.dart';
@@ -95,6 +94,11 @@ class IntroductionScreen extends StatefulWidget {
   ///
   /// @Default `false`
   final bool showBackButton;
+
+  /// If the Back button should be display for the first page
+  ///
+  /// @Default `false`
+  final bool showFirstBackButton;
 
   /// If a custom Widget should be used instead of the default progress indicator
   ///
@@ -299,6 +303,7 @@ class IntroductionScreen extends StatefulWidget {
       this.showDoneButton = true,
       this.showBottomPart = true,
       this.showBackButton = false,
+      this.showFirstBackButton = false,
       this.customProgress,
       this.isProgress = true,
       this.hideBottomOnKeyboard = false,
@@ -567,9 +572,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
               onPressed: _onSkip,
             ),
       );
-    } else if (widget.showBackButton &&
-        getCurrentPage() > 0 &&
-        widget.canProgress(getCurrentPage())) {
+    } else if ((widget.showFirstBackButton && getCurrentPage() == 0) ||
+        (widget.showBackButton &&
+            getCurrentPage() > 0 &&
+            widget.canProgress(getCurrentPage()))) {
       leftBtn = widget.overrideBack ??
           IntroButton(
             child: widget.back!,
