@@ -16,6 +16,12 @@ class IntroButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultStyle = TextButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+
     return MergeSemantics(
       child: Semantics(
         label: semanticLabel,
@@ -23,11 +29,7 @@ class IntroButton extends StatelessWidget {
         child: TextButton(
           onPressed: onPressed,
           child: child,
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ).merge(style),
+          style: style?.merge(defaultStyle) ?? defaultStyle,
         ),
       ),
     );

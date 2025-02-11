@@ -125,5 +125,37 @@ void main() {
       // Check that the image is rendered
       expect(find.byWidget(mockImage), findsOneWidget);
     });
+
+    testWidgets('IntroButton custom styles override default styles',
+        (tester) async {
+      // Create a custom style with a different border radius
+      final customStyle = TextButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.circular(20.0), // Different from default 8.0
+        ),
+        backgroundColor: Colors.blue, // Additional property to verify
+      );
+
+      await tester.pumpWidget(testableWidget(
+        child: IntroButton(
+          child: const Text('Test Text'),
+          style: customStyle,
+        ),
+      ));
+
+      // Find the TextButton
+      final button = tester.widget<TextButton>(find.byType(TextButton));
+
+      // Get the shape from the button's style
+      final shape = button.style?.shape?.resolve({});
+      expect(shape, isA<RoundedRectangleBorder>());
+      final borderRadius = (shape as RoundedRectangleBorder).borderRadius;
+      expect(borderRadius, BorderRadius.circular(20.0));
+
+      // Verify the background color was also applied
+      final backgroundColor = button.style?.backgroundColor?.resolve({});
+      expect(backgroundColor, Colors.blue);
+    });
   });
 }
