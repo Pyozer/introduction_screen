@@ -195,24 +195,40 @@ void main() {
     });
   });
 
-  testWidgets('Auto-scroll works as expected', (WidgetTester tester) async {
+  testWidgets('Auto-scroll advances one page at a time',
+      (WidgetTester tester) async {
     // Arrange
-    final pages = [
-      PageViewModel(title: 'Page 1', body: 'Introduction 1'),
-      PageViewModel(title: 'Page 2', body: 'Introduction 2'),
-    ];
+    const autoScrollDuration = 2000;
+    await tester.pumpWidget(createIntroductionScreen(
+      pages: [
+        PageViewModel(title: 'Page 1', body: 'Introduction 1'),
+        PageViewModel(title: 'Page 2', body: 'Introduction 2'),
+        PageViewModel(title: 'Page 3', body: 'Introduction 3'),
+      ],
+      autoScrollDuration: autoScrollDuration,
+    ));
 
-    await tester.pumpWidget(
-        createIntroductionScreen(pages: pages, autoScrollDuration: 5));
-
-    // Initial page should be Page 1
+    // Should still be at page 1 after 100 ms
+    await tester.pump(Duration(milliseconds: 100));
+    await tester.pumpAndSettle();
     expect(find.text('Page 1'), findsOneWidget);
+    expect(find.text('Page 2'), findsNothing);
+    expect(find.text('Page 3'), findsNothing);
 
-    // Simulate time passing to trigger auto-scroll
-    await tester.pump(const Duration(milliseconds: 10));
+    // Wait for first auto-scroll, should be on page 2 now
+    await tester.pump(Duration(milliseconds: autoScrollDuration + 100));
     await tester.pumpAndSettle();
 
-    // The auto-scroll should have moved to the next page
+    expect(find.text('Page 1'), findsNothing);
     expect(find.text('Page 2'), findsOneWidget);
+    expect(find.text('Page 3'), findsNothing);
+
+    // Wait for second auto-scroll, should be on page 3 now
+    await tester.pump(Duration(milliseconds: autoScrollDuration));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Page 1'), findsNothing);
+    expect(find.text('Page 2'), findsNothing);
+    expect(find.text('Page 3'), findsOneWidget);
   });
 }
