@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 void main() {
@@ -12,6 +12,8 @@ void main() {
     bool showSkipButton = false,
     bool showDoneButton = false,
     bool showNextButton = true,
+    bool showBackButton = false,
+    int initialPage = 0,
     int? autoScrollDuration,
   }) {
     return MaterialApp(
@@ -24,8 +26,11 @@ void main() {
         next: showNextButton ? Text("Next") : null,
         showSkipButton: showSkipButton,
         showDoneButton: showDoneButton,
+        showBackButton: showBackButton,
+        back: showBackButton ? Text("Back") : null,
         showNextButton: showNextButton,
         autoScrollDuration: autoScrollDuration,
+        initialPage: initialPage,
       ),
     );
   }
@@ -62,6 +67,29 @@ void main() {
 
       // Assert
       expect(find.text('Page 2'), findsOneWidget);
+    });
+
+    testWidgets('Back button goes back to the previous page', (tester) async {
+      // Arrange
+      await tester.pumpWidget(createIntroductionScreen(
+        pages: [
+          PageViewModel(title: 'Page 1', body: 'Introduction 1'),
+          PageViewModel(title: 'Page 2', body: 'Introduction 2'),
+        ],
+        showBackButton: true,
+        initialPage: 1,
+      ));
+
+      expect(find.text('Page 1'), findsNothing);
+      expect(find.text('Page 2'), findsOneWidget);
+
+      // Act
+      await tester.tap(find.text('Back'));
+      await tester.pumpAndSettle();
+
+      // Assert
+      expect(find.text('Page 1'), findsOneWidget);
+      expect(find.text('Page 2'), findsNothing);
     });
 
     testWidgets('Skip button triggers onSkip callback', (tester) async {
