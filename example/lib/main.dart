@@ -5,6 +5,8 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 void main() => runApp(const App());
 
+const backgroundImage = 'assets/fullscreen.jpg';
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -36,16 +38,6 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   void _onIntroEnd(context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const HomePage()),
-    );
-  }
-
-  Widget _buildFullscreenImage() {
-    return Image.asset(
-      'assets/fullscreen.jpg',
-      fit: BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
-      alignment: Alignment.center,
     );
   }
 
@@ -117,10 +109,9 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           title: "Full Screen Page",
           body:
               "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
-          image: _buildFullscreenImage(),
+          backgroundImage: backgroundImage,
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-            fullScreen: true,
             bodyFlex: 2,
             imageFlex: 3,
             safeArea: 100,
