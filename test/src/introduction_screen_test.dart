@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 void main() {
@@ -12,6 +12,8 @@ void main() {
     bool showSkipButton = false,
     bool showDoneButton = false,
     bool showNextButton = true,
+    bool showBackButton = false,
+    int initialPage = 0,
     int? autoScrollDuration,
   }) {
     return MaterialApp(
@@ -24,8 +26,11 @@ void main() {
         next: showNextButton ? Text("Next") : null,
         showSkipButton: showSkipButton,
         showDoneButton: showDoneButton,
+        showBackButton: showBackButton,
+        back: showBackButton ? Text("Back") : null,
         showNextButton: showNextButton,
         autoScrollDuration: autoScrollDuration,
+        initialPage: initialPage,
       ),
     );
   }
@@ -62,6 +67,29 @@ void main() {
 
       // Assert
       expect(find.text('Page 2'), findsOneWidget);
+    });
+
+    testWidgets('Back button goes back to the previous page', (tester) async {
+      // Arrange
+      await tester.pumpWidget(createIntroductionScreen(
+        pages: [
+          PageViewModel(title: 'Page 1', body: 'Introduction 1'),
+          PageViewModel(title: 'Page 2', body: 'Introduction 2'),
+        ],
+        showBackButton: true,
+        initialPage: 1,
+      ));
+
+      expect(find.text('Page 1'), findsNothing);
+      expect(find.text('Page 2'), findsOneWidget);
+
+      // Act
+      await tester.tap(find.text('Back'));
+      await tester.pumpAndSettle();
+
+      // Assert
+      expect(find.text('Page 1'), findsOneWidget);
+      expect(find.text('Page 2'), findsNothing);
     });
 
     testWidgets('Skip button triggers onSkip callback', (tester) async {
@@ -167,24 +195,40 @@ void main() {
     });
   });
 
-  testWidgets('Auto-scroll works as expected', (WidgetTester tester) async {
+  testWidgets('Auto-scroll advances one page at a time',
+      (WidgetTester tester) async {
     // Arrange
-    final pages = [
-      PageViewModel(title: 'Page 1', body: 'Introduction 1'),
-      PageViewModel(title: 'Page 2', body: 'Introduction 2'),
-    ];
+    const autoScrollDuration = 2000;
+    await tester.pumpWidget(createIntroductionScreen(
+      pages: [
+        PageViewModel(title: 'Page 1', body: 'Introduction 1'),
+        PageViewModel(title: 'Page 2', body: 'Introduction 2'),
+        PageViewModel(title: 'Page 3', body: 'Introduction 3'),
+      ],
+      autoScrollDuration: autoScrollDuration,
+    ));
 
-    await tester.pumpWidget(
-        createIntroductionScreen(pages: pages, autoScrollDuration: 5));
-
-    // Initial page should be Page 1
+    // Should still be at page 1 after 100 ms
+    await tester.pump(Duration(milliseconds: 100));
+    await tester.pumpAndSettle();
     expect(find.text('Page 1'), findsOneWidget);
+    expect(find.text('Page 2'), findsNothing);
+    expect(find.text('Page 3'), findsNothing);
 
-    // Simulate time passing to trigger auto-scroll
-    await tester.pump(const Duration(milliseconds: 10));
+    // Wait for first auto-scroll, should be on page 2 now
+    await tester.pump(Duration(milliseconds: autoScrollDuration + 100));
     await tester.pumpAndSettle();
 
-    // The auto-scroll should have moved to the next page
+    expect(find.text('Page 1'), findsNothing);
     expect(find.text('Page 2'), findsOneWidget);
+    expect(find.text('Page 3'), findsNothing);
+
+    // Wait for second auto-scroll, should be on page 3 now
+    await tester.pump(Duration(milliseconds: autoScrollDuration));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Page 1'), findsNothing);
+    expect(find.text('Page 2'), findsNothing);
+    expect(find.text('Page 3'), findsOneWidget);
   });
 }

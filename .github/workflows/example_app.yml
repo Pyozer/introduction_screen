@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
       - run: dart --version
       - run: flutter --version
       - run: flutter analyze
