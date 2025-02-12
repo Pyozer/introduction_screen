@@ -548,7 +548,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     Widget? leftBtn;
     // show skip button when skip is enabled and back is disabled,
     // or show it on the first page when back is enabled.
-    if (widget.showSkipButton && ((getCurrentPage() == 0 && widget.showBackButton) || !widget.showBackButton)) {
+    if (widget.showSkipButton &&
+        ((getCurrentPage() == 0 && widget.showBackButton) ||
+            !widget.showBackButton)) {
       leftBtn = Visibility(
         visible: !isLastPage && !_isSkipPressed,
         maintainState: true,
@@ -604,9 +606,8 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final pages = widget.pages
             ?.mapIndexed((index, page) => IntroPage(
                   page: page,
-                  scrollController: CustomList(
-                    widget.scrollControllers,
-                  )?.elementAtOrNull(index),
+                  scrollController:
+                      widget.scrollControllers?.elementAtOrNull(index),
                 ))
             .toList() ??
         widget.rawPages!;
