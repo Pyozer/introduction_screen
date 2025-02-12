@@ -367,10 +367,6 @@ class IntroductionScreen extends StatefulWidget {
           "You must set 'back' or 'overrideBack' parameter, or set 'showBackButton' to false",
         ),
         assert(
-          !(showBackButton && showSkipButton),
-          "You cannot set 'showBackButton' and 'showSkipButton' to true. Only one, or both false.",
-        ),
-        assert(
           skipOrBackFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0,
           'Flex parameters must be >= 0',
         ),
@@ -550,7 +546,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final isLastPage = (getCurrentPage() == getPagesLength() - 1);
 
     Widget? leftBtn;
-    if (widget.showSkipButton) {
+    // show skip button when skip is enabled and back is disabled,
+    // or show it on the first page when back is enabled.
+    if (widget.showSkipButton && ((getCurrentPage() == 0 && widget.showBackButton) || !widget.showBackButton)) {
       leftBtn = Visibility(
         visible: !isLastPage && !_isSkipPressed,
         maintainState: true,
