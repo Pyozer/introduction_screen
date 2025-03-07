@@ -578,6 +578,20 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             semanticLabel: widget.backSemantic,
             onPressed: !_isScrolling ? previous : null,
           );
+    } else if (widget.showBackButton && getCurrentPage() == 0) {
+      // Add the logic for the invisible button on the first page (index 0)
+      leftBtn = Opacity(
+        opacity: 0.0,
+        child: IgnorePointer(
+          ignoring: true, // Make the button unclickable
+          child: IntroButton(
+            child: const Icon(Icons.arrow_back),
+            style: widget.baseBtnStyle?.merge(widget.backStyle) ?? widget.backStyle,
+            semanticLabel: widget.backSemantic,
+            onPressed: null, // No action needed
+          ),
+        ),
+      );
     }
 
     Widget? rightBtn;
