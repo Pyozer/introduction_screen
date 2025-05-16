@@ -13,7 +13,7 @@ dependencies:
 
   collection: ^1.18.0
   dots_indicator: ^4.0.1
-  flutter_keyboard_visibility: ^6.0.0
+  flutter_keyboard_visibility_temp_fork: ^0.1.5
 
 dev_dependencies:
   flutter_test:
