@@ -2,7 +2,6 @@ library introduction_screen;
 
 import 'dart:async';
 import 'dart:math';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -684,12 +683,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                               child: widget.isProgress
                                   ? widget.customProgress ??
                                       Semantics(
-                                        label: widget.progressSemantic != null
-                                            ? widget.progressSemantic!(
-                                                    getCurrentPage() + 1,
-                                                    getPagesLength())
-                                                .call()
-                                            : "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
+                                        label: widget.progressSemantic?.call(
+                                                getCurrentPage() + 1,
+                                                getPagesLength()) ??
+                                            "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
                                         excludeSemantics: true,
                                         child: DotsIndicator(
                                           reversed: widget.rtl,
