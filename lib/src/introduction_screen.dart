@@ -2,11 +2,11 @@ library introduction_screen;
 
 import 'dart:async';
 import 'dart:math';
-
-import 'package:flutter/material.dart';
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:collection/collection.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '/src/helper.dart';
@@ -199,6 +199,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Back button semantic label
   final String? backSemantic;
 
+  /// Progress indicator semantic label
+  final String Function(int, int)? progressSemantic;
+
   /// Enable or disable content resizing for bottom inset (e.g. keyboard)
   ///
   /// @Default `true`
@@ -324,6 +327,7 @@ class IntroductionScreen extends StatefulWidget {
       this.nextSemantic,
       this.doneSemantic,
       this.backSemantic,
+      this.progressSemantic,
       this.resizeToAvoidBottomInset = true,
       this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
       this.controlsMargin = EdgeInsets.zero,
@@ -680,8 +684,12 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                               child: widget.isProgress
                                   ? widget.customProgress ??
                                       Semantics(
-                                        label:
-                                            "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
+                                        label: widget.progressSemantic != null
+                                            ? widget.progressSemantic!(
+                                                    getCurrentPage() + 1,
+                                                    getPagesLength())
+                                                .call()
+                                            : "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
                                         excludeSemantics: true,
                                         child: DotsIndicator(
                                           reversed: widget.rtl,
