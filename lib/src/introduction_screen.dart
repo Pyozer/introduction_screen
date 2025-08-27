@@ -99,6 +99,11 @@ class IntroductionScreen extends StatefulWidget {
   /// @Default `false`
   final bool showBackButton;
 
+  /// If the Back button should be display for the first page
+  ///
+  /// @Default `false`
+  final bool showFirstBackButton;
+
   /// If a custom Widget should be used instead of the default progress indicator
   ///
   /// @Default `null`
@@ -305,6 +310,7 @@ class IntroductionScreen extends StatefulWidget {
       this.showDoneButton = true,
       this.showBottomPart = true,
       this.showBackButton = false,
+      this.showFirstBackButton = false,
       this.customProgress,
       this.isProgress = true,
       this.hideBottomOnKeyboard = false,
@@ -575,9 +581,10 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                 onPressed: _onSkip,
               ),
       );
-    } else if (widget.showBackButton &&
-        getCurrentPage() > 0 &&
-        widget.canProgress(getCurrentPage())) {
+    } else if ((widget.showFirstBackButton && getCurrentPage() == 0) ||
+        (widget.showBackButton &&
+            getCurrentPage() > 0 &&
+            widget.canProgress(getCurrentPage()))) {
       leftBtn = widget.overrideBack != null
           ? widget.overrideBack!(context, !_isScrolling ? previous : null)
           : IntroButton(
