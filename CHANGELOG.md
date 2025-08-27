@@ -1,34 +1,47 @@
 # Changelog
 
+## [4.0.0] - 2025-08-27
+
+**BREAKING CHANGE**
+
+Refactored the signatures of `overrideDone`, `overrideNext`, `overrideSkip`, and `overrideBack` parameters to provide improved `onPressed` handling and greater flexibility for custom button actions.
+
+More information [PR#234](https://github.com/Pyozer/introduction_screen/pull/234)
+
+- Add custom semantic label for progress [PR#235](https://github.com/Pyozer/introduction_screen/pull/235)
+- Update readme [PR#228](https://github.com/Pyozer/introduction_screen/pull/228)
+- Fix WASM support (using fork of flutter_keyboard_visibility) [PR#232](https://github.com/Pyozer/introduction_screen/pull/232)
+- Allow to display back button on first page [PR#233](https://github.com/Pyozer/introduction_screen/pull/233)
+
 ## [3.1.17] - 2025-02-18
 
-- Reduce example app minimum sdk [#226](https://github.com/Pyozer/introduction_screen/pull/226)
+- Reduce example app minimum sdk [PR#226](https://github.com/Pyozer/introduction_screen/pull/226)
 
 ## [3.1.16] - 2025-02-12
 
-- Allow skipButton and backButton to be used at the same time [#219](https://github.com/Pyozer/introduction_screen/pull/219)
-- Implement backgroundImage for PageViewModel [#214](https://github.com/Pyozer/introduction_screen/pull/214)
+- Allow skipButton and backButton to be used at the same time [PR#219](https://github.com/Pyozer/introduction_screen/pull/219)
+- Implement backgroundImage for PageViewModel [PR#214](https://github.com/Pyozer/introduction_screen/pull/214)
 - Regenerate example app
 
 ## [3.1.15] - 2025-02-12
 
-- Fix button style can not be overridden [#224](https://github.com/Pyozer/introduction_screen/pull/224)
-- Enhance Test Coverage for Introduction Screen [#221](https://github.com/Pyozer/introduction_screen/pull/221)
+- Fix button style can not be overridden [PR#224](https://github.com/Pyozer/introduction_screen/pull/224)
+- Enhance Test Coverage for Introduction Screen [PR#221](https://github.com/Pyozer/introduction_screen/pull/221)
 
 ## [3.1.14] - 2024-03-23
 
 ### Fixed
-- Fix scroll NotificationListener on PageView children [#208](https://github.com/Pyozer/introduction_screen/pull/208)
+- Fix scroll NotificationListener on PageView children [PR#208](https://github.com/Pyozer/introduction_screen/pull/208)
 
 ## [3.1.13] - 2024-03-23
 
 ### Added
-- Add scrollViewKeyboardDismissBehavior parameter on PageViewModel [#195](https://github.com/Pyozer/introduction_screen/pull/195) [#212](https://github.com/Pyozer/introduction_screen/pull/212)
+- Add scrollViewKeyboardDismissBehavior parameter on PageViewModel [PR#195](https://github.com/Pyozer/introduction_screen/pull/195) [PR#212](https://github.com/Pyozer/introduction_screen/pull/212)
 - Re-generate example app with latest flutter version
 - Update dependencies to latest version (flutter_keyboard_visibility to 6.0.0)
 
 ### Fixed
-- Fix page controller used on autoScroll after introduction disposed [#191](https://github.com/Pyozer/introduction_screen/pull/191) [#196](https://github.com/Pyozer/introduction_screen/pull/196) [#199](https://github.com/Pyozer/introduction_screen/pull/199)
+- Fix page controller used on autoScroll after introduction disposed [PR#191](https://github.com/Pyozer/introduction_screen/pull/191) [PR#196](https://github.com/Pyozer/introduction_screen/pull/196) [PR#199](https://github.com/Pyozer/introduction_screen/pull/199)
 
 ## [3.1.12] - 2023-10-03
 
