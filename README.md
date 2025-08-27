@@ -349,7 +349,7 @@ This is the full list:
   - This param is required, EXCEPT if you set `showNextButton: false`
 - Define pre-made Skip button child (Widget), by adding `skip: Text('Skip')`
   - This param is required if you set `showSkipButton: true`
-  Define pre-made Back button child (Widget), by adding `back: Text('Back')`
+- Define pre-made Back button child (Widget), by adding `back: Text('Back')`
   - This param is required if you set `showBackButton: true`
 
 #### Use custom buttons
