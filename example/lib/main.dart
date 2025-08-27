@@ -35,7 +35,7 @@ class OnBoardingPage extends StatefulWidget {
 class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd(context) {
+  void _onIntroEnd(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const HomePage()),
     );
@@ -199,7 +199,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  void _onBackToIntro(context) {
+  void _onBackToIntro(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const OnBoardingPage()),
     );
