@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:introduction_screen/src/helper.dart';
+
 import '/src/model/page_decoration.dart';
 
 class PageViewModel {
@@ -17,6 +19,12 @@ class PageViewModel {
   /// Image of page
   /// Tips: Wrap your image with an alignment widget like Align or Center
   final Widget? image;
+
+  /// Background image of a page.
+  /// Spans all over the screen.
+  ///
+  /// Tips: can be used alone or as a background image together with the "image" parameter.
+  final String? backgroundImage;
 
   /// Footer widget, you can add a button for example
   final Widget? footer;
@@ -43,6 +51,7 @@ class PageViewModel {
     this.body,
     this.bodyWidget,
     this.image,
+    this.backgroundImage,
     this.footer,
     this.reverse = false,
     this.decoration = const PageDecoration(),
@@ -65,5 +74,9 @@ class PageViewModel {
         assert(
           (body == null) != (bodyWidget == null),
           "You can not provide both body and bodyWidget.",
-        );
+        ),
+        assert(
+            backgroundImage == null ||
+                isBackgroundImageAssetPathValid(backgroundImage),
+            "You must provide a valid image asset path");
 }

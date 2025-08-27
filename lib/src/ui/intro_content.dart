@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '/introduction_screen.dart';
 
 class IntroContent extends StatelessWidget {

@@ -41,28 +41,32 @@ class IntroductionScreen extends StatefulWidget {
 
   /// Override pre-made done button.
   /// You can what you want (button, text, image, ...)
-  final Widget? overrideDone;
+  final Widget Function(BuildContext context, Function()? onPressed)?
+      overrideDone;
 
   /// Skip button child for the pre-made TextButton
   final Widget? skip;
 
   /// Override pre-made skip button.
   /// You can what you want (button, text, image, ...)
-  final Widget? overrideSkip;
+  final Widget Function(BuildContext context, Function() onPressed)?
+      overrideSkip;
 
   /// Next button child for the pre-made TextButton
   final Widget? next;
 
   /// Override pre-made next button.
   /// You can what you want (button, text, image, ...)
-  final Widget? overrideNext;
+  final Widget Function(BuildContext context, Function()? onPressed)?
+      overrideNext;
 
   /// Back button child for the pre-made TextButton
   final Widget? back;
 
   /// Override pre-made back button.
   /// You can what you want (button, text, image, ...)
-  final Widget? overrideBack;
+  final Widget Function(BuildContext context, Function()? onPressed)?
+      overrideBack;
 
   /// Is the Skip button should be display
   ///
@@ -203,6 +207,9 @@ class IntroductionScreen extends StatefulWidget {
   /// Back button semantic label
   final String? backSemantic;
 
+  /// Progress indicator semantic label
+  final String Function(int, int)? progressSemantic;
+
   /// Enable or disable content resizing for bottom inset (e.g. keyboard)
   ///
   /// @Default `true`
@@ -329,6 +336,7 @@ class IntroductionScreen extends StatefulWidget {
       this.nextSemantic,
       this.doneSemantic,
       this.backSemantic,
+      this.progressSemantic,
       this.resizeToAvoidBottomInset = true,
       this.controlsPosition = const Position(left: 0, right: 0, bottom: 0),
       this.controlsMargin = EdgeInsets.zero,
@@ -370,10 +378,6 @@ class IntroductionScreen extends StatefulWidget {
         assert(
           !showBackButton || back != null || overrideBack != null,
           "You must set 'back' or 'overrideBack' parameter, or set 'showBackButton' to false",
-        ),
-        assert(
-          !(showBackButton && showSkipButton),
-          "You cannot set 'showBackButton' and 'showSkipButton' to true. Only one, or both false.",
         ),
         assert(
           skipOrBackFlex >= 0 && dotsFlex >= 0 && nextFlex >= 0,
@@ -555,7 +559,11 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     final isLastPage = (getCurrentPage() == getPagesLength() - 1);
 
     Widget? leftBtn;
-    if (widget.showSkipButton) {
+    // show skip button when skip is enabled and back is disabled,
+    // or show it on the first page when back is enabled.
+    if (widget.showSkipButton &&
+        ((getCurrentPage() == 0 && widget.showBackButton) ||
+            !widget.showBackButton)) {
       leftBtn = Visibility(
         visible: !isLastPage && !_isSkipPressed,
         maintainState: true,
@@ -563,58 +571,61 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         maintainAnimation: true,
         // Needs to be true to maintain size
         maintainSize: true,
-        child: widget.overrideSkip ??
-            IntroButton(
-              child: widget.skip!,
-              style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
-                  widget.skipStyle,
-              semanticLabel: widget.skipSemantic,
-              onPressed: _onSkip,
-            ),
+        child: widget.overrideSkip != null
+            ? widget.overrideSkip!(context, _onSkip)
+            : IntroButton(
+                child: widget.skip!,
+                style: widget.baseBtnStyle?.merge(widget.skipStyle) ??
+                    widget.skipStyle,
+                semanticLabel: widget.skipSemantic,
+                onPressed: _onSkip,
+              ),
       );
     } else if ((widget.showFirstBackButton && getCurrentPage() == 0) ||
         (widget.showBackButton &&
             getCurrentPage() > 0 &&
             widget.canProgress(getCurrentPage()))) {
-      leftBtn = widget.overrideBack ??
-          IntroButton(
-            child: widget.back!,
-            style: widget.baseBtnStyle?.merge(widget.backStyle) ??
-                widget.backStyle,
-            semanticLabel: widget.backSemantic,
-            onPressed: !_isScrolling ? previous : null,
-          );
+      leftBtn = widget.overrideBack != null
+          ? widget.overrideBack!(context, !_isScrolling ? previous : null)
+          : IntroButton(
+              child: widget.back!,
+              style: widget.baseBtnStyle?.merge(widget.backStyle) ??
+                  widget.backStyle,
+              semanticLabel: widget.backSemantic,
+              onPressed: !_isScrolling ? previous : null,
+            );
     }
 
     Widget? rightBtn;
     if (isLastPage && widget.showDoneButton) {
-      rightBtn = widget.overrideDone ??
-          IntroButton(
-            child: widget.done!,
-            style: widget.baseBtnStyle?.merge(widget.doneStyle) ??
-                widget.doneStyle,
-            semanticLabel: widget.doneSemantic,
-            onPressed: !_isScrolling ? widget.onDone : null,
-          );
+      rightBtn = widget.overrideDone != null
+          ? widget.overrideDone!(context, !_isScrolling ? widget.onDone : null)
+          : IntroButton(
+              child: widget.done!,
+              style: widget.baseBtnStyle?.merge(widget.doneStyle) ??
+                  widget.doneStyle,
+              semanticLabel: widget.doneSemantic,
+              onPressed: !_isScrolling ? widget.onDone : null,
+            );
     } else if (!isLastPage &&
         widget.showNextButton &&
         widget.canProgress(getCurrentPage())) {
-      rightBtn = widget.overrideNext ??
-          IntroButton(
-            child: widget.next!,
-            style: widget.baseBtnStyle?.merge(widget.nextStyle) ??
-                widget.nextStyle,
-            semanticLabel: widget.nextSemantic,
-            onPressed: !_isScrolling ? next : null,
-          );
+      rightBtn = widget.overrideNext != null
+          ? widget.overrideNext!(context, !_isScrolling ? next : null)
+          : IntroButton(
+              child: widget.next!,
+              style: widget.baseBtnStyle?.merge(widget.nextStyle) ??
+                  widget.nextStyle,
+              semanticLabel: widget.nextSemantic,
+              onPressed: !_isScrolling ? next : null,
+            );
     }
 
     final pages = widget.pages
             ?.mapIndexed((index, page) => IntroPage(
                   page: page,
-                  scrollController: CustomList(
-                    widget.scrollControllers,
-                  )?.elementAtOrNull(index),
+                  scrollController:
+                      widget.scrollControllers?.elementAtOrNull(index),
                 ))
             .toList() ??
         widget.rawPages!;
@@ -687,7 +698,9 @@ class IntroductionScreenState extends State<IntroductionScreen> {
                               child: widget.isProgress
                                   ? widget.customProgress ??
                                       Semantics(
-                                        label:
+                                        label: widget.progressSemantic?.call(
+                                                getCurrentPage() + 1,
+                                                getPagesLength()) ??
                                             "Page ${getCurrentPage() + 1} of ${getPagesLength()}",
                                         excludeSemantics: true,
                                         child: DotsIndicator(

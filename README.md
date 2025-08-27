@@ -17,7 +17,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^3.1.14
+  introduction_screen: ^3.1.17
 ```
 
 ## Examples
@@ -349,7 +349,7 @@ This is the full list:
   - This param is required, EXCEPT if you set `showNextButton: false`
 - Define pre-made Skip button child (Widget), by adding `skip: Text('Skip')`
   - This param is required if you set `showSkipButton: true`
-  Define pre-made Back button child (Widget), by adding `back: Text('Back')`
+- Define pre-made Back button child (Widget), by adding `back: Text('Back')`
   - This param is required if you set `showBackButton: true`
 
 #### Use custom buttons
@@ -465,6 +465,9 @@ You can provide many parameters to customize each pages:
 - `body: "Body of the page"` or `bodyWidget: Text("Custom widget for body")`
 - `image: Image.asset(...)` image of the page.
   - It's expecting a Widget, so if you want to pass a Video, Text, or anything else, you can.
+- `backgroundImage: 'assets/fullscreen.jpg'` background image of the page (optional).
+  - It's expecting a String with a path to an image asset. Works just like the `image` parameter under the hood while making an asset span all over the screen.
+  - Doesn't affect the `image` nor `fullscreen` parameters: can be used together with them to build more complex layouts.
 - `footer: ElevatedButton(...)`, display a widget below body
   - Like image param, it's expecting a Widget, you can pass what you want.
 - `decoration: PageDecoration(...)`, page decoration to customize page
