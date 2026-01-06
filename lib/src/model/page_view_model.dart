@@ -26,6 +26,12 @@ class PageViewModel {
   /// Tips: can be used alone or as a background image together with the "image" parameter.
   final String? backgroundImage;
 
+  /// Background image widget of a page.
+  /// Spans all over the screen.
+  ///
+  /// Tips: can be used alone or as a background image together with the "image" parameter. Use this instead of backgroundImage for more flexibility
+  final Widget? backgroundImageWidget;
+
   /// Footer widget, you can add a button for example
   final Widget? footer;
 
@@ -52,6 +58,7 @@ class PageViewModel {
     this.bodyWidget,
     this.image,
     this.backgroundImage,
+    this.backgroundImageWidget,
     this.footer,
     this.reverse = false,
     this.decoration = const PageDecoration(),
@@ -78,5 +85,9 @@ class PageViewModel {
         assert(
             backgroundImage == null ||
                 isBackgroundImageAssetPathValid(backgroundImage),
-            "You must provide a valid image asset path");
+            "You must provide a valid image asset path"),
+        assert(
+          backgroundImageWidget == null || backgroundImage == null,
+          "You can not provide both backgroundImage and backgroundImageWidget.",
+        );
 }

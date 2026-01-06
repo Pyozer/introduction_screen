@@ -23,20 +23,33 @@ class _IntroPageState extends State<IntroPage>
   @override
   bool get wantKeepAlive => true;
 
+  Widget? _buildBackgroundImage() {
+    final page = widget.page;
+
+    if (page.backgroundImageWidget != null) {
+      return page.backgroundImageWidget!;
+    }
+
+    if (page.backgroundImage != null) {
+      return Image.asset(
+        page.backgroundImage!,
+        fit: BoxFit.cover,
+        height: double.infinity,
+        width: double.infinity,
+        alignment: Alignment.center,
+      );
+    }
+
+    return null;
+  }
+
   Widget _buildStack() {
     final PageViewModel page = widget.page;
     final content = IntroContent(page: page, isFullScreen: true);
 
     return Stack(
       children: [
-        if (page.backgroundImage != null)
-          Image.asset(
-            page.backgroundImage!,
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
-          ),
+        if (_buildBackgroundImage() != null) _buildBackgroundImage()!,
         if (page.image != null) page.image!,
         Positioned.fill(
           child: Column(
@@ -136,7 +149,8 @@ class _IntroPageState extends State<IntroPage>
     super.build(context);
 
     if (widget.page.decoration.fullScreen ||
-        widget.page.backgroundImage != null) {
+        widget.page.backgroundImage != null ||
+        widget.page.backgroundImageWidget != null) {
       return _buildStack();
     }
     return _buildFlex(context);

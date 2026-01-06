@@ -106,13 +106,31 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Full Screen Page",
+          title: "Full Screen Page with backgroundImage",
           body:
               "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
           backgroundImage: backgroundImage,
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-            bodyFlex: 2,
+            bodyFlex: 4,
+            imageFlex: 3,
+            safeArea: 100,
+          ),
+        ),
+        PageViewModel(
+          title: "Full Screen Page with backgroundImageWidget",
+          body:
+              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
+          backgroundImageWidget: Image.asset(
+            backgroundImage,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
+          decoration: pageDecoration.copyWith(
+            contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+            bodyFlex: 4,
             imageFlex: 3,
             safeArea: 100,
           ),
