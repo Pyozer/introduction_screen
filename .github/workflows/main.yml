@@ -15,5 +15,6 @@ jobs:
           channel: 'stable'
       - run: dart --version
       - run: flutter --version
+      - run: dart format --output=none --set-exit-if-changed .
       - run: flutter analyze
       - run: flutter test
