@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1] - 2026-09-16
+
+* Replaced `flutter_keyboard_visibility_temp_fork` with the upstream
+  [`flutter_keyboard_visibility`](https://pub.dev/packages/flutter_keyboard_visibility)
+  package (`^7.0.1`), which now supports Wasm and avoids dependency
+  resolution conflicts. ([#238](https://github.com/Pyozer/introduction_screen/issues/238))
+
 ## [5.0.0] - 2026-09-16
 
 **BREAKING CHANGE**
