@@ -1,4 +1,4 @@
-library introduction_screen;
+library;
 
 export '/src/introduction_screen.dart'
     show IntroductionScreen, IntroductionScreenState;

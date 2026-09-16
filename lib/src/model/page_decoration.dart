@@ -145,7 +145,7 @@ class PageDecoration {
       contentMargin: contentMargin ?? this.contentMargin,
       pageMargin: pageMargin ?? this.pageMargin,
       titlePadding: titlePadding ?? this.titlePadding,
-      bodyPadding: descriptionPadding ?? this.bodyPadding,
+      bodyPadding: descriptionPadding ?? bodyPadding,
       footerPadding: footerPadding ?? this.footerPadding,
       bodyAlignment: bodyAlignment ?? this.bodyAlignment,
       imageAlignment: imageAlignment ?? this.imageAlignment,

@@ -8,11 +8,10 @@ class IntroPage extends StatefulWidget {
   final PageViewModel page;
   final ScrollController? scrollController;
 
-  const IntroPage({Key? key, required this.page, this.scrollController})
-    : super(key: key);
+  const IntroPage({super.key, required this.page, this.scrollController});
 
   @override
-  _IntroPageState createState() => _IntroPageState();
+  State<IntroPage> createState() => _IntroPageState();
 }
 
 class _IntroPageState extends State<IntroPage>
@@ -58,9 +57,9 @@ class _IntroPageState extends State<IntroPage>
               ].asReversed(page.reverse),
               if (page.footer != null)
                 Flexible(
-                  child: page.footer!,
                   flex: page.decoration.footerFlex,
                   fit: page.decoration.footerFit,
+                  child: page.footer!,
                 ),
               SafeArea(
                 top: false,
@@ -73,7 +72,7 @@ class _IntroPageState extends State<IntroPage>
     );
   }
 
-  Widget _buildFlex(context) {
+  Widget _buildFlex(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
     final PageViewModel page = widget.page;
 
@@ -116,9 +115,9 @@ class _IntroPageState extends State<IntroPage>
           ].asReversed(page.reverse),
           if (page.footer != null)
             Flexible(
-              child: page.footer!,
               flex: page.decoration.footerFlex,
               fit: page.decoration.footerFit,
+              child: page.footer!,
             ),
           SizedBox(height: page.decoration.safeArea),
         ],

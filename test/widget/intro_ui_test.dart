@@ -154,8 +154,8 @@ void main() {
       await tester.pumpWidget(
         testableWidget(
           child: IntroButton(
-            child: const Text('Test Text'),
             style: customStyle,
+            child: const Text('Test Text'),
           ),
         ),
       );
