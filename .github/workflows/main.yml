@@ -1,20 +1,23 @@
 name: Tests
-on: [push,pull_request]
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
 jobs:
   tests:
     timeout-minutes: 40
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
-      # The branch or tag ref that triggered the workflow will be checked out.
-      # https://github.com/actions/checkout
-      - uses: actions/checkout@v4
-      # Setup a flutter environment.
-      # https://github.com/marketplace/actions/flutter-action
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
       - run: dart --version
       - run: flutter --version
+      - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed .
       - run: flutter analyze
       - run: flutter test
