@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:introduction_screen/src/ui/intro_page.dart';
-import 'package:introduction_screen/testable_widget.dart';
-
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_content.dart';
+import 'package:introduction_screen/src/ui/intro_page.dart';
+import 'package:introduction_screen/testable_widget.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   group("Intro UI widget tests", () {

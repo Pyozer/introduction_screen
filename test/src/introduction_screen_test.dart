@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   // Helper function to create the IntroductionScreen widget

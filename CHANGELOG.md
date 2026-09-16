@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+**BREAKING CHANGE**
+* Use the standalone [`material_ui`](https://pub.dev/packages/material_ui)
+  package instead of `package:flutter/material.dart`. Requires Flutter
+  `>=3.44.0` and Dart `^3.12.0`.
+* Bumped `dots_indicator` to `^5.0.0`, which made the same migration.
+
 ## [4.0.0] - 2025-08-27
 
 **BREAKING CHANGE**

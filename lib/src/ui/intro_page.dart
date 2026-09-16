@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '/src/helper.dart';
 import '/src/model/page_view_model.dart';
