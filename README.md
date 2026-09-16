@@ -17,7 +17,7 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^5.0.0
+  introduction_screen: ^5.0.1
 ```
 
 > **Breaking change in 5.0.0:** this package now uses the standalone
@@ -261,15 +261,15 @@ IntroductionScreen(
   baseBtnStyle: TextButton.styleFrom(
     backgroundColor: Colors.grey.shade200,
   ),  
-  skipStyle: TextButton.styleFrom(primary: Colors.red),  
-  doneStyle: TextButton.styleFrom(primary: Colors.green),  
-  nextStyle: TextButton.styleFrom(primary: Colors.blue),
+  skipStyle: TextButton.styleFrom(foregroundColor: Colors.red),  
+  doneStyle: TextButton.styleFrom(foregroundColor: Colors.green),  
+  nextStyle: TextButton.styleFrom(foregroundColor: Colors.blue),
 )
 ```
 
 #### Intro screen with `key` param to change page manually
 
-To change page manually / programatically, in response to user input or another event:
+To change page manually / programmatically, in response to user input or another event:
 
 1. Define a `GlobalKey` as part of the parent widget's state
 1. Pass that key to the `IntroductionScreen` `key` param
@@ -432,7 +432,7 @@ This is the full list:
 - Change skip button style, by adding `skipStyle: TextButton.styleFrom(alignment: Alignment.centerLeft)` parameter.
 - Change next button style, by adding `nextStyle: TextButton.styleFrom(alignment: Alignment.centerRight)` parameter.
 - Change done button style, by adding `doneStyle: TextButton.styleFrom(splashFactory: NoSplash.splashFactory)` parameter.
-- Change back button style, by adding `backStyle: TextButton.styleFrom(primary: Colors.red)` parameter.
+- Change back button style, by adding `backStyle: TextButton.styleFrom(foregroundColor: Colors.red)` parameter.
 
 #### Semantic
 
