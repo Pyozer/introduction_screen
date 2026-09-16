@@ -17,8 +17,15 @@ You just need to add `introduction_screen` as a [dependency in your pubspec.yaml
 
 ```yaml
 dependencies:
-  introduction_screen: ^4.0.0
+  introduction_screen: ^5.0.0
 ```
+
+> **Breaking change in 5.0.0:** this package now uses the standalone
+> [`material_ui`](https://pub.dev/packages/material_ui) package instead of
+> `package:flutter/material.dart`. Your app must also use `material_ui` (or
+> keep the deprecated `MaterialUiCompatibilityBridge`). Requires Flutter
+> `>=3.44.0` and Dart `^3.12.0`. See the [CHANGELOG](CHANGELOG.md) for
+> details.
 
 ## Examples
 
