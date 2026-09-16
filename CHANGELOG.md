@@ -1,12 +1,18 @@
 # Changelog
 
-## Unreleased
+## [5.0.0] - 2026-09-16
 
 **BREAKING CHANGE**
 * Use the standalone [`material_ui`](https://pub.dev/packages/material_ui)
   package instead of `package:flutter/material.dart`. Requires Flutter
   `>=3.44.0` and Dart `^3.12.0`.
 * Bumped `dots_indicator` to `^5.0.0`, which made the same migration.
+
+* Switched the analyzer config to `flutter_lints` (the package had no
+  `analysis_options.yaml` before).
+* Added a `dart format --set-exit-if-changed` check to the CI workflow.
+* Added tests for `PageViewModel`'s constructor assertions.
+* Regenerated the example app.
 
 ## [4.0.0] - 2025-08-27
 
