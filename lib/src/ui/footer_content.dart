@@ -6,7 +6,7 @@ class FooterContent extends StatelessWidget {
   final bool isFullScreen;
 
   const FooterContent({Key? key, required this.page, this.isFullScreen = false})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,10 @@ class FooterContent extends StatelessWidget {
       margin: page.decoration.contentMargin,
       decoration: isFullScreen
           ? page.decoration.boxDecoration ??
-              BoxDecoration(
-                color: page.decoration.pageColor,
-                borderRadius: BorderRadius.circular(8.0),
-              )
+                BoxDecoration(
+                  color: page.decoration.pageColor,
+                  borderRadius: BorderRadius.circular(8.0),
+                )
           : null,
       child: Padding(
         padding: page.decoration.footerPadding,

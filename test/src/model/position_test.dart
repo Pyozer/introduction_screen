@@ -13,8 +13,12 @@ void main() {
     });
 
     test('constructor initializes with specified values', () {
-      final position =
-          Position(left: 10.0, top: 20.0, right: 30.0, bottom: 40.0);
+      final position = Position(
+        left: 10.0,
+        top: 20.0,
+        right: 30.0,
+        bottom: 40.0,
+      );
 
       expect(position.left, 10.0);
       expect(position.top, 20.0);

@@ -102,8 +102,10 @@ class PageDecoration {
     this.imageAlignment = Alignment.bottomCenter,
     this.fullScreen = false,
     this.safeArea = 60,
-  }) : assert(pageColor == null || boxDecoration == null,
-            'Cannot provide both a Color and a BoxDecoration\n');
+  }) : assert(
+         pageColor == null || boxDecoration == null,
+         'Cannot provide both a Color and a BoxDecoration\n',
+       );
 
   PageDecoration copyWith({
     Color? pageColor,

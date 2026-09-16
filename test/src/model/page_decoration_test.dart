@@ -30,7 +30,9 @@ void main() {
     test('cannot provide both pageColor and boxDecoration', () {
       expect(
         () => PageDecoration(
-            pageColor: Colors.white, boxDecoration: BoxDecoration()),
+          pageColor: Colors.white,
+          boxDecoration: BoxDecoration(),
+        ),
         throwsA(isA<AssertionError>()),
       );
     });
@@ -50,16 +52,20 @@ void main() {
       expect(newDecoration.titleTextStyle.fontSize, 22.0);
       expect(newDecoration.bodyTextStyle.fontSize, 20.0);
       expect(newDecoration.footerFlex, 2);
-      expect(newDecoration.imageFlex,
-          decoration.imageFlex); // Should remain the same
+      expect(
+        newDecoration.imageFlex,
+        decoration.imageFlex,
+      ); // Should remain the same
     });
 
     test('copyWith does not modify original instance', () {
       final decoration = PageDecoration(pageColor: Colors.white);
       decoration.copyWith(titleTextStyle: TextStyle(fontSize: 22.0));
 
-      expect(decoration.titleTextStyle.fontSize,
-          20.0); // Original should remain unchanged
+      expect(
+        decoration.titleTextStyle.fontSize,
+        20.0,
+      ); // Original should remain unchanged
     });
   });
 }

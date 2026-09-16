@@ -7,7 +7,7 @@ class IntroContent extends StatelessWidget {
   final bool isFullScreen;
 
   const IntroContent({Key? key, required this.page, this.isFullScreen = false})
-      : super(key: key);
+    : super(key: key);
 
   Widget _buildWidget(Widget? widget, String? text, TextStyle style) {
     return widget ?? Text(text!, style: style, textAlign: TextAlign.center);
@@ -19,10 +19,10 @@ class IntroContent extends StatelessWidget {
       margin: page.decoration.contentMargin,
       decoration: isFullScreen
           ? page.decoration.boxDecoration ??
-              BoxDecoration(
-                color: page.decoration.pageColor,
-                borderRadius: BorderRadius.circular(8.0),
-              )
+                BoxDecoration(
+                  color: page.decoration.pageColor,
+                  borderRadius: BorderRadius.circular(8.0),
+                )
           : null,
       child: Column(
         children: [

@@ -8,11 +8,8 @@ class IntroPage extends StatefulWidget {
   final PageViewModel page;
   final ScrollController? scrollController;
 
-  const IntroPage({
-    Key? key,
-    required this.page,
-    this.scrollController,
-  }) : super(key: key);
+  const IntroPage({Key? key, required this.page, this.scrollController})
+    : super(key: key);
 
   @override
   _IntroPageState createState() => _IntroPageState();
@@ -67,9 +64,7 @@ class _IntroPageState extends State<IntroPage>
                 ),
               SafeArea(
                 top: false,
-                child: SizedBox(
-                  height: page.decoration.safeArea,
-                ),
+                child: SizedBox(height: page.decoration.safeArea),
               ),
             ],
           ),
@@ -89,8 +84,8 @@ class _IntroPageState extends State<IntroPage>
       child: Flex(
         direction:
             page.useRowInLandscape && orientation == Orientation.landscape
-                ? Axis.horizontal
-                : Axis.vertical,
+            ? Axis.horizontal
+            : Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ...[
@@ -125,7 +120,7 @@ class _IntroPageState extends State<IntroPage>
               flex: page.decoration.footerFlex,
               fit: page.decoration.footerFit,
             ),
-          SizedBox(height: page.decoration.safeArea)
+          SizedBox(height: page.decoration.safeArea),
         ],
       ),
     );

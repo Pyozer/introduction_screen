@@ -36,8 +36,9 @@ void main() {
   }
 
   group('IntroductionScreen Widget Tests', () {
-    testWidgets('Initial page is rendered and buttons are displayed',
-        (tester) async {
+    testWidgets('Initial page is rendered and buttons are displayed', (
+      tester,
+    ) async {
       // Act
       final pages = [
         PageViewModel(title: 'Page 1', body: 'Introduction 1'),
@@ -45,7 +46,8 @@ void main() {
       ];
 
       await tester.pumpWidget(
-          createIntroductionScreen(pages: pages, showSkipButton: true));
+        createIntroductionScreen(pages: pages, showSkipButton: true),
+      );
 
       // Assert
       expect(find.text('Page 1'), findsOneWidget);
@@ -71,14 +73,16 @@ void main() {
 
     testWidgets('Back button goes back to the previous page', (tester) async {
       // Arrange
-      await tester.pumpWidget(createIntroductionScreen(
-        pages: [
-          PageViewModel(title: 'Page 1', body: 'Introduction 1'),
-          PageViewModel(title: 'Page 2', body: 'Introduction 2'),
-        ],
-        showBackButton: true,
-        initialPage: 1,
-      ));
+      await tester.pumpWidget(
+        createIntroductionScreen(
+          pages: [
+            PageViewModel(title: 'Page 1', body: 'Introduction 1'),
+            PageViewModel(title: 'Page 2', body: 'Introduction 2'),
+          ],
+          showBackButton: true,
+          initialPage: 1,
+        ),
+      );
 
       expect(find.text('Page 1'), findsNothing);
       expect(find.text('Page 2'), findsOneWidget);
@@ -118,8 +122,9 @@ void main() {
       expect(skipTapped, isTrue);
     });
 
-    testWidgets('Skip to end navigates to the last page',
-        (WidgetTester tester) async {
+    testWidgets('Skip to end navigates to the last page', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final pages = [
         PageViewModel(title: 'Page 1', body: 'Introduction 1'),
@@ -127,10 +132,7 @@ void main() {
         PageViewModel(title: 'Page 3', body: 'Introduction 3'),
       ];
       await tester.pumpWidget(
-        createIntroductionScreen(
-          pages: pages,
-          showSkipButton: true,
-        ),
+        createIntroductionScreen(pages: pages, showSkipButton: true),
       );
 
       // Initially, the first page should be visible
@@ -195,18 +197,21 @@ void main() {
     });
   });
 
-  testWidgets('Auto-scroll advances one page at a time',
-      (WidgetTester tester) async {
+  testWidgets('Auto-scroll advances one page at a time', (
+    WidgetTester tester,
+  ) async {
     // Arrange
     const autoScrollDuration = 2000;
-    await tester.pumpWidget(createIntroductionScreen(
-      pages: [
-        PageViewModel(title: 'Page 1', body: 'Introduction 1'),
-        PageViewModel(title: 'Page 2', body: 'Introduction 2'),
-        PageViewModel(title: 'Page 3', body: 'Introduction 3'),
-      ],
-      autoScrollDuration: autoScrollDuration,
-    ));
+    await tester.pumpWidget(
+      createIntroductionScreen(
+        pages: [
+          PageViewModel(title: 'Page 1', body: 'Introduction 1'),
+          PageViewModel(title: 'Page 2', body: 'Introduction 2'),
+          PageViewModel(title: 'Page 3', body: 'Introduction 3'),
+        ],
+        autoScrollDuration: autoScrollDuration,
+      ),
+    );
 
     // Should still be at page 1 after 100 ms
     await tester.pump(Duration(milliseconds: 100));

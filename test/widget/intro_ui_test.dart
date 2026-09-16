@@ -13,11 +13,12 @@ void main() {
     final footerFinder = find.text('Test Footer');
 
     // Helper function to create the IntroPage widget
-    Widget createIntroPage(
-        {bool isFullScreen = false,
-        PageDecoration? pageDecoration,
-        bool useScrollView = true,
-        Widget? image}) {
+    Widget createIntroPage({
+      bool isFullScreen = false,
+      PageDecoration? pageDecoration,
+      bool useScrollView = true,
+      Widget? image,
+    }) {
       return IntroPage(
         page: PageViewModel(
           title: 'Test Title',
@@ -31,41 +32,47 @@ void main() {
     }
 
     testWidgets('IntroButton has text', (tester) async {
-      await tester.pumpWidget(testableWidget(
-        child: IntroButton(child: const Text('Test Text')),
-      ));
+      await tester.pumpWidget(
+        testableWidget(child: IntroButton(child: const Text('Test Text'))),
+      );
 
       final textFinder = find.text('Test Text');
       expect(textFinder, findsOneWidget);
     });
 
     testWidgets('IntroContent is rendered', (tester) async {
-      await tester.pumpWidget(testableWidget(
-        child: IntroContent(
-          page: PageViewModel(
-            title: 'Test Title',
-            body: 'Test Body',
-            footer: const Text('Test Footer'),
+      await tester.pumpWidget(
+        testableWidget(
+          child: IntroContent(
+            page: PageViewModel(
+              title: 'Test Title',
+              body: 'Test Body',
+              footer: const Text('Test Footer'),
+            ),
           ),
         ),
-      ));
+      );
 
       expect(titleFinder, findsOneWidget);
       expect(bodyFinder, findsOneWidget);
       expect(footerFinder, findsNothing);
     });
 
-    testWidgets('Intro Content renders full screen with decoration',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(testableWidget(
-        child: IntroContent(
+    testWidgets('Intro Content renders full screen with decoration', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        testableWidget(
+          child: IntroContent(
             page: PageViewModel(
               title: 'Test Title',
               body: 'Test Body',
               footer: const Text('Test Footer'),
             ),
-            isFullScreen: true),
-      ));
+            isFullScreen: true,
+          ),
+        ),
+      );
 
       // Find the IntroContent widget
       final introContentFinder = find.byType(IntroContent);
@@ -76,8 +83,9 @@ void main() {
       expect(introContent.isFullScreen, isTrue);
     });
 
-    testWidgets('renders IntroPage with full screen stack',
-        (WidgetTester tester) async {
+    testWidgets('renders IntroPage with full screen stack', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         testableWidget(
           child: createIntroPage(
@@ -89,59 +97,68 @@ void main() {
       // Check that the IntroContent is rendered in a Stack
       expect(find.byType(Stack), findsWidgets);
       expect(find.byType(IntroContent), findsOneWidget);
-      expect(find.byType(SingleChildScrollView),
-          findsOneWidget); // No scroll view if useScrollView is false
+      expect(
+        find.byType(SingleChildScrollView),
+        findsOneWidget,
+      ); // No scroll view if useScrollView is false
     });
 
-    testWidgets('renders IntroPage with Flex layout',
-        (WidgetTester tester) async {
+    testWidgets('renders IntroPage with Flex layout', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-          testableWidget(child: createIntroPage(useScrollView: false)));
+        testableWidget(child: createIntroPage(useScrollView: false)),
+      );
 
       // Check that the IntroContent is rendered in a Flex layout
       expect(find.byType(Flex), findsOneWidget);
       expect(find.byType(IntroContent), findsOneWidget);
-      expect(find.byType(SingleChildScrollView),
-          findsNothing); // No scroll view if useScrollView is false
+      expect(
+        find.byType(SingleChildScrollView),
+        findsNothing,
+      ); // No scroll view if useScrollView is false
     });
 
-    testWidgets('renders IntroPage with image when provided',
-        (WidgetTester tester) async {
+    testWidgets('renders IntroPage with image when provided', (
+      WidgetTester tester,
+    ) async {
       // Create a mock image widget
-      final mockImage = Container(
-        color: Colors.blue,
-        width: 100,
-        height: 100,
-      );
+      final mockImage = Container(color: Colors.blue, width: 100, height: 100);
 
-      await tester.pumpWidget(testableWidget(
-        child: createIntroPage(
-          useScrollView: false,
-          image: mockImage, // Set the page image to the mock image
+      await tester.pumpWidget(
+        testableWidget(
+          child: createIntroPage(
+            useScrollView: false,
+            image: mockImage, // Set the page image to the mock image
+          ),
         ),
-      ));
+      );
 
       // Check that the image is rendered
       expect(find.byWidget(mockImage), findsOneWidget);
     });
 
-    testWidgets('IntroButton custom styles override default styles',
-        (tester) async {
+    testWidgets('IntroButton custom styles override default styles', (
+      tester,
+    ) async {
       // Create a custom style with a different border radius
       final customStyle = TextButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(20.0), // Different from default 8.0
+          borderRadius: BorderRadius.circular(
+            20.0,
+          ), // Different from default 8.0
         ),
         backgroundColor: Colors.blue, // Additional property to verify
       );
 
-      await tester.pumpWidget(testableWidget(
-        child: IntroButton(
-          child: const Text('Test Text'),
-          style: customStyle,
+      await tester.pumpWidget(
+        testableWidget(
+          child: IntroButton(
+            child: const Text('Test Text'),
+            style: customStyle,
+          ),
         ),
-      ));
+      );
 
       // Find the TextButton
       final button = tester.widget<TextButton>(find.byType(TextButton));
